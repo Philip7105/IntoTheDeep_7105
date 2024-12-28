@@ -19,10 +19,39 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 public class BlueClipSide4 extends BaseAuto {
     @Override
     public void runAuto() {
-        robot.driveTrain.setPoseEstimate(new Vector2d(13,-63), Rotation2d.exp(Math.toRadians(90)));
-        runpath = new MultipleCommand(new StrafetoLinearHeading(new Vector2d(10,-33),Rotation2d.exp(Math.toRadians(90)),lowchamber,robot,groups)
-        ,groups.moveGripper(JohnsIntake.GripperStates.unclamp))
-                .addNext(new StrafetoLinearHeading(new Vector2d(18,-41),Rotation2d.exp(Math.toRadians(90)),lowbasket,robot,groups))
-                .addNext();
+        robot.driveTrain.setPoseEstimate(new Vector2d(-13,63), Rotation2d.exp(Math.toRadians(90)));
+        runpath = new MultipleCommand(new StrafetoLinearHeading(new Vector2d(-10,33),Rotation2d.exp(Math.toRadians(90)),lowchamber,robot,groups))
+                // clip first specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-33,38),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-39,10),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-45,10),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-45,55),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                // push in the first blue sample
+                .addNext(new StrafetoLinearHeading(new Vector2d(-45,10),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-54,10),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-54,55),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                // push in the second blue sample
+                .addNext(new StrafetoLinearHeading(new Vector2d(-54,10),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-61,10),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-61,55),Rotation2d.exp(Math.toRadians(180)),lowchamber, robot,groups))
+                // push in the final blue sample
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,30),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,55),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // pick up a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-8,33),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // place a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,40),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,55),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // pick up a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-6,33),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // place a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,40),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                .addNext(new StrafetoLinearHeading(new Vector2d(-52,55),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // pick up a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-4,33),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // place a blue specimen
+                .addNext(new StrafetoLinearHeading(new Vector2d(-54,55),Rotation2d.exp(Math.toRadians(90)),lowchamber, robot,groups))
+                // park
+                ;
     }
 }
