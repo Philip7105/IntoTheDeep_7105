@@ -23,6 +23,6 @@ public class BlueClipSide4 extends BaseAuto {
         runpath = new MultipleCommand(new StrafetoLinearHeading(new Vector2d(10,-33),Rotation2d.exp(Math.toRadians(90)),lowchamber,robot,groups)
         ,groups.moveGripper(JohnsIntake.GripperStates.unclamp))
                 .addNext(new StrafetoLinearHeading(new Vector2d(18,-41),Rotation2d.exp(Math.toRadians(90)),lowbasket,robot,groups))
-                .addNext();
+                .addNext(new StrafetoLinearHeading(new Vector2d(18, -35), Rotation2d.exp(Math.toRadians(180)), lowchamber, robot, groups));
     }
 }
