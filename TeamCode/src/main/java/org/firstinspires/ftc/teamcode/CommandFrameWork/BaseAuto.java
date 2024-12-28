@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
 //import com.acmerobotics.roadrunner.geometry.Pose2d;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowbasket;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowchamber;
+
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.hardware.lynx.LynxModule;
@@ -17,11 +20,11 @@ public abstract class BaseAuto extends LinearOpMode {
     protected Robot robot;
     public ScoringCommandGroups groups;
 //    MoveVerticalSlidesMultiThread moveSlides;
-    Command runpath;
+    public Command runpath;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        setRobot();
+        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
 
         groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech, robot.hang, this);
         robot.getScheduler().forceCommand(groups.initRobot());
@@ -34,9 +37,7 @@ public abstract class BaseAuto extends LinearOpMode {
         }
 
         while (opModeInInit()){
-            robot.driveTrain.setPoseEstimate(new Vector2d(-15.8,59.7), Rotation2d.exp(Math.toRadians(90)));
-            runpath = new MultipleCommand(new StrafetoLinearHeading(new Vector2d(-10,30),Rotation2d.exp(Math.toRadians(90)),robot)
-                    .addNext(new StrafetoLinearHeading(new Vector2d(-40,40),Rotation2d.exp(Math.toRadians(90)),robot)));
+            runAuto();
         }
 
         waitForStart();
@@ -55,7 +56,7 @@ public abstract class BaseAuto extends LinearOpMode {
         }
         robot.shutdown();
     }
-    public void setRobot(){
-        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
+    public  void runAuto(){
+
     }
 }

@@ -1,11 +1,12 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.TimeTrajectory;
-import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,38 +15,22 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 
 @Config
 public class DriveTrain extends Subsystem {
-//   public SampleMecanumDrive mecanumDrive;
-   public static double headingP = 1,xyP = 1;
-
     public PinpointDrive mecanumDrive;
-
-    public static boolean usingThread = true;
-
    DriveSpeed driveSpeed = DriveSpeed.Fast;
-
-   MecanumDrive.FollowTrajectoryAction trajectoryAction;
-   MecanumDrive.TurnAction turnAction;
-    TrajectoryActionBuilder actionBuilder;
-
    public DriveTrain(HardwareMap hwMap){
        this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
    }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-//        imu = hwMap.get(IMU.class,"imu");
-//        this.mecanumDrive = new PinPoint_MecanumDrive(hwMap);
     }
 
     @Override
     public void periodic() {
-//        Dashboard.addData("imu",getHeading(0));
-//        mecanumDrive.update();
     }
 
     @Override
@@ -72,16 +57,9 @@ public class DriveTrain extends Subsystem {
            ));
            }
        }
-    public void setStates(VerticalSlides verticalSlides){
-//       if (input.isCrossPressed() && slow){
-//           slow = false;
-//       } else if (input.isCrossPressed() && !slow) {
-//           slow = true;
-//       }
-    }
 
     public void setPoseEstimate(Vector2d vector2d, Rotation2d heading){
-        mecanumDrive.pose = new com.acmerobotics.roadrunner.Pose2d(vector2d,heading);
+        mecanumDrive.pose = new Pose2d(vector2d,heading);
     }
 
     public double getXPos(){
@@ -96,6 +74,10 @@ public class DriveTrain extends Subsystem {
         return mecanumDrive.pose.heading;
     }
 
+    public double getHeadingDouble(){
+        return getHeading().toDouble();
+    }
+
     public void setStatesJohn(Input input){
        if (input.isLeft_bumper()) {
             driveSpeed = DriveSpeed.Slow;
@@ -104,48 +86,45 @@ public class DriveTrain extends Subsystem {
         }
     }
 
-    public void followTrajectory(TimeTrajectory traj){
-
-    }
-
-
-//    public void followTrajectorySequenceAsync(TrajectorySequence trajectory){
-//        mecanumDrive.followTrajectorySequenceAsync(trajectory);
-//    }
-
-
-//    public void followTrajectory(Trajectory trajectory){
-//        mecanumDrive.followTrajectory(trajectory);
-//    }
-
     public void splineTo(double startX, double startY, double startHeading, double targetX, double targetY, double targetHeading) {
        Actions.runBlocking(mecanumDrive.actionBuilder
-                       (new com.acmerobotics.roadrunner.Pose2d(startX,startY,startHeading))
+                       (new Pose2d(startX,startY,startHeading))
                         .splineTo(new Vector2d(targetX, targetY), targetHeading)
                         .build());
     }
 
     public void strafeToLinearHeading(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading) {
         Actions.runBlocking(
-                mecanumDrive.actionBuilder(new com.acmerobotics.roadrunner.Pose2d(startVec,startHeading))
+                mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
                         .strafeToLinearHeading(targetVec,targetHeading)
                         .build());
     }
 
-    public void update(){
-       mecanumDrive.updatePoseEstimate();
+    public void strafeToLinearHeadingEvenBetter(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading) {
+        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
+                .strafeToLinearHeading(targetVec,targetHeading)
+                .build()));
     }
-//    public void lockPosition (Pose2d target){
-//       Pose2d difference = target.minus(poseEstimate());
-//       Vector2d xy = difference.vec().rotated(-poseEstimate().getHeading());
-//
-//       double heading = Angle.normDelta(target.getHeading()) - Angle.normDelta(poseEstimate().getHeading());
-//       mecanumDrive.setWeightedDrivePower(new Pose2d(xy.times(xyP),heading * headingP));
+
+    public void strafeToLinearHeadingParallelAction(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action action,Action action2) {
+        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
+                .strafeToLinearHeading(targetVec,targetHeading)
+                .build(),new SequentialAction(action,action2)));
+    }
+
+//    public void turn(Vector2d startVec, Rotation2d startHeading,Rotation2d angle) {
+//        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
+//                .turn(angle)
+//                .build()));
 //    }
 
 
+    public void update(){
+       mecanumDrive.updatePoseEstimate();
+    }
+
     public enum DriveSpeed{
-       Fast,
+        Fast,
         Slow
     }
 }

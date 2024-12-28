@@ -67,7 +67,7 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
-            robot.updateTele();
+            robot.update();
         }
     }
 }

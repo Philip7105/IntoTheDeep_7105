@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
@@ -18,7 +20,7 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1210,lowestchamber = 1757, hangPos = 2030, lowbasket = 1630, highbasket =2875, ref, down = -.3;
+    public static double  lowchamber = 1210, lowbasket = 1757, hangPos = 2030, highbasket =2875, ref, down = -.3;
     public static boolean closeThread = false, holdPos = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
@@ -88,6 +90,7 @@ public class VerticalSlides extends Subsystem {
         rightslide.setPower(0);
     }
 
+
     public void setPower(double power){
         leftslide.setPower(power);
         rightslide.setPower(power);
@@ -106,16 +109,16 @@ public class VerticalSlides extends Subsystem {
             ref = 0;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
         } else if (input.isRightBumperPressed() && ref == lowchamber){
-            ref = lowestchamber;
+            ref = lowbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
-        } else if (input.isLeftBumperPressed() && ref == lowestchamber){
+        } else if (input.isLeftBumperPressed() && ref == lowbasket){
             ref = lowchamber;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
-        } else if (input.isRightBumperPressed() && ref == lowestchamber){
+        } else if (input.isRightBumperPressed() && ref == lowbasket){
             ref = highbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
         } else if (input.isLeftBumperPressed() && ref == highbasket){
-            ref = lowestchamber;
+            ref = lowbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
         }
 //        else if (input.isRightStickButtonPressed()){

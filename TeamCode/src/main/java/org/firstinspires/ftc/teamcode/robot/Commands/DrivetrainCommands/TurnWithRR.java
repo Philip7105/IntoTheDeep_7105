@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.HoldSlidePosWithRR;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-public class StrafetoLinearHeading extends Command {
+public class TurnWithRR extends Command {
     Robot robot;
     Vector2d startVec, targetVec;
 
@@ -20,7 +20,7 @@ public class StrafetoLinearHeading extends Command {
     Rotation2d startHeading,targetheading;
 
     double target;
-    public StrafetoLinearHeading(Vector2d targetVec, Rotation2d targetheading,double target,Robot robot,ScoringCommandGroups groups){
+    public TurnWithRR(Vector2d targetVec, Rotation2d targetheading,double target,Robot robot,ScoringCommandGroups groups){
         this.robot = robot;
         this.targetVec = targetVec;
         this.targetheading = targetheading;
@@ -44,7 +44,7 @@ public class StrafetoLinearHeading extends Command {
     @Override
     public boolean completed() {
         return !robot.driveTrain.mecanumDrive.leftBack.isBusy() && !robot.driveTrain.mecanumDrive.rightBack.isBusy() &&
-        !robot.driveTrain.mecanumDrive.leftFront.isBusy() && !robot.driveTrain.mecanumDrive.rightFront.isBusy();
+                !robot.driveTrain.mecanumDrive.leftFront.isBusy() && !robot.driveTrain.mecanumDrive.rightFront.isBusy();
     }
 
     @Override

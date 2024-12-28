@@ -46,15 +46,11 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodic() {
-        result = limelight.getLatestResult();
-        if (result != null) {
-            if (result.isValid()) {
-                botpose = result.getBotpose_MT2();
-//                limelight.updateRobotOrientation(odo.getHeading());
-//                converter();
-                driveTrain.setPoseEstimate(new Vector2d(getBotX(),getBotY()), Rotation2d.exp(getBotHeading()));
-//                odo.odo.setPosition(new Pose2D(INCH, getBotX(), getBotY(), AngleUnit.DEGREES, getBotHeading()));
-            }
+//        result = limelight.getLatestResult();
+//        limelight.updateRobotOrientation(Math.toRadians(driveTrain.getHeadingDouble()));
+        if (result != null && result.isValid()) {
+//                botpose = result.getBotpose_MT2();
+//                driveTrain.setPoseEstimate(new Vector2d(getBotX(),getBotY()), Rotation2d.exp(Math.toRadians(getBotHeading())));
         }
     }
 

@@ -6,18 +6,19 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.J
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.hangUp;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.unfoldpower;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.CloseThread;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.Delay;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesMultiThread;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesWithRR;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
@@ -45,7 +46,7 @@ public class ScoringCommandGroups {
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.ArmStates.preauto_clip));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.ArmStates.outback));
     }
 
 //    public Command slidesTeleop(){
@@ -53,12 +54,16 @@ public class ScoringCommandGroups {
 //        return null;
 //    }
 
+    public Action setSlidePosWithRR(double target){
+        return new MoveVerticalSlidesWithRR(verticalslides, target);
+    }
+
     public Command slidesTeleop(){
-        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,false,0).addNext(new CloseThread(verticalslides));
+        return new MoveVerticalSlidesBetter(verticalslides,false,0);
     }
 
     public Command slidesSetPos(double target){
-        return new MoveVerticalSlidesMultiThread(verticalslides,opMode,true,target).addNext(new CloseThread(verticalslides));
+        return new MoveVerticalSlidesBetter(verticalslides,true,target);
     }
 
     public Command moveClipMechanismsOut(double verticalSlidesTarget, ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.ArmStates armstate){

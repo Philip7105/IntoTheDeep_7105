@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.LimeLight;
  */
 
 public class Robot {
-    public Dashboard dashboard = new Dashboard();  // set up dashboard
+    public Dashboard dashboard;  // set up dashboard
     public Input gamepad1, gamepad2;  // set up gamepads
     public JohnsIntake intake;  // set up intake
     public ClipMech clipmech;
@@ -32,6 +32,7 @@ public class Robot {
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
+        dashboard= new Dashboard(driveTrain.mecanumDrive);
         clipmech = new ClipMech();
         hang = new JohnHanging();
         verticalslides = new VerticalSlides();
