@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.robot.Input;
 @Config
 public class DriveTrain extends Subsystem {
     public PinpointDrive mecanumDrive;
-   DriveSpeed driveSpeed = DriveSpeed.Fast;
+   public static DriveSpeed driveSpeed = DriveSpeed.Fast;
    public DriveTrain(HardwareMap hwMap){
        this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
    }
@@ -102,6 +102,17 @@ public class DriveTrain extends Subsystem {
                 .build());
     }
 
+    public void strafeToLinearHeadingParallelCringe(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action verticalslideaction,Action pivotaction,Action horizontalslideaction, Action intakeaction, Action gripperaction) {
+        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
+                .strafeToLinearHeading(targetVec,targetHeading)
+                .build(),verticalslideaction,pivotaction,horizontalslideaction,intakeaction,gripperaction));
+    }
+
+    public void strafeToLinearHeadingParallelNotCringe(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action verticalslideaction,Action pivotaction,Action horizontalslideaction, Action intakeaction, Action gripperaction) {
+        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
+                .strafeToLinearHeading(targetVec,targetHeading)
+                .build(),verticalslideaction,pivotaction,horizontalslideaction,intakeaction,gripperaction));
+    }
 
     public void strafeToLinearHeadingParallelAction(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action action,Action action2) {
         Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
+
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
@@ -14,6 +16,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class VerticalSlides extends Subsystem {
@@ -56,9 +59,11 @@ public class VerticalSlides extends Subsystem {
 //            setPower(.075);
             leftslide.setPower(.128);
             rightslide.setPower(.128);
+            driveSpeed = DriveTrain.DriveSpeed.Slow;
         } else if (ref == 0
 //                && inputmanual.getLeft_stick_y() < .7
         ){
+            driveSpeed = DriveTrain.DriveSpeed.Fast;
             holdPos = false;
             zeroPower();
         }
