@@ -13,27 +13,17 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 
 public class TurnWithRR extends Command {
     Robot robot;
-    Vector2d startVec, targetVec;
-
-    ScoringCommandGroups groups;
-
+    Vector2d startVec;
     Rotation2d startHeading,targetheading;
-
-    double target;
-    public TurnWithRR(Vector2d targetVec, Rotation2d targetheading,double target,Robot robot,ScoringCommandGroups groups){
-        this.robot = robot;
-        this.targetVec = targetVec;
+    public TurnWithRR(Rotation2d targetheading){
         this.targetheading = targetheading;
-        this.groups = groups;
-        this.target = target;
     }
-
 
     @Override
     public void init() {
         startVec = new Vector2d(robot.driveTrain.getXPos(),robot.driveTrain.getYPos());
         startHeading = robot.driveTrain.getHeading();
-        robot.driveTrain.strafeToLinearHeadingParallelAction(startVec,startHeading,targetVec,targetheading,groups.setSlidePosWithRR(target),new HoldSlidePosWithRR());
+        robot.driveTrain.turn(startVec,startHeading,targetheading);
     }
 
     @Override

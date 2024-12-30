@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands;
+package org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions;
 
 import androidx.annotation.NonNull;
 
@@ -20,7 +20,6 @@ public class MoveVerticalSlidesWithRR implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        verticalSlides.holdPos = false;
         VerticalSlides.ref = ref;
         verticalSlides.pidController();
         return Math.abs(verticalSlides.getSlidesError()) < 10;

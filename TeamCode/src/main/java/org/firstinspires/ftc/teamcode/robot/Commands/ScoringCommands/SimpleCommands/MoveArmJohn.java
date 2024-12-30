@@ -12,16 +12,16 @@ public class MoveArmJohn extends Command {
 
     JohnsIntake johnsIntake;
 
-    JohnsIntake.ArmStates armStates;
+    JohnsIntake.PivotStates pivotStates;
 
-    public MoveArmJohn(JohnsIntake johnsIntake, JohnsIntake.ArmStates armStates){
+    public MoveArmJohn(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates){
         this.johnsIntake = johnsIntake;
-        this.armStates = armStates;
+        this.pivotStates = pivotStates;
     }
     @Override
     public void init() {
         timer.reset();
-        johnsIntake.setArmStates(armStates);
+        johnsIntake.setArmStates(pivotStates);
     }
 
     @Override

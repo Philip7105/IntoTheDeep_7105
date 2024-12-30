@@ -29,10 +29,10 @@ public class MoveIntakeJohn extends Command {
             johnsIntake.setIntake(JohnsIntake.IntakeStates.outtake);
         } else if (input.isRight_trigger_press()) {
             johnsIntake.setIntake(JohnsIntake.IntakeStates.intake);
-            johnsIntake.setArmStates(JohnsIntake.ArmStates.forward);
+            johnsIntake.setArmStates(JohnsIntake.PivotStates.forward);
         } else if (slides.leftservoslide.getPosition() != .24
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
-            johnsIntake.setArmStates(JohnsIntake.ArmStates.parallel);
+            johnsIntake.setArmStates(JohnsIntake.PivotStates.parallel);
             johnsIntake.setIntake(JohnsIntake.IntakeStates.stop);
         } else {
             johnsIntake.setIntake(JohnsIntake.IntakeStates.stop);

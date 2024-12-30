@@ -15,7 +15,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double outback = .7, down = 0.15;//.78  .155
+    public static double outback = .66, down = 0.15,parallel = .26;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -32,15 +32,10 @@ public class JohnsIntake extends Subsystem {
 
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
-
-//        colorsensor = hwMap.get(NormalizedColorSensor.class,"colorsensor");
     }
 
     @Override
     public void periodic() {
-//        Dashboard.addData("blue",getBlue());
-//        Dashboard.addData("red",getRed());
-//        Dashboard.addData("green",getGreen());
     }
 
     @Override
@@ -121,8 +116,8 @@ public class JohnsIntake extends Subsystem {
         }
     }
 
-    public void setArmStates(ArmStates armStates){
-        switch (armStates){
+    public void setArmStates(PivotStates pivotStates){
+        switch (pivotStates){
             case forward:
                 rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
@@ -136,8 +131,12 @@ public class JohnsIntake extends Subsystem {
                 leftarm.setPosition(0.4);
                 break;
             case parallel:
-                rightarm.setPosition(.26);
-                leftarm.setPosition(.26);
+                rightarm.setPosition(parallel);
+                leftarm.setPosition(parallel);
+                break;
+            case hookclip:
+                rightarm.setPosition(.28);
+                leftarm.setPosition(.28);
                 break;
             case snapclip:
                 rightarm.setPosition(.23);
@@ -167,10 +166,11 @@ public class JohnsIntake extends Subsystem {
         clamp,
         unclamp
     }
-    public enum ArmStates{
+    public enum PivotStates {
         outback,
         snapclip,
         parallel,
+        hookclip,
         forward,
         posauto_clip,
         preauto_clip

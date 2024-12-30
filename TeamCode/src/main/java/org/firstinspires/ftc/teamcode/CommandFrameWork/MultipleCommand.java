@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.BetterActionWithPathing;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,11 +11,12 @@ import java.util.Collections;
 public class MultipleCommand extends Command {
 
 	protected ArrayList<Command> commands = new ArrayList<>();
+	protected ArrayList<BetterActionWithPathing> actions = new ArrayList<>();
 
 	public MultipleCommand(Command... commands) {
 		Collections.addAll(this.commands, commands);
-
 	}
+
 
 	@Override
 	public void init() {

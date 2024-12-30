@@ -16,7 +16,7 @@ public class ClipMech extends Subsystem {
 
     CRServo rightindex,leftindex;
 
-    public static double fully_up = .9,ready = .7,outtheway = .57, down = 0;
+    public static double fully_up = .9,ready = 0.605,outtheway = .57, down = 0, almost_down = .19;
 
     AnalogInput clipAnalog;
 
@@ -63,8 +63,8 @@ public class ClipMech extends Subsystem {
                 leftmagarm.setPosition(outtheway); //179
                 break;
             case Almost_Down:
-                rightmagarm.setPosition(.19);//279
-                leftmagarm.setPosition(.19);
+                rightmagarm.setPosition(almost_down);//279
+                leftmagarm.setPosition(almost_down);
                 break;
             case Down:
                 rightmagarm.setPosition(down);
