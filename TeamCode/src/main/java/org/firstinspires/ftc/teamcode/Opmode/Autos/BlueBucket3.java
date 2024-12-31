@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Opmode.Autos;
 
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.highbasket;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowbasket;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowchamber;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -10,11 +9,8 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
-import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.StrafetoLinearHeading;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake.ArmStates;
 
 @Config
 @Autonomous

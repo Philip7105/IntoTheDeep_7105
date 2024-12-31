@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -8,6 +10,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class JohnsIntake extends Subsystem {
@@ -87,6 +92,26 @@ public class JohnsIntake extends Subsystem {
 //                break;
 //        }
 //    }
+
+    public void intakeTele(Input input, HorizontalSlides slides){
+        if (input.isLeft_trigger_press()){
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            setGripper(GripperStates.unclamp);
+            setIntake(JohnsIntake.IntakeStates.outtake);
+        } else if (input.isRight_trigger_press()) {
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            setIntake(JohnsIntake.IntakeStates.intake);
+            setArmStates(JohnsIntake.PivotStates.forward);
+        } else if (slides.leftservoslide.getPosition() != fullin
+                && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            setArmStates(JohnsIntake.PivotStates.parallel);
+            setIntake(JohnsIntake.IntakeStates.stop);
+        } else {
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            setIntake(JohnsIntake.IntakeStates.stop);
+        }
+    }
 
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){

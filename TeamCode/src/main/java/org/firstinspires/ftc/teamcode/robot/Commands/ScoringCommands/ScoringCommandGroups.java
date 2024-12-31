@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.EmptyAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveHorizontalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MovePivotAction;
@@ -70,7 +71,7 @@ public class ScoringCommandGroups {
     }
 
     public Command armOutBack(){
-        return new MultipleCommand(moveArmJohn(JohnsIntake.PivotStates.outback),moveGripper(JohnsIntake.GripperStates.unclamp));
+        return new MultipleCommand(moveArmJohn(JohnsIntake.PivotStates.outback));
     }
 
     public Command armOutFront(){
@@ -120,6 +121,11 @@ public class ScoringCommandGroups {
 
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
 
+
+
+    public Action emptyAction(){
+        return new EmptyAction();
+    }
 
     public Action moveGripperWithRR(JohnsIntake.GripperStates gripperStates){
         return new SequentialAction(new MoveGripperAction(intake,gripperStates),new ResetGripperAction());

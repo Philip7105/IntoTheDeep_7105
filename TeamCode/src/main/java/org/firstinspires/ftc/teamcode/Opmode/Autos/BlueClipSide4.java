@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
+import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.StrafeToLinearHeadingCringe;
 import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.StrafetoLinearHeading;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.StrafetoLinearHeadingMultiActions;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.Delay;
@@ -21,11 +22,11 @@ public class BlueClipSide4 extends BaseAuto {
     @Override
     public void runAuto() {
         robot.driveTrain.setPoseEstimate(new Vector2d(-13,63), Rotation2d.exp(Math.toRadians(90)));
-        runpath = new StrafetoLinearHeadingMultiActions(robot.driveTrain.strafeToLinearHeadingEvenBetter(new Vector2d(-6,33),Rotation2d.exp(Math.toRadians(90))))
-//                groups.moveVerticalSlidesWithRR(lowchamber))
-                .addNext(new MultipleCommand(new Delay(.5).addNext(groups.moveGripper(JohnsIntake.GripperStates.unclamp))))
+        runpath = new StrafeToLinearHeadingCringe(new Vector2d(-6,33),Rotation2d.exp(Math.toRadians(90)),
+                groups.moveVerticalSlidesWithRR(lowchamber), groups.emptyAction(), groups.emptyAction(), groups.emptyAction(), groups.emptyAction())
+                .addNext(new MultipleCommand( groups.slidesSetPos(lowchamber),new Delay(.5).addNext(groups.moveGripper(JohnsIntake.GripperStates.unclamp))))
                 // clip first specimen
-                .addNext(new StrafetoLinearHeadingMultiActions(robot.driveTrain.strafeToLinearHeadingEvenBetter(new Vector2d(-33,38),Rotation2d.exp(Math.toRadians(90)))))
+                .addNext(new StrafeToLinearHeadingCringe(new Vector2d(-33,38),Rotation2d.exp(Math.toRadians(90)),groups.moveVerticalSlidesWithRR(lowchamber), groups.emptyAction(), groups.emptyAction(), groups.emptyAction(), groups.emptyAction()))
 //                .addNext(new StrafetoLinearHeadingMultiActions(robot.driveTrain.strafeToLinearHeadingEvenBetter(new Vector2d(-39,10),Rotation2d.exp(Math.toRadians(90)))))
 //                .addNext(new StrafetoLinearHeadingMultiActions(robot.driveTrain.strafeToLinearHeadingEvenBetter(new Vector2d(-45,10),Rotation2d.exp(Math.toRadians(180)))))
 //                .addNext(new StrafetoLinearHeadingMultiActions(robot.driveTrain.strafeToLinearHeadingEvenBetter(new Vector2d(-45,55),Rotation2d.exp(Math.toRadians(180)))))

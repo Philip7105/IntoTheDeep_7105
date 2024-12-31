@@ -25,7 +25,7 @@ public abstract class BaseTele extends LinearOpMode {
 
         robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
         groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,robot.hang,this);
-        MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
+//        MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
         double oldTime = 0;
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
@@ -39,23 +39,25 @@ public abstract class BaseTele extends LinearOpMode {
                 hub.clearBulkCache();
             }
 
-            moveIntakeJohn.periodic();
+//            moveIntakeJohn.periodic();
             double newTime = getRuntime();
             double loopTime = newTime-oldTime;
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
+            robot.intake.intakeTele(robot.gamepad1, robot.horizontalslides);
 
-//            robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
+            robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
 
-//            robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
-//            robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
-//            robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
+            robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
+            robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
+            robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
 //
-//            robot.gamepad2.whenRightTriggerPressed(groups.pullUp());
-//            robot.gamepad2.whenLeftTriggerPressed(groups.pullDown());
-            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
-            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
+            robot.gamepad2.whenRightTriggerPressed(groups.pullUp());
+            robot.gamepad2.whenLeftTriggerPressed(groups.pullDown());
+
+//            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
+//            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
 
             robot.gamepad2.whenDPadUpPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.Clippity_Clappity_Clickity_Click));
             robot.gamepad2.whenDPadLeftPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.Almost_Down));
@@ -63,9 +65,9 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad2.whenDPadDownPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.Down));
             robot.gamepad2.whenCrossPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.Out_The_Way));
 
-//            robot.gamepad1.whenDPadUpPressed(groups.armOutBack());
-//            robot.gamepad1.whenDPadRightPressed(groups.clipClip());
-//            robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
+            robot.gamepad1.whenDPadUpPressed(groups.armOutBack());
+            robot.gamepad1.whenDPadRightPressed(groups.clipClip());
+            robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
 
             robot.gamepad1.whenLeftBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
             robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
