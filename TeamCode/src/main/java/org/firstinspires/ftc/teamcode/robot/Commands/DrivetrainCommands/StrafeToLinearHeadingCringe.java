@@ -12,7 +12,7 @@ public class StrafeToLinearHeadingCringe extends Command {
     Vector2d targetVecter;
     Rotation2d targetHeading;
     Action verticalslidesaction,horizontalslidesaction,pivotaction,gripperaction,intakeAction;
-    public StrafeToLinearHeadingCringe(Vector2d targetVecter, Rotation2d targetHeading,Action verticalslidesaction,Action pivotaction,Action horizontalslidesaction, Action intakeAction,Action gripperaction){
+    public StrafeToLinearHeadingCringe(Vector2d targetVecter, Rotation2d targetHeading,Action verticalslidesaction,Action pivotaction,Action horizontalslidesaction, Action intakeAction,Action gripperaction,DriveTrain driveTrain){
         this.verticalslidesaction = verticalslidesaction;
         this.horizontalslidesaction = horizontalslidesaction;
         this.pivotaction = pivotaction;
@@ -20,13 +20,12 @@ public class StrafeToLinearHeadingCringe extends Command {
         this.targetHeading = targetHeading;
         this.targetVecter = targetVecter;
         this.intakeAction = intakeAction;
+        this.driveTrain = driveTrain;
     }
 
 
     @Override
     public void init() {
-//        startVec = new Vector2d(driveTrain.getXPos(),driveTrain.getYPos());
-//        startHeading = driveTrain.getHeading();
         driveTrain.strafeToLinearHeadingParallelCringe(targetVecter,targetHeading,verticalslidesaction,pivotaction,horizontalslidesaction,intakeAction,gripperaction);
     }
 

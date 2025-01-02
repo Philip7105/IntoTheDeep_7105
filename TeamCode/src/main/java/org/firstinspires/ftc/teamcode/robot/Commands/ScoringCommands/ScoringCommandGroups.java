@@ -33,29 +33,28 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Hori
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
-
-/** This contains all of the commands used in our robot.
- * Most commands are used in tele.
+/** This contains a few of our robot's more frequently used commands.
+ *
  */
 
 public class ScoringCommandGroups {
-    JohnsIntake intake;  // intake
+    JohnsIntake intake;
     ClipMech clipmech;
     HorizontalSlides horizontalSlides;
     VerticalSlides verticalslides;
     JohnHanging hang;
-    LinearOpMode opMode;
-    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hanging,LinearOpMode opMode) {
+//    LinearOpMode opMode;
+    public ScoringCommandGroups(JohnsIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hanging) {
         this.intake = intake;
         this.verticalslides = verticalslides;
         this.horizontalSlides = horizontalslides;
         this.clipmech = clipmech;
         this.hang = hanging;
-        this.opMode = opMode;
+//        this.opMode = opMode;
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.PivotStates.outback));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.PivotStates.basketpos));
     }
 
     public Command slidesTeleop(){
@@ -71,7 +70,7 @@ public class ScoringCommandGroups {
     }
 
     public Command armOutBack(){
-        return new MultipleCommand(moveArmJohn(JohnsIntake.PivotStates.outback));
+        return new MultipleCommand(moveArmJohn(JohnsIntake.PivotStates.basketpos));
     }
 
     public Command armOutFront(){
@@ -94,7 +93,6 @@ public class ScoringCommandGroups {
     public Command fullExtendHorizontalSLides(){
         return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY), moveGripper(JohnsIntake.GripperStates.unclamp),
                 new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out,245)));
-//                                .addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
     }
 
     public Command clipClip(){
@@ -104,7 +102,6 @@ public class ScoringCommandGroups {
     public Command extendHorizontalSLides(){
         return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY), moveGripper(JohnsIntake.GripperStates.unclamp)
                 ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,190)));
-//                .addNext(moveArmJohn(JohnsIntake.ArmStates.forward)));
     }
 
     public Command extendHorizontalSlides_VerticalSlides(ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.PivotStates armstate){
@@ -149,8 +146,8 @@ public class ScoringCommandGroups {
 
     public Action moveVerticalSlidesWithRR(double target){
         return new MoveVerticalSlidesWithRR(verticalslides, target);
+//        return null;
     }
-
 
 
 

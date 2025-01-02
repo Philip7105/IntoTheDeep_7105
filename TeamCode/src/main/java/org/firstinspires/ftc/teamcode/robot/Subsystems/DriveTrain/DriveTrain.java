@@ -11,7 +11,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.BetterActionWithPathing;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
@@ -78,22 +77,17 @@ public class DriveTrain extends Subsystem {
         return getHeading().toDouble();
     }
 
-    public void setStatesJohn(Input input){
-       if (input.isLeft_bumper()) {
-            driveSpeed = DriveSpeed.Slow;
-        } else if (!input.isLeft_bumper()) {
-            driveSpeed = DriveSpeed.Fast;
-        }
-    }
-
-    public Action[] strafeToLinearHeadingEvenBetter(Vector2d targetVec, Rotation2d targetHeading) {
-        return new Action[]{mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
+    public Action strafeToLinearHeadingEvenBetter(Vector2d targetVec, Rotation2d targetHeading) {
+        return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
                 .strafeToLinearHeading(targetVec, targetHeading)
-                .build()};
+                .build();
     }
 
     public void strafetoLinearHeadingList(Action[] action) {
-        Actions.runBlocking(new BetterActionWithPathing(action));
+    }
+
+    public void Listy(HardwareMap hwMap, Action[] action) {
+        this.mecanumDrive = new PinpointDrive(hwMap, mecanumDrive.pose);
     }
 
     public void turn(Vector2d startVec, Rotation2d startHeading,Rotation2d angle) {
@@ -108,11 +102,11 @@ public class DriveTrain extends Subsystem {
                 .build(),verticalslideaction,pivotaction,horizontalslideaction,intakeaction,gripperaction));
     }
 
-    public void strafeToLinearHeadingParallelNotCringe(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action verticalslideaction,Action pivotaction,Action horizontalslideaction, Action intakeaction, Action gripperaction) {
-        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
-                .strafeToLinearHeading(targetVec,targetHeading)
-                .build(),verticalslideaction,pivotaction,horizontalslideaction,intakeaction,gripperaction));
-    }
+//    public void strafeToLinearHeadingParallelNotCringe(Vector2d targetVec, Rotation2d targetHeading, Action[] actions) {
+//        Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
+//                .strafeToLinearHeading(targetVec,targetHeading)
+//                .build(),actions);
+//    }
 
     public void strafeToLinearHeadingParallelAction(Vector2d startVec, Rotation2d startHeading, Vector2d targetVec, Rotation2d targetHeading, Action action,Action action2) {
         Actions.runBlocking(new ParallelAction(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))

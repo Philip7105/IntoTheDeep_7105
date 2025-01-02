@@ -45,6 +45,7 @@ import org.firstinspires.ftc.teamcode.NewRR.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.NewRR.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.NewRR.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.NewRR.messages.PoseMessage;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -53,6 +54,10 @@ import java.util.List;
 
 @Config
 public class MecanumDrive {
+//    public Action FollowTrajectoryActionBetter;
+//    Action[] actions;
+//    VerticalSlides verticalSlides;
+
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -208,12 +213,13 @@ public class MecanumDrive {
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
+//        this.verticalSlides = verticalSlides;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
-        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
-            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
-        }
+//        for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
+//            module.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+//        }
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -370,6 +376,7 @@ public class MecanumDrive {
         }
     }
 
+
     public final class TurnAction implements Action {
         private final TimeTurn turn;
 
@@ -495,4 +502,20 @@ public class MecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
+
+//    public TrajectoryActionBuilder actionBuilderBetter(Pose2d beginPose) {
+//        return new TrajectoryActionBuilder(
+//                TurnAction::new,
+//                new FollowTrajectoryActionBetter(),
+//                new TrajectoryBuilderParams(
+//                        1e-6,
+//                        new ProfileParams(
+//                                0.25, 0.1, 1e-2
+//                        )
+//                ),
+//                beginPose, 0.0,
+//                defaultTurnConstraints,
+//                defaultVelConstraint, defaultAccelConstraint
+//        );
+//    }
 }

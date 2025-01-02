@@ -23,19 +23,20 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1210, lowbasket = 1757, hangPos = 2030, highbasket =2875, ref, down = -.3;
-    public static boolean closeThread = false, holdPos = false;
+    public static double  lowchamber = 1605, lowbasket = 2350, hangPos = 2030, highbasket =4010, ref = 0, down = -.3;
+    public static boolean holdPos = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
     BasicPID controller = new BasicPID(coefficients);
 
+    public static double getslideposrr;
+
     double calculate;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        ref = 0;
-        closeThread = false;
+        ref = 1;
         holdPos = false;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
@@ -47,10 +48,10 @@ public class VerticalSlides extends Subsystem {
 
     @Override
     public void periodic() {
+        ref = ref + 1;
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("slidepower",leftslide.getPower());
-        Dashboard.addData("closethread",closeThread);
 
 
         if (holdPos && ref != 0
@@ -141,6 +142,10 @@ public class VerticalSlides extends Subsystem {
 
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
+    }
+
+    public void getSlidePosRR(){
+        getslideposrr = leftslide.getCurrentPosition();
     }
 
     public void resetSlides(){

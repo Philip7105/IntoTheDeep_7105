@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -22,10 +23,8 @@ public abstract class BaseTele extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-
         robot =new Robot(hardwareMap, Robot.OpMode.Teleop, gamepad1, gamepad2);
-        groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,robot.hang,this);
-//        MoveIntakeJohn moveIntakeJohn = new MoveIntakeJohn(robot.gamepad1, robot.intake, robot.horizontalslides);
+        groups =new ScoringCommandGroups(robot.intake, robot.verticalslides,robot.horizontalslides, robot.clipmech,robot.hang);
         double oldTime = 0;
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 

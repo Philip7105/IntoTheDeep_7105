@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -20,6 +22,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.LimeLight;
 public class Robot {
     public Dashboard dashboard;  // set up dashboard
     public Input gamepad1, gamepad2;  // set up gamepads
+    ScoringCommandGroups groups;
     public JohnsIntake intake;  // set up intake
     public ClipMech clipmech;
     public DriveTrain driveTrain;  // set up the drivetrain
@@ -39,6 +42,7 @@ public class Robot {
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake
+        groups = new ScoringCommandGroups(intake,verticalslides,horizontalslides,clipmech,hang);
         scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides,limelight,clipmech,hang);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);
         this.gamepad2 = new Input(gamepad2,scheduler);
@@ -51,7 +55,6 @@ public class Robot {
     }
 
     public void update() {  // update everything
-        updateGamepads();  // update gamepads
         driveTrain.mecanumDrive.updatePoseEstimate();  // update mecanum drive
         scheduler.run();  // it says run auto but this really just updates the scheduler and runs everything there
     }

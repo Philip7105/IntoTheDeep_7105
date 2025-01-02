@@ -1,15 +1,10 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
-//import com.acmerobotics.roadrunner.geometry.Pose2d;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowbasket;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowchamber;
-
-import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.StrafetoLinearHeading;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
@@ -21,13 +16,16 @@ public abstract class BaseAuto extends LinearOpMode {
     public ScoringCommandGroups groups;
 //    MoveVerticalSlidesMultiThread moveSlides;
     public Command runpath;
+    Action[] actions;
     @Override
     public void runOpMode() throws InterruptedException {
 
-        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
-
-        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech, robot.hang, this);
+//        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
+//
+//        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech, robot.hang);
         robot.getScheduler().forceCommand(groups.initRobot());
+//
+//        Actions.runBlocking(robot.driveTrain.mecanumDrive.actionBuilder());
 
         double oldTime = 0;
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
@@ -42,7 +40,7 @@ public abstract class BaseAuto extends LinearOpMode {
 
         waitForStart();
 //        robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
-        robot.getScheduler().forceCommand(runpath);
+//        robot.getScheduler().forceCommand(runpath);
         while (opModeIsActive() && !isStopRequested()){
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
@@ -52,7 +50,7 @@ public abstract class BaseAuto extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
-            robot.update();
+            robot.updateTele();
         }
         robot.shutdown();
     }

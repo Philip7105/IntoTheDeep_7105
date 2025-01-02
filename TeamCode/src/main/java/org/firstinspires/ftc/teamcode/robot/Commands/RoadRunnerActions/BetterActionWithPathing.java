@@ -10,9 +10,7 @@ public class BetterActionWithPathing implements Action {
     Action[] action;
 //    Action runPath;
     ParallelAction parallelAction;
-
-    boolean complete;
-
+    boolean keeprunning;
     public BetterActionWithPathing(Action[] action){
         this.action = action;
 //        this.runPath = runPath;
@@ -23,11 +21,11 @@ public class BetterActionWithPathing implements Action {
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 //        runPath.run(telemetryPacket);
         parallelAction.run(telemetryPacket);
-        if (parallelAction.run(telemetryPacket)){
-            complete = true;
+        if (!parallelAction.run(telemetryPacket)){
+            keeprunning = false;
         } else {
-            complete = false;
+            keeprunning = true;
         }
-            return complete;
+            return keeprunning;
     }
 }
