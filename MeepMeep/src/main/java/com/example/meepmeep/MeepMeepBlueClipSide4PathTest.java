@@ -7,10 +7,10 @@ import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
-    public MeepMeepBlueClipSide4PathTest(int windowSize) {super( 950);}
+    public MeepMeepBlueClipSide4PathTest(int windowSize) {super( 600);}
 
     public static void main(String[] args) {
-        MeepMeepBlueClipSide4PathTest meepmeep = new MeepMeepBlueClipSide4PathTest(950);
+        MeepMeepBlueClipSide4PathTest meepmeep = new MeepMeepBlueClipSide4PathTest(600);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepmeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -19,14 +19,16 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-13, 63, Math.toRadians(90)))
                 .strafeToLinearHeading(new Vector2d(-10,33),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47,47),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-47,52),Math.toRadians(90))
                 // clip first specimen
                 .strafeToLinearHeading(new Vector2d(-33,38),Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-39,10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(-45, 55), Math.toRadians(180))
                 // push in the first blue sample
-                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-54, 10), Math.toRadians(180))
+//                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(-54, 55), Math.toRadians(180))
                 // push in the second blue sample
                 .strafeToLinearHeading(new Vector2d(-54, 10), Math.toRadians(180))

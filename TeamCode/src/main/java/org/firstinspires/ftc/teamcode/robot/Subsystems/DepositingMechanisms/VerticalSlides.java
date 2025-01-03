@@ -36,7 +36,7 @@ public class VerticalSlides extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        ref = 1;
+        ref = 0;
         holdPos = false;
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
@@ -48,7 +48,6 @@ public class VerticalSlides extends Subsystem {
 
     @Override
     public void periodic() {
-        ref = ref + 1;
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("slidepower",leftslide.getPower());

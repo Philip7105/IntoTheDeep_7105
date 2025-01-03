@@ -15,15 +15,22 @@ public class MoveHorizontalSlidesAction implements Action {
 
     double target;
 
-    public MoveHorizontalSlidesAction(HorizontalSlides horizontalslides, HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target){
+    TelemetryPacket packet;
+
+    public MoveHorizontalSlidesAction(HorizontalSlides horizontalslides, HorizontalSlides.HorizontalSlideStates horizontalslidestates, double target,TelemetryPacket telemetryPacket){
         this.horizontalslides = horizontalslides;
         this.horizontalslidestates = horizontalslidestates;
+        this.packet = telemetryPacket;
         this.target = target;
     }
 
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(TelemetryPacket telemetryPacket) {
+        telemetryPacket = packet;
         horizontalslides.setHorizontalSlides(horizontalslidestates);
-        return Math.abs(target - horizontalslides.getSlidePos()) <= 8;
+        if (Math.abs(horizontalslides.getSlideError(target)) <= 8){
+            return false;
+        }
+        return true;
     }
 }

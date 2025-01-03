@@ -17,8 +17,11 @@ public class MovePivotAction implements Action {
 
     public static boolean loopOncePivot = false;
 
-    public MovePivotAction(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates){
+    TelemetryPacket packet;
+
+    public MovePivotAction(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates, TelemetryPacket telemetryPacket){
         this.johnsIntake = johnsIntake;
+        this.packet = telemetryPacket;
         this.pivotStates = pivotStates;
         loopOncePivot = false;
     }
@@ -31,7 +34,7 @@ public class MovePivotAction implements Action {
     }
 
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(TelemetryPacket telemetryPacket) {
         init();
         johnsIntake.setArmStates(pivotStates);
         return timer.seconds() > 1;

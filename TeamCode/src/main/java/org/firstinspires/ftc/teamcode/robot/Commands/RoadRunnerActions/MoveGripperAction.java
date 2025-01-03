@@ -11,15 +11,14 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 public class MoveGripperAction implements Action {
 
     ElapsedTime timer = new ElapsedTime();
-
     JohnsIntake johnsIntake;
-
     JohnsIntake.GripperStates gripperStates;
-
+    TelemetryPacket packet;
     public static boolean loopOnceGripper = false;
 
-    public MoveGripperAction(JohnsIntake johnsIntake,JohnsIntake.GripperStates gripperStates){
+    public MoveGripperAction(JohnsIntake johnsIntake,JohnsIntake.GripperStates gripperStates,TelemetryPacket telemetryPacket){
         this.johnsIntake = johnsIntake;
+        this.packet = telemetryPacket;
         this.gripperStates = gripperStates;
         loopOnceGripper = false;
     }
@@ -32,6 +31,7 @@ public class MoveGripperAction implements Action {
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        telemetryPacket = packet;
         init();
         johnsIntake.setGripper(gripperStates);
         return timer.seconds() > .4;

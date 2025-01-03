@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
-import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.StrafetoLinearHeading;
 
 @Config
 @Autonomous
