@@ -37,7 +37,7 @@ public abstract class TestRoadRunner extends LinearOpMode {
         robot.driveTrain.setPoseEstimate(new Vector2d(0,0), Rotation2d.exp(0));
 
         waitForStart();
-        robot.getScheduler().forceCommand(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesWithRR(lowchamber,autoTolerance)
+        robot.getScheduler().forceCommand(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowchamber,autoTolerance)
                 ,robot.driveTrain.strafeToLinearHeading(new Vector2d(10,10), Rotation2d.exp(90))})
                 .addNext(new Delay(10))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(10,10), Rotation2d.exp(0))})));

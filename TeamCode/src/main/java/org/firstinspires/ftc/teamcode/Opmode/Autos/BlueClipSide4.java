@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.Opmode.Autos;
 
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.autoGreaterTolerance;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.autoTolerance;
@@ -10,7 +8,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -28,18 +25,18 @@ public class BlueClipSide4 extends BaseAuto {
     @Override
     public void runAuto() {
         robot.driveTrain.setPoseEstimate(new Vector2d(-14,63), Rotation2d.exp(Math.toRadians(90)));
-        runpath = new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesWithRR(lowchamber,autoTolerance),robot.driveTrain.strafeToLinearHeading(new Vector2d(-1.5,32),Rotation2d.exp(Math.toRadians(90)))})
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesWithRR(lowbasket,autoGreaterTolerance),groups.delayAction(.3, groups.moveGripperWithRR(JohnsIntake.GripperStates.unclamp)),
-                groups.delayAction(.3,groups.moveIntakeWithRR(JohnsIntake.IntakeStates.outtake))}))
+        runpath = new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowchamber,autoTolerance),robot.driveTrain.strafeToLinearHeading(new Vector2d(-1.5,32),Rotation2d.exp(Math.toRadians(90)))})
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket,autoGreaterTolerance),groups.delayAction(.3, groups.moveGripperAction(JohnsIntake.GripperStates.unclamp)),
+                groups.delayAction(.3,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))}))
                 // clip first specimen
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,47), Rotation2d.exp(Math.toRadians(90)))
-                ,groups.moveVerticalSlidesWithRR(0,autoTolerance),groups.movePivotWithRR(JohnsIntake.PivotStates.parallel),
-                        groups.moveGripperWithRR(JohnsIntake.GripperStates.clamp),groups.moveIntakeWithRR(JohnsIntake.IntakeStates.stop)}))
+                ,groups.moveVerticalSlidesAction(0,autoTolerance),groups.movePivotAction(JohnsIntake.PivotStates.parallel),
+                        groups.moveGripperAction(JohnsIntake.GripperStates.clamp),groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)}))
                 .addNext(new Delay(2))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.unclamp)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,49), Rotation2d.exp(Math.toRadians(90))),
-                        groups.moveIntakeWithRR(JohnsIntake.IntakeStates.intake),
-                        groups.movePivotWithRR(JohnsIntake.PivotStates.slightly_lower_pickup)}))
+                        groups.moveIntakeAction(JohnsIntake.IntakeStates.intake),
+                        groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)}))
                 .addNext(new Delay(4));
                 //go to get the human players clip
 //                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-2,33), Rotation2d.exp(Math.toRadians(90))),

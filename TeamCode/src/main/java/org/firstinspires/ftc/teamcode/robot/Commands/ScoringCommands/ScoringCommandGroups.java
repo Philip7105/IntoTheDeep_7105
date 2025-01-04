@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands;
 
 
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
@@ -35,7 +34,6 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveVerticalSlidesAction;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MultipleRRActionsWithPathing;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -128,8 +126,8 @@ public class ScoringCommandGroups {
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
 
     public Action fullExtendHorizontalSLidesAction(){
-        return new ParallelAction(moveGripperWithRR(JohnsIntake.GripperStates.unclamp),
-                delayAction(.1,moveHorizontalSlidesWithRR(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos)));
+        return new ParallelAction(moveGripperAction(JohnsIntake.GripperStates.unclamp),
+                delayAction(.1, moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos)));
     }
 
 
@@ -141,24 +139,23 @@ public class ScoringCommandGroups {
         return new SequentialAction(new DelayAction(time,Dashboard.packet), new ResetDelayAction(Dashboard.packet),action);
     }
 
-
-    public Action moveGripperWithRR(JohnsIntake.GripperStates gripperStates){
+    public Action moveGripperAction(JohnsIntake.GripperStates gripperStates){
         return new SequentialAction(new MoveGripperAction(intake,gripperStates,Dashboard.packet),new ResetGripperAction(Dashboard.packet));
     }
 
-    public Action movePivotWithRR(JohnsIntake.PivotStates pivotStates){
+    public Action movePivotAction(JohnsIntake.PivotStates pivotStates){
         return new SequentialAction(new MovePivotAction(intake,pivotStates,Dashboard.packet),new ResetPivotAction(Dashboard.packet));
     }
 
-    public Action moveIntakeWithRR(JohnsIntake.IntakeStates intakeStates){
+    public Action moveIntakeAction(JohnsIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
     }
 
-    public Action moveHorizontalSlidesWithRR(HorizontalSlides.HorizontalSlideStates horizontalSlideStates,double target){
+    public Action moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates horizontalSlideStates, double target){
         return new MoveHorizontalSlidesAction(horizontalSlides,horizontalSlideStates,target,Dashboard.packet);
     }
 
-    public Action moveVerticalSlidesWithRR(double target,double tolerance){
+    public Action moveVerticalSlidesAction(double target, double tolerance){
         return new SequentialAction(new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
     }
 
