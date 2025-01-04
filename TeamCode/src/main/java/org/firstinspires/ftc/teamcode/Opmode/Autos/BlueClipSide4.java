@@ -43,7 +43,7 @@ public class BlueClipSide4 extends BaseAuto {
                 // intake another specimen
                 .addNext(new Delay(4))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In, fullin),
-                        groups.movePivot(JohnsIntake.PivotStates.parallel), groups.moveIntake(JohnsIntake.IntakeStates.stop)));
+                        groups.movePivotJohn(JohnsIntake.PivotStates.parallel), groups.moveIntake(JohnsIntake.IntakeStates.stop)));
                 //go to get the human players clip
 //                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-2,33), Rotation2d.exp(Math.toRadians(90))),
 //                        groups.moveHorizontalSlidesWithRR(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos)}));

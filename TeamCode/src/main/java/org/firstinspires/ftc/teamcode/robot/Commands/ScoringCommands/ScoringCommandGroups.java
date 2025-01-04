@@ -32,6 +32,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveGripperAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveVerticalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
@@ -89,6 +90,9 @@ public class ScoringCommandGroups {
         return new MoveArmJohn(this.intake, pivotStates);
     }
 
+    public Command moveIntake(JohnsIntake.IntakeStates intakeStates){
+        return new MoveIntakeJohn(this.intake, intakeStates);
+    }
     public Command moveGripper(JohnsIntake.GripperStates gripperStates){
         return new MoveGripper(this.intake, gripperStates);
     }

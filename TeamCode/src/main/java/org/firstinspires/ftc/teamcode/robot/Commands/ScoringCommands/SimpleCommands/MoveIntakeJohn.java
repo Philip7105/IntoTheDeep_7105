@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -8,19 +10,21 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
 public class MoveIntakeJohn extends Command {
 
-    Input input;
+    ElapsedTime timer = new ElapsedTime();
 
     JohnsIntake johnsIntake;
 
-    HorizontalSlides slides;
+    JohnsIntake.IntakeStates intakeStates;
 
-    public MoveIntakeJohn(Input input, JohnsIntake johnsIntake, HorizontalSlides slides){
-        this.input = input;
+    public MoveIntakeJohn(JohnsIntake johnsIntake, JohnsIntake.IntakeStates intakeStates){
+
         this.johnsIntake = johnsIntake;
-        this.slides = slides;
+        this.intakeStates = intakeStates;
     }
     @Override
     public void init() {
+        timer.reset();
+        johnsIntake.setIntake(intakeStates);
     }
 
     @Override
@@ -29,7 +33,7 @@ public class MoveIntakeJohn extends Command {
 
     @Override
     public boolean completed() {
-        return !input.isRight_trigger_press() || !input.isLeft_trigger_press();
+        return timer.seconds() > 0.4;
     }
 
     @Override
