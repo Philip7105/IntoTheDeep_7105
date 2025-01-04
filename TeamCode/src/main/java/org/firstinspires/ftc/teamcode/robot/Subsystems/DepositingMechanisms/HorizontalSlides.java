@@ -14,7 +14,7 @@ public class HorizontalSlides extends Subsystem {
 
     public ServoImplEx leftservoslide, rightservoslide;
 
-    public static double fullin = .24, fullout = .88, fullyOutEncoderPos = 245,halfOutEncoderPos = 190, fullyInEncoderPos = 170;
+    public static double fullin = .24,halfout = .56, fullout = .88, fullyOutEncoderPos = 245,halfOutEncoderPos = 190, fullyInEncoderPos = 170;
     //TODO max and min constrains must be fixed
 
 
@@ -76,8 +76,8 @@ public class HorizontalSlides extends Subsystem {
                 rightservoslide.setPosition(fullin);
                 break;
             case Half_Out:
-                leftservoslide.setPosition(.56);// 190
-                rightservoslide.setPosition(.56); //199
+                leftservoslide.setPosition(halfout);// 190
+                rightservoslide.setPosition(halfout); //199
                 break;
             case Fully_Out:                         // 236
                 leftservoslide.setPosition(fullout); // 245

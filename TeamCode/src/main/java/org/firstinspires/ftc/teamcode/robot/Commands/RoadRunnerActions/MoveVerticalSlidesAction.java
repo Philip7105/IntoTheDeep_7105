@@ -9,13 +9,14 @@ public class MoveVerticalSlidesAction implements Action {
 
     VerticalSlides verticalSlides;
 
-    double ref;
+    double ref,tolerance;
 
     TelemetryPacket packet;
 
-    public MoveVerticalSlidesAction(VerticalSlides verticalSlides, double ref, TelemetryPacket telemetryPacket){
+    public MoveVerticalSlidesAction(VerticalSlides verticalSlides, double ref,double tolerance, TelemetryPacket telemetryPacket){
         this.verticalSlides = verticalSlides;
         this.ref = ref;
+        this.tolerance = tolerance;
         this.packet = telemetryPacket;
     }
 
@@ -25,11 +26,9 @@ public class MoveVerticalSlidesAction implements Action {
         VerticalSlides.holdPos = false;
         VerticalSlides.ref = ref;
         verticalSlides.pidController();
-        if (Math.abs(verticalSlides.getSlidesError()) < 10){
-            telemetryPacket.addLine("stop");
+        if (Math.abs(verticalSlides.getSlidesError()) < tolerance){
             return false;
         }
-//        telemetryPacket.();
         return true;
     }
 }

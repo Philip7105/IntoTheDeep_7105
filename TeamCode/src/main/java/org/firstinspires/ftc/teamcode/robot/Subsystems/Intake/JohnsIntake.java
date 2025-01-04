@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -20,7 +21,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double basketpos = .64, chamberpos = .7, down = 0.15,parallel = .26;//.78  .155
+    public static double basketpos = .64, chamberpos = .7, down = 0.15,parallel = .26,lowerpickup = .13;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -98,10 +99,14 @@ public class JohnsIntake extends Subsystem {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setGripper(GripperStates.unclamp);
             setIntake(JohnsIntake.IntakeStates.outtake);
-        } else if (input.isRight_trigger_press()) {
+        } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() != halfout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(JohnsIntake.IntakeStates.intake);
             setArmStates(JohnsIntake.PivotStates.forward);
+        } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            setIntake(JohnsIntake.IntakeStates.intake);
+            setArmStates(PivotStates.slightly_lower_pickup);
         } else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
@@ -147,8 +152,12 @@ public class JohnsIntake extends Subsystem {
                 rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
                 break;
+            case slightly_lower_pickup:
+                rightarm.setPosition(lowerpickup); // 121
+                leftarm.setPosition(lowerpickup);
+                break;
             case posauto_clip:
-                rightarm.setPosition(0.2);
+                rightarm.setPosition(0.25);
                 leftarm.setPosition(0.25);
                 break;
             case preauto_clip:
@@ -202,6 +211,7 @@ public class JohnsIntake extends Subsystem {
         parallel,
         hookclip,
         forward,
+        slightly_lower_pickup,
         posauto_clip,
         preauto_clip
     }

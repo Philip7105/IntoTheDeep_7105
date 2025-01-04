@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands;
 
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
@@ -10,15 +11,18 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.J
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.unfoldpower;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.DelayAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.EmptyAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.HoldVerticalSlidePosAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveHorizontalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MovePivotAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetDelayAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetGripperAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetPivotAction;
@@ -31,6 +35,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveVerticalSlidesAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MultipleRRActionsWithPathing;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -58,7 +63,7 @@ public class ScoringCommandGroups {
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.PivotStates.basketpos));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),moveArmJohn(JohnsIntake.PivotStates.chamberpos),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
     }
 
     public Command slidesTeleop(){
@@ -122,30 +127,39 @@ public class ScoringCommandGroups {
 
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
 
+    public Action fullExtendHorizontalSLidesAction(){
+        return new ParallelAction(moveGripperWithRR(JohnsIntake.GripperStates.unclamp),
+                delayAction(.1,moveHorizontalSlidesWithRR(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos)));
+    }
 
 
     public Action emptyAction(){
         return new EmptyAction(Dashboard.packet);
     }
 
+    public Action delayAction(double time,Action action){
+        return new SequentialAction(new DelayAction(time,Dashboard.packet), new ResetDelayAction(Dashboard.packet),action);
+    }
+
+
     public Action moveGripperWithRR(JohnsIntake.GripperStates gripperStates){
-        return new SequentialAction(new MoveGripperAction(intake,gripperStates,Dashboard.packet),new ResetGripperAction());
+        return new SequentialAction(new MoveGripperAction(intake,gripperStates,Dashboard.packet),new ResetGripperAction(Dashboard.packet));
     }
 
     public Action movePivotWithRR(JohnsIntake.PivotStates pivotStates){
-        return new SequentialAction(new MovePivotAction(intake,pivotStates,Dashboard.packet),new ResetPivotAction());
+        return new SequentialAction(new MovePivotAction(intake,pivotStates,Dashboard.packet),new ResetPivotAction(Dashboard.packet));
     }
 
     public Action moveIntakeWithRR(JohnsIntake.IntakeStates intakeStates){
-        return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction());
+        return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
     }
 
     public Action moveHorizontalSlidesWithRR(HorizontalSlides.HorizontalSlideStates horizontalSlideStates,double target){
         return new MoveHorizontalSlidesAction(horizontalSlides,horizontalSlideStates,target,Dashboard.packet);
     }
 
-    public Action moveVerticalSlidesWithRR(double target){
-        return new SequentialAction(new MoveVerticalSlidesAction(verticalslides, target, Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
+    public Action moveVerticalSlidesWithRR(double target,double tolerance){
+        return new SequentialAction(new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
     }
 
     public Command pullUp(){

@@ -37,6 +37,9 @@ public class MovePivotAction implements Action {
     public boolean run(TelemetryPacket telemetryPacket) {
         init();
         johnsIntake.setArmStates(pivotStates);
-        return timer.seconds() > 1;
+        if (timer.seconds() > 1){
+            return false;
+        }
+        return true;
     }
 }

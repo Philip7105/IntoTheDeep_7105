@@ -23,9 +23,9 @@ public class MultipleActions implements Action {
         parallelAction.run(telemetryPacket);
         if (parallelAction.getInitialActions().isEmpty()){
             isDone = true;
-            return isDone;
+            return false;
         }
         isDone = false;
-        return isDone;
+        return true;
     }
 }

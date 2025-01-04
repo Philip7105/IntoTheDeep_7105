@@ -23,7 +23,7 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1605, lowbasket = 2350, hangPos = 2030, highbasket =4010, ref = 0, down = -.3;
+    public static double  lowchamber = 1605, lowbasket = 2350, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 10, autoGreaterTolerance = 30;
     public static boolean holdPos = false;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);

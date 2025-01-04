@@ -34,6 +34,9 @@ public class MoveGripperAction implements Action {
         telemetryPacket = packet;
         init();
         johnsIntake.setGripper(gripperStates);
-        return timer.seconds() > .4;
+        if (timer.seconds() > .4){
+            return false;
+        }
+        return true;
     }
 }

@@ -16,19 +16,17 @@ public abstract class BaseAuto extends LinearOpMode {
     public ScoringCommandGroups groups;
 //    MoveVerticalSlidesMultiThread moveSlides;
     public Command runpath;
-    Action[] actions;
     @Override
     public void runOpMode() throws InterruptedException {
 
-//        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
+        robot = new Robot(hardwareMap, Robot.OpMode.Auto, gamepad1, gamepad2);
 //
-//        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech, robot.hang);
-        robot.getScheduler().forceCommand(groups.initRobot());
-//
-//        Actions.runBlocking(robot.driveTrain.mecanumDrive.actionBuilder());
-
+        groups = new ScoringCommandGroups(robot.intake, robot.verticalslides, robot.horizontalslides,robot.clipmech, robot.hang);
         double oldTime = 0;
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+        robot.getScheduler().forceCommand(groups.initRobot());
+
+
 
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
@@ -39,8 +37,7 @@ public abstract class BaseAuto extends LinearOpMode {
         }
 
         waitForStart();
-//        robot.getScheduler().forceCommand(runAuto(robot.getScheduler()));
-//        robot.getScheduler().forceCommand(runpath);
+        robot.getScheduler().forceCommand(runpath);
         while (opModeIsActive() && !isStopRequested()){
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
@@ -54,7 +51,7 @@ public abstract class BaseAuto extends LinearOpMode {
         }
         robot.shutdown();
     }
-    public  void runAuto(){
+    public void runAuto(){
 
     }
 }

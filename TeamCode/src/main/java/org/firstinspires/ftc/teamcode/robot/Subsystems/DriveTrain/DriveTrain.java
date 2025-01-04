@@ -86,7 +86,7 @@ public class DriveTrain extends Subsystem {
     public Action strafeToLinearHeadingWithMarker(Vector2d targetVec, Rotation2d targetHeading,double markerX,Action[] actions) {
         return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
                 .strafeToLinearHeading(targetVec, targetHeading)
-                .afterDisp(markerX,(actions))
+//                .afterDisp(markerX,(actions))
                 .build();
     }
 

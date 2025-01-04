@@ -8,11 +8,16 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
 public class ResetGripperAction implements Action {
+    TelemetryPacket packet;
 
+    public ResetGripperAction(TelemetryPacket telemetryPacket){
+        this.packet = telemetryPacket;
+    }
 
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(TelemetryPacket telemetryPacket) {
+        packet = telemetryPacket;
         loopOnceGripper = false;
-        return true;
+        return false;
     }
 }

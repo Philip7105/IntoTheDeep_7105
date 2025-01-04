@@ -34,6 +34,9 @@ public class MoveIntakeAction implements Action {
         telemetryPacket = packet;
         init();
         johnsIntake.setIntake(intakeStates);
-        return timer.seconds() > 1;
+        if (timer.seconds() > 1){
+            return false;
+        }
+        return true;
     }
 }
