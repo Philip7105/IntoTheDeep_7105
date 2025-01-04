@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.BetterParallelAction;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 
 @Config
@@ -30,6 +31,8 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodic() {
+        Dashboard.addData("headingdouble",getHeadingDouble());
+        Dashboard.addData("heading",getHeading());
     }
 
     @Override
@@ -71,6 +74,10 @@ public class DriveTrain extends Subsystem {
 
     public Rotation2d getHeading(){
         return mecanumDrive.pose.heading;
+    }
+
+    public double getHeadingPinPoint(){
+        return Math.toRadians(mecanumDrive.pinpoint.getHeading());
     }
 
     public double getHeadingDouble(){
