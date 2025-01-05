@@ -31,8 +31,7 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodic() {
-        Dashboard.addData("headingdouble",getHeadingDouble());
-        Dashboard.addData("heading",getHeading());
+        Dashboard.addData("headingdouble",getHeadingFixed());
     }
 
     @Override
@@ -64,6 +63,10 @@ public class DriveTrain extends Subsystem {
         mecanumDrive.pose = new Pose2d(vector2d,heading);
     }
 
+    public void setPoseEstimateBetter(Vector2d vector2d, double heading){
+        mecanumDrive.pose = new Pose2d(vector2d,heading);
+    }
+
     public double getXPos(){
         return mecanumDrive.pose.position.x;
     }
@@ -83,9 +86,12 @@ public class DriveTrain extends Subsystem {
     public double getHeadingDouble(){
         return getHeading().toDouble();
     }
+    public double getHeadingFixed(){
+        return Math.toDegrees(getHeading().toDouble());
+    }
 
-    public Action strafeToLinearHeading(Vector2d targetVec, Rotation2d targetHeading) {
-        return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
+    public Action strafeToLinearHeading(Vector2d startVec,double startHeading, Vector2d targetVec, double targetHeading) {
+        return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
                 .strafeToLinearHeading(targetVec, targetHeading)
                 .build();
     }

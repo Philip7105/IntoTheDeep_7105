@@ -33,7 +33,6 @@ public abstract class BaseTele extends LinearOpMode {
         }
         waitForStart();
         while (opModeIsActive()){
-
             for (LynxModule hub : allHubs) {
                 hub.clearBulkCache();
             }
@@ -72,7 +71,7 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
-            robot.update();
+            robot.updateTele();
         }
     }
 }

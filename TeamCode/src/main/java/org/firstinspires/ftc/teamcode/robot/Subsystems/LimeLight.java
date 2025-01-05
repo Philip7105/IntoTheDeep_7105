@@ -46,20 +46,21 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodic() {
-        limelight.updateRobotOrientation(Math.toRadians(driveTrain.getHeadingDouble()));
+//        limelight.updateRobotOrientation(Math.toRadians(driveTrain.getHeadingFixed()));
         result = limelight.getLatestResult();
         if (result != null && result.isValid()) {
-                botpose = result.getBotpose_MT2();
-                driveTrain.setPoseEstimate(new Vector2d(getBotX(),getBotY()), Rotation2d.exp(Math.toRadians(getBotHeading())));
+            botpose = result.getBotpose_MT2();
+            converter();
+            Dashboard.addData("apriltagheading",getBotHeading());
+            Dashboard.addData("getBotX",x);
+            Dashboard.addData("getBotY",y);
+            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
         }
     }
 
     public void converter(){
-        x = (getBotX() * -7.8692); //35.9375
-        y = (getBotY() * -37.4898);
-//        heading = AngleWrap(getBotHeading(),180);
-      //  -23 -47 rr cordinates
-        //        .64 1.30 ll cordinates
+        x = (getBotX() * 34.80859179266); //35.9375
+        y = (getBotY() * 39.24964035808);
     }
 
     public double AngleWrap(double pos,double offset){
@@ -67,15 +68,16 @@ public class LimeLight extends Subsystem {
     }
 
     public double getBotHeading(){
-        return botpose.getOrientation().getYaw();
+        return result.getBotpose_MT2().getOrientation().getYaw();
     }
 
+
     public double getBotX(){
-        return botpose.getPosition().x;
+        return result.getBotpose_MT2().getPosition().x;
     }
 
     public double getBotY(){
-        return botpose.getPosition().y;
+        return result.getBotpose_MT2().getPosition().y;
     }
 
 //    public void setOdo(double x,double y, double heading){

@@ -21,7 +21,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double basketpos = .64, chamberpos = .7, down = 0.15,parallel = .26,lowerpickup = .13;//.78  .155
+    public static double basketpos = .64, chamberpos = .68, down = 0.15,parallel = .26,lowerpickup = .13;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -99,15 +99,17 @@ public class JohnsIntake extends Subsystem {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setGripper(GripperStates.unclamp);
             setIntake(JohnsIntake.IntakeStates.outtake);
-        } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() != halfout) {
+        } else if (input.isRight_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(JohnsIntake.IntakeStates.intake);
             setArmStates(JohnsIntake.PivotStates.forward);
-        } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
-            setIntake(JohnsIntake.IntakeStates.intake);
-            setArmStates(PivotStates.slightly_lower_pickup);
-        } else if (slides.leftservoslide.getPosition() != fullin
+        }
+//        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
+//            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+//            setIntake(JohnsIntake.IntakeStates.intake);
+//            setArmStates(PivotStates.slightly_lower_pickup);
+//        }
+        else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setArmStates(JohnsIntake.PivotStates.parallel);
