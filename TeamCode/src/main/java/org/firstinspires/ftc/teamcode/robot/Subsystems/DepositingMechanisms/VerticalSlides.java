@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
@@ -25,6 +26,7 @@ public class VerticalSlides extends Subsystem {
 
     public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 10, autoGreaterTolerance = 30;
     public static boolean holdPos = false;
+    TouchSensor verticalSlidesTouchSensor;
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
@@ -38,6 +40,7 @@ public class VerticalSlides extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
         holdPos = false;
+        verticalSlidesTouchSensor = hwMap.get(TouchSensor.class,"verticalslidestouchsensor");
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
 
@@ -53,14 +56,14 @@ public class VerticalSlides extends Subsystem {
         Dashboard.addData("slidepower",leftslide.getPower());
 
 
-        if (holdPos && ref != 0
+        if (holdPos && !touchSensorIsPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
 //            setPower(.075);
             leftslide.setPower(.128);
             rightslide.setPower(.128);
             driveSpeed = DriveTrain.DriveSpeed.Slow;
-        } else if (ref == 0
+        } else if (ref == 0 && touchSensorIsPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
             driveSpeed = DriveTrain.DriveSpeed.Fast;
@@ -104,12 +107,18 @@ public class VerticalSlides extends Subsystem {
         return ref - getSlidesPos();
     }
 
+    public boolean touchSensorIsPressed(){
+        return verticalSlidesTouchSensor.isPressed();
+    }
+
 
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
 //        inputmanual = input;
-        if (input.isRightBumperPressed() && ref == 0){
+        if (input.isRightBumperPressed() && touchSensorIsPressed()){
             ref = lowchamber;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (ref == 0 && !touchSensorIsPressed()) {
+            setPower(-.15);
         } else if (input.isLeftBumperPressed() && ref == lowchamber){
             ref = 0;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
