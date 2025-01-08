@@ -38,7 +38,7 @@ public class Robot {
         dashboard= new Dashboard(driveTrain.mecanumDrive);
         clipmech = new ClipMech();
         hang = new JohnHanging();
-        verticalslides = new VerticalSlides();
+        verticalslides = new VerticalSlides(opMode);
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake

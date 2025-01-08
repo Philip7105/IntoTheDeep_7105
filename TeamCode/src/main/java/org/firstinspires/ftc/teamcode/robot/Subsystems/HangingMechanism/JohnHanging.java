@@ -14,69 +14,115 @@ public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
 
-    public static double unfoldpower = -.5, foldpower = .5, hangUp = 3780, handDown = -2000;
-
-
+    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 5000, kP = 0, kG = 0;
+    public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
         leftHang = hwMap.get(DcMotorEx.class, "leftHang");
-//        rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftHang.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightReadyFirstHangDone = false;
+        rightFirstHangDone = false;
+        leftReadyFirstHangDone = false;
+        leftFirstHangDone =false;
     }
 
     @Override
     public void periodic() {
-        Dashboard.addData("hangpos",getPos());
+        Dashboard.addData("lefthangpos",getLeftHangPos());
+        Dashboard.addData("righthangpos",getRightHangPos());
     }
 
     @Override
     public void shutdown() {
 
     }
-
-    public void setRightHang(HangStates hangStates){
-        switch(hangStates){
-            case FOLD_UP:
-                rightHang.setPower(foldpower);
-                leftHang.setPower(foldpower);
-//                rightHang.setTargetPosition(200);
-//                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightHang.setPower(0.3);
-            break;
-            case UNFOLD:
-                rightHang.setPower(unfoldpower);
-                leftHang.setPower(unfoldpower);
+    public void setRightHang(RightHangStates rightHangStates){
+        switch(rightHangStates){
+            case READYFIRSTHANG:
+                rightHang.setPower(calculateRightHangP(readyFirstHang));
+                break;
+            case READYSECONDHANG:
+                rightHang.setPower(calculateRightHangP(readySecondHang));
+                break;
+            case FIRSTHANG:
+                rightHang.setPower(calculateRightHangP(firstHang) + kG);
+                break;
+            case SECONDHANG:
+                rightHang.setPower(calculateRightHangP(secondHang)+kG);
+                break;
+            case HOLDPOS:
+                rightHang.setPower(kG);
                 break;
             case ZERO_POWER:
                 rightHang.setPower(0);
-                leftHang.setPower(0);
-//                rightHang.setTargetPosition(0);
-//                rightHang.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                rightHang.setPower(-0.3);
                 break;
         }
     }
-
+    public void setLeftHang(LeftHangStates leftHangStates){
+        switch(leftHangStates){
+            case READYFIRSTHANG:
+                leftHang.setPower(calculateLeftHangP(readyFirstHang));
+            break;
+            case READYSECONDHANG:
+                leftHang.setPower(calculateLeftHangP(readySecondHang));
+                break;
+            case FIRSTHANG:
+                leftHang.setPower(calculateLeftHangP(firstHang) + kG);
+                break;
+            case SECONDHANG:
+                leftHang.setPower(calculateLeftHangP(secondHang)+kG);
+                break;
+            case HOLDPOS:
+                leftHang.setPower(kG);
+                break;
+            case ZERO_POWER:
+                leftHang.setPower(0);
+                break;
+        }
+    }
+    public double calculateLeftHangP(double ref){
+        return getLeftHangError(ref) * kP;
+    }
+    public double calculateRightHangP(double ref){
+        return getRightHangError(ref) * kP;
+    }
     public void setPower(double power){
         rightHang.setPower(power);
         leftHang.setPower(power);
     }
-
-    public double getError(double ref){
-        return ref - getPos();
+    public double getLeftHangError(double ref){
+        return ref - getLeftHangPos();
     }
-
-    public double getPos(){
+    public double getRightHangError(double ref){
+        return ref - getRightHangPos();
+    }
+    public double getLeftHangPos(){
         return leftHang.getCurrentPosition();
     }
-
-    public enum HangStates{
-        UNFOLD,
-        FOLD_UP,
+    public double getRightHangPos(){
+        return leftHang.getCurrentPosition();
+    }
+    public enum LeftHangStates {
+        READYFIRSTHANG,
+        READYSECONDHANG,
+        FIRSTHANG,
+        SECONDHANG,
+        HOLDPOS,
+        ZERO_POWER
+    }
+    public enum RightHangStates {
+        READYFIRSTHANG,
+        READYSECONDHANG,
+        FIRSTHANG,
+        SECONDHANG,
+        HOLDPOS,
         ZERO_POWER
     }
 }

@@ -24,7 +24,7 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 10, autoGreaterTolerance = 30;
+    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 15, autoGreaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
 
@@ -35,6 +35,12 @@ public class VerticalSlides extends Subsystem {
     public static double getslideposrr;
 
     double calculate;
+
+    Robot.OpMode opMode;
+
+    public VerticalSlides(Robot.OpMode opMode){
+        this.opMode = opMode;
+    }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -53,27 +59,14 @@ public class VerticalSlides extends Subsystem {
     public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
-        Dashboard.addData("slidepower",leftslide.getPower());
-
-
-        if (holdPos && !touchSensorIsPressed()
-//                && inputmanual.getLeft_stick_y() < .7
-        ){
-//            setPower(.075);
+        if (opMode == Robot.OpMode.Auto && ref != 0 && holdPos){
             leftslide.setPower(.128);
             rightslide.setPower(.128);
-            driveSpeed = DriveTrain.DriveSpeed.Slow;
-        } else if (ref == 0 && touchSensorIsPressed()
-//                && inputmanual.getLeft_stick_y() < .7
-        ){
-            driveSpeed = DriveTrain.DriveSpeed.Fast;
-            holdPos = false;
+        } else if (opMode == Robot.OpMode.Auto && ref == 0){
             zeroPower();
+        } else {
+
         }
-//        else {
-
-//        }
-
     }
 
     @Override
@@ -114,12 +107,10 @@ public class VerticalSlides extends Subsystem {
 
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
 //        inputmanual = input;
-        if (input.isRightBumperPressed() && touchSensorIsPressed()){
+        if (input.isRightBumperPressed()){
             ref = lowchamber;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
-        } else if (ref == 0 && !touchSensorIsPressed()) {
-            setPower(-.15);
-        } else if (input.isLeftBumperPressed() && ref == lowchamber){
+        }  else if (input.isLeftBumperPressed() && ref == lowchamber){
             ref = 0;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
         } else if (input.isRightBumperPressed() && ref == lowchamber){
@@ -134,6 +125,20 @@ public class VerticalSlides extends Subsystem {
         } else if (input.isLeftBumperPressed() && ref == highbasket){
             ref = lowbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
+//                && inputmanual.getLeft_stick_y() < .7
+        ){
+            resetSlides();
+            driveSpeed = DriveTrain.DriveSpeed.Fast;
+            holdPos = false;
+            zeroPower();
+        }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
+//                && inputmanual.getLeft_stick_y() < .7
+        ){
+//            setPower(.075);
+            leftslide.setPower(.128);
+            rightslide.setPower(.128);
+            driveSpeed = DriveTrain.DriveSpeed.Slow;
         }
 //        else if (input.isRightStickButtonPressed()){
 //            ref = hangPos;

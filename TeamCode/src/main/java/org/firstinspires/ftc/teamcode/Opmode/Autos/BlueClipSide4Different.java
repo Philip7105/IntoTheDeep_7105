@@ -53,11 +53,11 @@ public class BlueClipSide4Different extends BaseAuto {
                 groups.moveGripperAction(JohnsIntake.GripperStates.clamp),
                 groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-33,38),Math.toRadians(90),new Vector2d(-39,10), Math.toRadians(90))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-39,10),Math.toRadians(90),new Vector2d(-45,10), Math.toRadians(180))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,10),Math.toRadians(180),new Vector2d(-45,53), Math.toRadians(180))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(180),new Vector2d(-47, 10), Math.toRadians(180))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,10),Math.toRadians(180),new Vector2d(-54, 53), Math.toRadians(180))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(180),new Vector2d(-47,45), Math.toRadians(90))}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-39,10),Math.toRadians(90),new Vector2d(-45,10), Math.toRadians(90))}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,10),Math.toRadians(90),new Vector2d(-45,53), Math.toRadians(90))}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47, 10), Math.toRadians(90))}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,10),Math.toRadians(90),new Vector2d(-54, 53), Math.toRadians(90))}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))}))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.unclamp)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.6), Math.toRadians(90)),
                         groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)),

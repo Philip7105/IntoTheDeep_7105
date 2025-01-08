@@ -4,10 +4,6 @@ package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.foldpower;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.handDown;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.hangUp;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.unfoldpower;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -30,9 +26,10 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveGripperAction;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHang;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveLeftHang;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlidesEncoder;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveRightHang;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveVerticalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
@@ -163,11 +160,15 @@ public class ScoringCommandGroups {
         return new SequentialAction(new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
     }
 
-    public Command pullUp(){
-        return new MoveHang(hang, foldpower, hangUp);
+    public Command moveHang(JohnHanging.LeftHangStates lHangState, JohnHanging.LeftHangStates lEndHangState, JohnHanging.RightHangStates rHangState, JohnHanging.RightHangStates rEndHangState, double ref){
+        return new MultipleCommand(new MoveLeftHang(hang,lHangState,lEndHangState,ref), new MoveRightHang(hang,rHangState,rEndHangState,ref));
     }
 
-    public Command pullDown(){
-        return new MoveHang(hang, unfoldpower, handDown);
-    }
+//    public Command pullUp(){
+//        return new MoveHang(hang, foldpower, readyFirstHang);
+//    }
+//
+//    public Command pullDown(){
+//        return new MoveHang(hang, unfoldpower, firstHang);
+//    }
 }

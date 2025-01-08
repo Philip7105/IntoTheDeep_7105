@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
-import com.acmerobotics.roadrunner.Action;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.firstHang;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.readyFirstHang;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveHorizontalSlides;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveIntakeJohn;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
 import java.util.List;
@@ -51,8 +51,8 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
 //
-            robot.gamepad2.whenRightTriggerPressed(groups.pullUp());
-            robot.gamepad2.whenLeftTriggerPressed(groups.pullDown());
+            robot.gamepad2.whenRightTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.READYFIRSTHANG, JohnHanging.LeftHangStates.ZERO_POWER,JohnHanging.RightHangStates.READYFIRSTHANG, JohnHanging.RightHangStates.ZERO_POWER,readyFirstHang));
+            robot.gamepad2.whenLeftTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.FIRSTHANG, JohnHanging.LeftHangStates.HOLDPOS,JohnHanging.RightHangStates.FIRSTHANG, JohnHanging.RightHangStates.HOLDPOS,firstHang));
 
 //            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
 //            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
