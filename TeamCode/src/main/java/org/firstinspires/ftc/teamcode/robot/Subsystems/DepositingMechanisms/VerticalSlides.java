@@ -67,8 +67,8 @@ public class VerticalSlides extends Subsystem {
             resetSlides();
             zeroPower();
         }else if (opMode == Robot.OpMode.Auto && ref == 0 && !touchSensorIsPressed()){
-            leftslide.setPower(-.128);
-            rightslide.setPower(-.128);
+            leftslide.setPower(-.3);
+            rightslide.setPower(-.3);
         } else {
 
         }

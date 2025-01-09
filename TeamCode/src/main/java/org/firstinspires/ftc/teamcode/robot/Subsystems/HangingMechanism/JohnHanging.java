@@ -52,7 +52,7 @@ public class JohnHanging extends Subsystem {
                 rightHang.setPower(calculateRightHangP(readySecondHang));
                 break;
             case FIRSTHANG:
-                rightHang.setPower(calculateRightHangP(firstHang) + kG);
+                rightHang.setPower(calculateRightHangP(firstHang)+kG);
                 break;
             case SECONDHANG:
                 rightHang.setPower(calculateRightHangP(secondHang)+kG);
