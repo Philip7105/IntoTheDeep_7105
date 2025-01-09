@@ -59,11 +59,16 @@ public class VerticalSlides extends Subsystem {
     public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
-        if (opMode == Robot.OpMode.Auto && ref != 0 && holdPos){
+        Dashboard.addData("touchsensor",touchSensorIsPressed());
+        if (opMode == Robot.OpMode.Auto && !touchSensorIsPressed() && holdPos){
             leftslide.setPower(.128);
             rightslide.setPower(.128);
-        } else if (opMode == Robot.OpMode.Auto && ref == 0){
+        } else if (opMode == Robot.OpMode.Auto && touchSensorIsPressed()){
+            resetSlides();
             zeroPower();
+        }else if (opMode == Robot.OpMode.Auto && ref == 0 && !touchSensorIsPressed()){
+            leftslide.setPower(-.128);
+            rightslide.setPower(-.128);
         } else {
 
         }
@@ -162,10 +167,7 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void resetSlides(){
-//        slidepos = 0;
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rightslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 }
