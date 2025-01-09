@@ -111,8 +111,9 @@ public class VerticalSlides extends Subsystem {
 
 
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
+        //TODO: Test the slides to see if they weren't working because we didnt have "ref == 0" in the first if statement
 //        inputmanual = input;
-        if (input.isRightBumperPressed()){
+        if (input.isRightBumperPressed() && ref == 0){
             ref = lowchamber;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
         }  else if (input.isLeftBumperPressed() && ref == lowchamber){
@@ -130,6 +131,8 @@ public class VerticalSlides extends Subsystem {
         } else if (input.isLeftBumperPressed() && ref == highbasket){
             ref = lowbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (ref == 0 && !touchSensorIsPressed()) {
+            setPower(-.3);
         } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
@@ -140,7 +143,6 @@ public class VerticalSlides extends Subsystem {
         }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
-//            setPower(.075);
             leftslide.setPower(.128);
             rightslide.setPower(.128);
             driveSpeed = DriveTrain.DriveSpeed.Slow;
