@@ -10,7 +10,7 @@ public class MoveLeftHang extends Command {
     JohnHanging hanging;
     JohnHanging.LeftHangStates leftHangStates,nextHangState;
     double ref;
-    boolean complete;
+    boolean complete = false;
 
     public MoveLeftHang(JohnHanging hanging, JohnHanging.LeftHangStates leftHangStates, JohnHanging.LeftHangStates nextHangState, double ref){
         this.hanging = hanging;
@@ -22,13 +22,13 @@ public class MoveLeftHang extends Command {
     @Override
     public void init() {
         complete = false;
-        if (leftHangStates == JohnHanging.LeftHangStates.READYFIRSTHANG&& JohnHanging.leftReadyFirstHangDone){
-            leftHangStates = JohnHanging.LeftHangStates.READYSECONDHANG;
-            ref = readySecondHang;
-        } else if (leftHangStates == JohnHanging.LeftHangStates.FIRSTHANG && JohnHanging.leftFirstHangDone) {
-            leftHangStates = JohnHanging.LeftHangStates.SECONDHANG;
-            ref = secondHang;
-        }
+//        if (leftHangStates == JohnHanging.LeftHangStates.READYFIRSTHANG&& JohnHanging.leftReadyFirstHangDone){
+//            leftHangStates = JohnHanging.LeftHangStates.READYSECONDHANG;
+//            ref = readySecondHang;
+//        } else if (leftHangStates == JohnHanging.LeftHangStates.FIRSTHANG && JohnHanging.leftFirstHangDone) {
+//            leftHangStates = JohnHanging.LeftHangStates.SECONDHANG;
+//            ref = secondHang;
+//        }
     }
 
     @Override
@@ -48,11 +48,11 @@ public class MoveLeftHang extends Command {
 
     @Override
     public void shutdown() {
-        if (leftHangStates == JohnHanging.LeftHangStates.READYFIRSTHANG && !JohnHanging.leftReadyFirstHangDone){
-            JohnHanging.leftReadyFirstHangDone = true;
-        } else if (leftHangStates == JohnHanging.LeftHangStates.FIRSTHANG &&!JohnHanging.leftFirstHangDone) {
-            JohnHanging.leftFirstHangDone = true;
-        }
+//        if (leftHangStates == JohnHanging.LeftHangStates.READYFIRSTHANG && !JohnHanging.leftReadyFirstHangDone){
+//            JohnHanging.leftReadyFirstHangDone = true;
+//        } else if (leftHangStates == JohnHanging.LeftHangStates.FIRSTHANG &&!JohnHanging.leftFirstHangDone) {
+//            JohnHanging.leftFirstHangDone = true;
+//        }
         hanging.setLeftHang(nextHangState);
     }
 }

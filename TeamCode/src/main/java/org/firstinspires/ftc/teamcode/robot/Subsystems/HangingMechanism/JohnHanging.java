@@ -14,7 +14,7 @@ public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
 
-    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 5000, kP = 0, kG = 0;
+    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0;
     public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -37,6 +37,7 @@ public class JohnHanging extends Subsystem {
     public void periodic() {
         Dashboard.addData("lefthangpos",getLeftHangPos());
         Dashboard.addData("righthangpos",getRightHangPos());
+        Dashboard.addData("getHangPow",);
     }
 
     @Override
@@ -97,6 +98,7 @@ public class JohnHanging extends Subsystem {
         rightHang.setPower(power);
         leftHang.setPower(power);
     }
+
     public double getLeftHangError(double ref){
         return ref - getLeftHangPos();
     }
@@ -107,7 +109,7 @@ public class JohnHanging extends Subsystem {
         return leftHang.getCurrentPosition();
     }
     public double getRightHangPos(){
-        return leftHang.getCurrentPosition();
+        return rightHang.getCurrentPosition();
     }
     public enum LeftHangStates {
         READYFIRSTHANG,

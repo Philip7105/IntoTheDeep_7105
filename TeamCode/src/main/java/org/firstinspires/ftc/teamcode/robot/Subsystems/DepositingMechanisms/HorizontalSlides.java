@@ -39,11 +39,11 @@ public class HorizontalSlides extends Subsystem {
 
     @Override
     public void shutdown() {
-        setHorizontalSlides(HorizontalSlideStates.SHUTOFF);
+//        setHorizontalSlides(HorizontalSlideStates.SHUTOFF);
     }
 
     public double getSlidePos(){
-        return slideAnalog.getVoltage() / 3.3 * 360;
+        return getVoltage() / 3.3 * 360;
     }
 
     public double getVoltage(){

@@ -33,7 +33,7 @@ public class ClipMech extends Subsystem {
 
     @Override
     public void periodic() {
-        Dashboard.addData("clipmagpos",getClipMagPos());
+//        Dashboard.addData("clipmagpos",getClipMagPos());
     }
 
     public double getClipMagPos(){

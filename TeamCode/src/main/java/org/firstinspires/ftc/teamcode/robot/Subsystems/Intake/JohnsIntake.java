@@ -21,7 +21,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double basketpos = .64, chamberpos = .68, down = 0.15,parallel = .26,lowerpickup = .13;//.78  .155
+    public static double basketpos = .64, chamberpos = .68, down = 0.15,parallel = .26,lowerpickup = .13,intakeSpeed = 1,outtake = -.3;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -123,12 +123,12 @@ public class JohnsIntake extends Subsystem {
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
             case intake:
-                rightintake.setPower(1);
-                leftintake.setPower(1);
+                rightintake.setPower(intakeSpeed);
+                leftintake.setPower(intakeSpeed);
                 break;
             case outtake:
-                rightintake.setPower(-.3);
-                leftintake.setPower(-.3);
+                rightintake.setPower(outtake);
+                leftintake.setPower(outtake);
                 break;
             case stop:
                 rightintake.setPower(0);

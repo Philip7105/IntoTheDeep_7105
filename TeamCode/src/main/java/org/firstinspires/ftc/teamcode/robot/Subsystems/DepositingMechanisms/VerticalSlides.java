@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
@@ -27,6 +28,7 @@ public class VerticalSlides extends Subsystem {
     public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 15, autoGreaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
+    ElapsedTime time = new ElapsedTime();
 
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
@@ -136,7 +138,7 @@ public class VerticalSlides extends Subsystem {
         } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
-            resetSlides();
+            resetSlidesWithTimer();
             driveSpeed = DriveTrain.DriveSpeed.Fast;
             holdPos = false;
             zeroPower();
@@ -171,5 +173,12 @@ public class VerticalSlides extends Subsystem {
     public void resetSlides(){
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void resetSlidesWithTimer(){
+        if (time.seconds() > 1.5){
+            time.reset();
+        leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
     }
 }
