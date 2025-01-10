@@ -37,7 +37,7 @@ public class JohnHanging extends Subsystem {
     public void periodic() {
         Dashboard.addData("lefthangpos",getLeftHangPos());
         Dashboard.addData("righthangpos",getRightHangPos());
-        Dashboard.addData("getHangPow",);
+        Dashboard.addData("getHangPow",getPower());
     }
 
     @Override
@@ -97,6 +97,10 @@ public class JohnHanging extends Subsystem {
     public void setPower(double power){
         rightHang.setPower(power);
         leftHang.setPower(power);
+    }
+
+    public double getPower(){
+        return leftHang.getPower();
     }
 
     public double getLeftHangError(double ref){
