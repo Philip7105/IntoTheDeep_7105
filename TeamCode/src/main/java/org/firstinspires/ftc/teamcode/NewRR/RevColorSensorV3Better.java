@@ -57,9 +57,9 @@ import java.util.Locale;
  */
 @SuppressWarnings("WeakerAccess")
 @I2cDeviceType
-@DeviceProperties(name = "@string/rev_color_sensor_v3_name",
-        description = "@string/rev_color_sensor_v3_description",
-        xmlTag = "RevColorSensorV3",
+@DeviceProperties(name = "@string/rev_color_sensor_v3_better_name",
+        description = "@string/rev_color_sensor_v3_better_description",
+        xmlTag = "RevColorSensorV3Better",
         compatibleControlSystems = ControlSystem.REV_HUB, builtIn = true)
 public class RevColorSensorV3Better extends BroadcomColorSensorImpl implements DistanceSensor, OpticalDistanceSensor, ColorRangeSensor
 {
