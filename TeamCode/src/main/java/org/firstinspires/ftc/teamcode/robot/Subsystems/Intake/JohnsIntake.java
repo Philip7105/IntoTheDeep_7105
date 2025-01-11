@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -21,7 +22,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double basketpos = .64, chamberpos = .68, down = 0.15,parallel = .26,lowerpickup = .13,intakeSpeed = 1,outtake = -.3;//.78  .155
+    public static double clamp = .77, unclamp = .23,basketpos = .64, chamberpos = .68, down = 0.14,parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -99,10 +100,14 @@ public class JohnsIntake extends Subsystem {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setGripper(GripperStates.unclamp);
             setIntake(JohnsIntake.IntakeStates.outtake);
-        } else if (input.isRight_trigger_press()) {
+        } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            setIntake(IntakeStates.intakeslow);
+            setPivotStates(PivotStates.slightly_lower_pickup);
+        } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == fullout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(JohnsIntake.IntakeStates.intake);
-            setArmStates(JohnsIntake.PivotStates.forward);
+            setPivotStates(JohnsIntake.PivotStates.forward);
         }
 //        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
 //            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
@@ -112,7 +117,7 @@ public class JohnsIntake extends Subsystem {
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setArmStates(JohnsIntake.PivotStates.parallel);
+            setPivotStates(JohnsIntake.PivotStates.parallel);
             setIntake(JohnsIntake.IntakeStates.stop);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
@@ -125,6 +130,10 @@ public class JohnsIntake extends Subsystem {
             case intake:
                 rightintake.setPower(intakeSpeed);
                 leftintake.setPower(intakeSpeed);
+                break;
+            case intakeslow:
+                rightintake.setPower(intakeSlow);
+                leftintake.setPower(intakeSlow);
                 break;
             case outtake:
                 rightintake.setPower(outtake);
@@ -140,15 +149,15 @@ public class JohnsIntake extends Subsystem {
     public void setGripper(GripperStates gripperStates) {
         switch (gripperStates){
             case unclamp:
-                gripper.setPosition(.23);
+                gripper.setPosition(unclamp);
                 break;
             case clamp:
-                gripper.setPosition(.77);
+                gripper.setPosition(clamp);
                 break;
         }
     }
 
-    public void setArmStates(PivotStates pivotStates){
+    public void setPivotStates(PivotStates pivotStates){
         switch (pivotStates){
             case forward:
                 rightarm.setPosition(down); // 121
@@ -199,6 +208,7 @@ public class JohnsIntake extends Subsystem {
 
     public enum IntakeStates{
         intake,
+        intakeslow,
         outtake,
         stop
     }

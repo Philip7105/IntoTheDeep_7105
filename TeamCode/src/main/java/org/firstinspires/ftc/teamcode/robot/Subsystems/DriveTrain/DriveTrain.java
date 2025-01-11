@@ -56,7 +56,15 @@ public class DriveTrain extends Subsystem {
                    ),
                    -input.getRight_stick_x() *.3
            ));
-           }
+           }else if (driveSpeed == DriveSpeed.MEDIUM) {
+           mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                   new Vector2d(
+                           -input.getLeft_stick_y() * .6,
+                           -input.getLeft_stick_x() * .6
+                   ),
+                   -input.getRight_stick_x() *.6
+           ));
+       }
        }
 
     public void setPoseEstimate(Vector2d vector2d, Rotation2d heading){
@@ -116,6 +124,7 @@ public class DriveTrain extends Subsystem {
 
     public enum DriveSpeed{
         Fast,
-        Slow
+        Slow,
+        MEDIUM
     }
 }

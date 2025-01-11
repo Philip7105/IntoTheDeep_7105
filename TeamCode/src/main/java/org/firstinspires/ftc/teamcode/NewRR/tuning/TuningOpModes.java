@@ -79,7 +79,6 @@ public final class TuningOpModes {
                     );
                 };
         } else if (DRIVE_CLASS.equals(MecanumDrive.class)) {
-            Action[] actions = new Action[1];
             dvf = hardwareMap -> {
                 MecanumDrive md = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 

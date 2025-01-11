@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -36,7 +34,7 @@ public class MovePivotAction implements Action {
     @Override
     public boolean run(TelemetryPacket telemetryPacket) {
         init();
-        johnsIntake.setArmStates(pivotStates);
+        johnsIntake.setPivotStates(pivotStates);
         if (timer.seconds() > 1){
             return false;
         }

@@ -74,8 +74,12 @@ public class ScoringCommandGroups {
         return new MultipleCommand(slidesSetPos(verticalSlidesTarget),extendHorizontalSlides_VerticalSlides(clipstate,horizontalstate,target,armstate));
     }
 
-    public Command armOutBack(){
-        return new MultipleCommand(movePivotJohn(JohnsIntake.PivotStates.basketpos));
+    public Command armChamberPos(){
+        return movePivotJohn(JohnsIntake.PivotStates.chamberpos);
+    }
+
+    public Command armBasketPos(){
+        return movePivotJohn(JohnsIntake.PivotStates.basketpos);
     }
 
     public Command armOutFront(){

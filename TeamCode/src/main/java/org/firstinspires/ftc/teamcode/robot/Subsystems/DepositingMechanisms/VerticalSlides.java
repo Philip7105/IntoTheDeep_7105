@@ -66,7 +66,7 @@ public class VerticalSlides extends Subsystem {
             leftslide.setPower(.128);
             rightslide.setPower(.128);
         } else if (opMode == Robot.OpMode.Auto && touchSensorIsPressed()){
-            resetSlides();
+            resetSlidesWithTimer();
             zeroPower();
         }else if (opMode == Robot.OpMode.Auto && ref == 0 && !touchSensorIsPressed()){
             leftslide.setPower(-.3);
@@ -147,7 +147,7 @@ public class VerticalSlides extends Subsystem {
         ){
             leftslide.setPower(.128);
             rightslide.setPower(.128);
-            driveSpeed = DriveTrain.DriveSpeed.Slow;
+            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
         }
 //        else if (input.isRightStickButtonPressed()){
 //            ref = hangPos;

@@ -21,7 +21,7 @@ public class MoveArmJohn extends Command {
     @Override
     public void init() {
         timer.reset();
-        johnsIntake.setArmStates(pivotStates);
+        johnsIntake.setPivotStates(pivotStates);
     }
 
     @Override
