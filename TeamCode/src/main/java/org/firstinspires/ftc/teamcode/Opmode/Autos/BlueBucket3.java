@@ -30,7 +30,7 @@ public class BlueBucket3 extends BaseAuto {
                 .addNext(new Delay(.5))
                 .addNext(new MultipleCommand(groups.moveIntake(JohnsIntake.IntakeStates.outtake)))
                 .addNext(new Delay(.2))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveIntakeAction(JohnsIntake.IntakeStates.stop),robot.driveTrain.strafeToLinearHeading(new Vector2d(57,55),Math.toRadians(225),new Vector2d(52.3,56),Math.toRadians(225)),groups.moveVerticalSlidesAction(0,autoTolerance),groups.movePivotAction(JohnsIntake.PivotStates.parallel)}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveIntakeAction(JohnsIntake.IntakeStates.stop),robot.driveTrain.strafeToLinearHeading(new Vector2d(57,55),Math.toRadians(225),new Vector2d(52.3,56),Math.toRadians(225)),groups.moveVerticalSlidesAction(0,autoTolerance),groups.movePivotAction(JohnsIntake.PivotStates.parallel)}));
 //                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(52.3, 56), Math.toRadians(225),new Vector2d(48.2,48.5),Math.toRadians(270))}))
 //                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.fullExtendHorizontalSLidesAction(),groups.moveIntakeAction(JohnsIntake.IntakeStates.intake),groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)}))
 //                .addNext(new Delay(1))

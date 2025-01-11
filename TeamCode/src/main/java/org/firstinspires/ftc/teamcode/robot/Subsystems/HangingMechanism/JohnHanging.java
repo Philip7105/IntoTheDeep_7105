@@ -14,7 +14,7 @@ public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
 
-    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0;
+    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 4000, kP = 0.007, kG = -0.161;
     public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {

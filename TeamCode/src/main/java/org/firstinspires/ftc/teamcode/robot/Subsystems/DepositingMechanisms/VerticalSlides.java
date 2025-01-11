@@ -25,7 +25,7 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 15, autoGreaterTolerance = 30;
+    public static double kG = .128,lowchamber = 1605, lowbasket = 2400, hangPos = 2900, highbasket =4010, ref = 0, down = -.3,calculate,autoTolerance = 15, autoGreaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
@@ -33,10 +33,6 @@ public class VerticalSlides extends Subsystem {
     public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
 
     BasicPID controller = new BasicPID(coefficients);
-
-    public static double getslideposrr;
-
-    double calculate;
 
     Robot.OpMode opMode;
 
@@ -87,6 +83,12 @@ public class VerticalSlides extends Subsystem {
         rightslide.setPower(calculate);
     }
 
+    public void pidfController(){
+        calculate = controller.calculate(ref,getSlidesPos());
+        leftslide.setPower(calculate + kG);
+        rightslide.setPower(calculate+kG);
+    }
+
     public void getAndSetPower(){
         double getPow = leftslide.getPower();
         leftslide.setPower(getPow);
@@ -113,7 +115,6 @@ public class VerticalSlides extends Subsystem {
 
 
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
-        //TODO: Test the slides to see if they weren't working because we didnt have "ref == 0" in the first if statement
 //        inputmanual = input;
         if (input.isRightBumperPressed() && ref == 0){
             ref = lowchamber;
@@ -133,6 +134,11 @@ public class VerticalSlides extends Subsystem {
         } else if (input.isLeftBumperPressed() && ref == highbasket){
             ref = lowbasket;
             robot.getScheduler().forceCommand(groups.slidesTeleop());
+        }  else if (input.isRightStickButtonPressed()) {
+            ref = hangPos;
+            robot.getScheduler().forceCommand(groups.slidesTeleop());
+        } else if (input.getLeft_stick_y()> .7) {
+            setPower(-1);
         } else if (ref == 0 && !touchSensorIsPressed()) {
             setPower(-.3);
         } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
@@ -145,8 +151,8 @@ public class VerticalSlides extends Subsystem {
         }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
-            leftslide.setPower(.128);
-            rightslide.setPower(.128);
+            leftslide.setPower(kG);
+            rightslide.setPower(kG);
             driveSpeed = DriveTrain.DriveSpeed.Slow;
         }
 //        else if (input.isRightStickButtonPressed()){
@@ -164,10 +170,6 @@ public class VerticalSlides extends Subsystem {
 
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
-    }
-
-    public void getSlidePosRR(){
-        getslideposrr = leftslide.getCurrentPosition();
     }
 
     public void resetSlides(){

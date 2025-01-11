@@ -164,6 +164,10 @@ public class ScoringCommandGroups {
         return new MultipleCommand(new MoveLeftHang(hang,lHangState,lEndHangState,ref), new MoveRightHang(hang,rHangState,rEndHangState,ref));
     }
 
+    public Command moveHangTakeTwo(JohnHanging.LeftHangStates lHangState, JohnHanging.LeftHangStates lEndHangState, JohnHanging.RightHangStates rHangState, JohnHanging.RightHangStates rEndHangState, double ref){
+        return new MultipleCommand(new MoveLeftHang(hang,lHangState,lEndHangState,ref), new MoveRightHang(hang,rHangState,rEndHangState,ref));
+    }
+
 //    public Command pullUp(){
 //        return new MoveHang(hang, foldpower, readyFirstHang);
 //    }

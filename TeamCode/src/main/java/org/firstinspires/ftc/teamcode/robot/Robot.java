@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHang
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.LimeLight;
 
-/** sets up the framework for the robt
+/** sets up the framework for the robot
  */
 
 public class Robot {

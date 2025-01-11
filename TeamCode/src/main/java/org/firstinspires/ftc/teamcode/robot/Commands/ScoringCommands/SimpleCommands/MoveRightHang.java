@@ -22,13 +22,13 @@ public class MoveRightHang extends Command {
     @Override
     public void init() {
         complete = false;
-//        if (rightHangStates == JohnHanging.RightHangStates.READYFIRSTHANG&& JohnHanging.rightReadyFirstHangDone){
-//            rightHangStates = JohnHanging.RightHangStates.READYSECONDHANG;
-//            ref = readySecondHang;
-//        } else if (rightHangStates == JohnHanging.RightHangStates.FIRSTHANG && JohnHanging.rightFirstHangDone) {
-//            rightHangStates = JohnHanging.RightHangStates.SECONDHANG;
-//            ref = secondHang;
-//        }
+        if (rightHangStates == JohnHanging.RightHangStates.READYFIRSTHANG&& JohnHanging.rightReadyFirstHangDone){
+            rightHangStates = JohnHanging.RightHangStates.READYSECONDHANG;
+            ref = readySecondHang;
+        } else if (rightHangStates == JohnHanging.RightHangStates.FIRSTHANG && JohnHanging.rightFirstHangDone) {
+            rightHangStates = JohnHanging.RightHangStates.SECONDHANG;
+            ref = secondHang;
+        }
     }
 
     @Override
@@ -48,11 +48,11 @@ public class MoveRightHang extends Command {
 
     @Override
     public void shutdown() {
-//        if (rightHangStates == JohnHanging.RightHangStates.READYFIRSTHANG && !JohnHanging.rightReadyFirstHangDone){
-//            JohnHanging.rightReadyFirstHangDone = true;
-//        } else if (rightHangStates == JohnHanging.RightHangStates.FIRSTHANG &&!JohnHanging.rightFirstHangDone) {
-//            JohnHanging.rightFirstHangDone = true;
-//        }
+        if (rightHangStates == JohnHanging.RightHangStates.READYFIRSTHANG && !JohnHanging.rightReadyFirstHangDone){
+            JohnHanging.rightReadyFirstHangDone = true;
+        } else if (rightHangStates == JohnHanging.RightHangStates.FIRSTHANG &&!JohnHanging.rightFirstHangDone) {
+            JohnHanging.rightFirstHangDone = true;
+        }
         hanging.setRightHang(nextHangState);
     }
 }
