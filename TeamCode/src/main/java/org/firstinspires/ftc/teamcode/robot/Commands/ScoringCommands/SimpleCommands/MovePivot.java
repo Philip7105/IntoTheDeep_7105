@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
 
-public class MoveArmJohn extends Command {
+public class MovePivot extends Command {
 
     ElapsedTime timer = new ElapsedTime();
 
@@ -14,7 +14,7 @@ public class MoveArmJohn extends Command {
 
     JohnsIntake.PivotStates pivotStates;
 
-    public MoveArmJohn(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates){
+    public MovePivot(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates){
         this.johnsIntake = johnsIntake;
         this.pivotStates = pivotStates;
     }
