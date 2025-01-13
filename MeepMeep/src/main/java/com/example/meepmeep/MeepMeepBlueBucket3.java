@@ -19,10 +19,10 @@ public class MeepMeepBlueBucket3 extends MeepMeep {
                 .setConstraints(60, 30, Math.toRadians(180), Math.toRadians(180), 16.5)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(32, 60, Math.toRadians(270)))
-                .strafeToLinearHeading(new Vector2d(48.2,47), Math.toRadians(270))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(57,55), Math.toRadians(225))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(32, 62, Math.toRadians(0)))
+//                .strafeToLinearHeading(new Vector2d(48.2,47), Math.toRadians(270))
+//                .waitSeconds(1)
+                .strafeToLinearHeading(new Vector2d(57,55), Math.toRadians(45))
                 .waitSeconds(1)
                 .strafeToLinearHeading(new Vector2d(58.2,47), Math.toRadians(270))
                 .waitSeconds(1)

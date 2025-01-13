@@ -53,9 +53,6 @@ import java.util.List;
 
 @Config
 public class MecanumDrive {
-//    public Action FollowTrajectoryActionBetter;
-//    Action[] actions;
-//    VerticalSlides verticalSlides;
 
     public static class Params {
         // IMU orientation
@@ -68,18 +65,18 @@ public class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = 1; // If you're using OTOS/Pinpoint leave this at 1 (all values will be in inches, 1 tick = 1 inch)
-        public double lateralInPerTick = 0.6891654965529216; // Tune this with LateralRampLogger (even if you use OTOS/Pinpoint)
-        public double trackWidthTicks = 11.392033721045612;
+        public double lateralInPerTick = 0.6940264664151613; // Tune this with LateralRampLogger (even if you use OTOS/Pinpoint)
+        public double trackWidthTicks = 11.392033721045612; //-20.795056531096996
 
         // feedforward parameters (in tick units)
-        public double kS = 1.775849868675;
-        public double kV = 0.2044261508718;
+        public double kS = 1.775849868675; // 1.7902867024820908
+        public double kV = 0.2044261508718; //0.20366663268399496
         public double kA = 0.005;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 70;
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public double maxWheelVel = 70; // 60
+        public double minProfileAccel = -30; // -45
+        public double maxProfileAccel = 50; //60
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path

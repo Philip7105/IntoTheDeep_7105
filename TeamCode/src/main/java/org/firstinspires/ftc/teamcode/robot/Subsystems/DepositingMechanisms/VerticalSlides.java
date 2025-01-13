@@ -5,7 +5,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTr
 import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
 import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -14,7 +13,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
@@ -25,7 +23,7 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3,autoTolerance = 15, autoGreaterTolerance = 30;
+    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
@@ -66,7 +64,7 @@ public class VerticalSlides extends Subsystem {
             leftslide.setPower(.128);
             rightslide.setPower(.128);
         } else if (opMode == Robot.OpMode.Auto && touchSensorIsPressed()){
-            resetSlides();
+            resetSlidesWithTimer();
             zeroPower();
         }else if (opMode == Robot.OpMode.Auto && ref == 0 && !touchSensorIsPressed()){
             leftslide.setPower(-.3);
@@ -147,7 +145,7 @@ public class VerticalSlides extends Subsystem {
         ){
             leftslide.setPower(.128);
             rightslide.setPower(.128);
-            driveSpeed = DriveTrain.DriveSpeed.Slow;
+            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
         }
 //        else if (input.isRightStickButtonPressed()){
 //            ref = hangPos;

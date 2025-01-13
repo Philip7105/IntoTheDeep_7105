@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetGrip
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetPivotAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.Delay;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveArmJohn;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MovePivot;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveGripper;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveGripperAction;
@@ -59,7 +59,7 @@ public class ScoringCommandGroups {
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp), movePivotJohn(JohnsIntake.PivotStates.chamberpos),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp), movePivot(JohnsIntake.PivotStates.chamberpos),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
     }
 
     public Command slidesTeleop(){
@@ -74,17 +74,21 @@ public class ScoringCommandGroups {
         return new MultipleCommand(slidesSetPos(verticalSlidesTarget),extendHorizontalSlides_VerticalSlides(clipstate,horizontalstate,target,armstate));
     }
 
-    public Command armOutBack(){
-        return new MultipleCommand(movePivotJohn(JohnsIntake.PivotStates.basketpos));
+    public Command armChamberPos(){
+        return movePivot(JohnsIntake.PivotStates.chamberpos);
+    }
+
+    public Command armBasketPos(){
+        return movePivot(JohnsIntake.PivotStates.basketpos);
     }
 
     public Command armOutFront(){
-        return new MultipleCommand(movePivotJohn(JohnsIntake.PivotStates.forward),moveGripper(JohnsIntake.GripperStates.clamp));
+        return new MultipleCommand(movePivot(JohnsIntake.PivotStates.forward),moveGripper(JohnsIntake.GripperStates.clamp));
     }
 
 
-    public Command movePivotJohn(JohnsIntake.PivotStates pivotStates){
-        return new MoveArmJohn(this.intake, pivotStates);
+    public Command movePivot(JohnsIntake.PivotStates pivotStates){
+        return new MovePivot(this.intake, pivotStates);
     }
 
     public Command moveIntake(JohnsIntake.IntakeStates intakeStates){
@@ -104,7 +108,7 @@ public class ScoringCommandGroups {
     }
 
     public Command clipClip(){
-        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivotJohn(JohnsIntake.PivotStates.preauto_clip),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)).addNext(movePivotJohn(JohnsIntake.PivotStates.posauto_clip).addNext(moveGripper(JohnsIntake.GripperStates.unclamp))));
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivot(JohnsIntake.PivotStates.preauto_clip),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)).addNext(movePivot(JohnsIntake.PivotStates.posauto_clip).addNext(moveGripper(JohnsIntake.GripperStates.unclamp))));
     }
 
     public Command extendHorizontalSLides(){
@@ -113,11 +117,11 @@ public class ScoringCommandGroups {
     }
 
     public Command extendHorizontalSlides_VerticalSlides(ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.PivotStates armstate){
-        return new MultipleCommand(moveClipMag(clipstate),new Delay(.4).addNext(moveHorizontalSlides(horizontalstate,target)).addNext(movePivotJohn(armstate)));
+        return new MultipleCommand(moveClipMag(clipstate),new Delay(.4).addNext(moveHorizontalSlides(horizontalstate,target)).addNext(movePivot(armstate)));
     }
 
     public Command bringInHorizontalSLidesBetter(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivotJohn(JohnsIntake.PivotStates.parallel));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivot(JohnsIntake.PivotStates.parallel));
     }
 
     public Command moveClipMag(ClipMech.ArmStates armstates){

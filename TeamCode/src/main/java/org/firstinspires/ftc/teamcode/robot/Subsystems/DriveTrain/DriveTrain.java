@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
@@ -10,7 +9,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.CommandFrameWork.BetterParallelAction;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
@@ -56,7 +54,15 @@ public class DriveTrain extends Subsystem {
                    ),
                    -input.getRight_stick_x() *.3
            ));
-           }
+           }else if (driveSpeed == DriveSpeed.MEDIUM) {
+           mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                   new Vector2d(
+                           -input.getLeft_stick_y() * .6,
+                           -input.getLeft_stick_x() * .6
+                   ),
+                   -input.getRight_stick_x() *.6
+           ));
+       }
        }
 
     public void setPoseEstimate(Vector2d vector2d, Rotation2d heading){
@@ -79,13 +85,6 @@ public class DriveTrain extends Subsystem {
         return mecanumDrive.pose.heading;
     }
 
-    public double getHeadingPinPoint(){
-        return Math.toRadians(mecanumDrive.pinpoint.getHeading());
-    }
-
-    public double getHeadingDouble(){
-        return getHeading().toDouble();
-    }
     public double getHeadingFixed(){
         return Math.toDegrees(getHeading().toDouble());
     }
@@ -97,7 +96,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public Action strafeToLinearHeadingWithMarker(Vector2d targetVec, Rotation2d targetHeading,double markerX,Action[] actions) {
-        return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeading()))
+        return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeadingFixed()))
                 .strafeToLinearHeading(targetVec, targetHeading)
 //                .afterDisp(markerX,(actions))
                 .build();
@@ -116,6 +115,7 @@ public class DriveTrain extends Subsystem {
 
     public enum DriveSpeed{
         Fast,
-        Slow
+        Slow,
+        MEDIUM
     }
 }
