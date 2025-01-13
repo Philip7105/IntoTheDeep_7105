@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems;
 
 import com.ThermalEquilibrium.homeostasis.Utils.MathUtils;
 //import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -63,15 +62,13 @@ public class LimeLight extends Subsystem {
         y = (getBotY() * 39.24964035808);
     }
 
-    public double AngleWrap(double pos,double offset){
+    public double angleWrap(double pos, double offset){
         return MathUtils.AngleWrap(pos+offset);
     }
 
     public double getBotHeading(){
         return result.getBotpose_MT2().getOrientation().getYaw();
     }
-
-
     public double getBotX(){
         return result.getBotpose_MT2().getPosition().x;
     }
