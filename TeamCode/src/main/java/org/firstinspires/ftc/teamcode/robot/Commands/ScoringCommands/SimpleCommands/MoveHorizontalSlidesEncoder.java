@@ -20,7 +20,6 @@ public class MoveHorizontalSlidesEncoder extends Command {
     @Override
     public void init() {
         horizontalslides.setHorizontalSlides(horizontalslidestates);
-//        horizontalslides.setPosition(target);
     }
 
     @Override
