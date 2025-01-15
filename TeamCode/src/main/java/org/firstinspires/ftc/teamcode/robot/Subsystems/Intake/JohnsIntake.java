@@ -139,6 +139,10 @@ public class JohnsIntake extends Subsystem {
                 rightintake.setPower(outtake);
                 leftintake.setPower(outtake);
                 break;
+            case outtakeauto:
+                rightintake.setPower(-.7);
+                leftintake.setPower(-.7);
+                break;
             case stop:
                 rightintake.setPower(0);
                 leftintake.setPower(0);
@@ -210,6 +214,7 @@ public class JohnsIntake extends Subsystem {
         intake,
         intakeslow,
         outtake,
+        outtakeauto,
         stop
     }
     public enum GripperStates{

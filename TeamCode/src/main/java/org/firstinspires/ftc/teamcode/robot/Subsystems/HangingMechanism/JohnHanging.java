@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
@@ -14,7 +15,7 @@ public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
 
-    public static double readyFirstHang = 2817.0, firstHang = 1844, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0;
+    public static double readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .2;
     public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -93,6 +94,11 @@ public class JohnHanging extends Subsystem {
     }
     public double calculateRightHangP(double ref){
         return getRightHangError(ref) * kP;
+    }
+
+    public void manualHang(Input input){
+        setPower(manualPowerMultiplier * input.getRight_trigger_value());
+        setPower(-manualPowerMultiplier * input.getLeft_trigger_value());
     }
     public void setPower(double power){
         rightHang.setPower(power);

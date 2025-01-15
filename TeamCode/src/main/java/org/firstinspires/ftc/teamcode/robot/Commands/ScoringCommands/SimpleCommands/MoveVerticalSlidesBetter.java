@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
@@ -33,7 +32,7 @@ public class MoveVerticalSlidesBetter extends Command {
 
     @Override
     public void periodic() {
-        verticalSlides.pidController();
+        verticalSlides.pdController();
     }
 
     @Override

@@ -131,8 +131,13 @@ public class ScoringCommandGroups {
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
 
     public Action fullExtendHorizontalSLidesAction(){
-        return new ParallelAction(moveGripperAction(JohnsIntake.GripperStates.unclamp),
-                delayAction(.1, moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos)));
+        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos),
+                delayAction(.15, moveGripperAction(JohnsIntake.GripperStates.unclamp)));
+    }
+
+    public Action halfextendHorizontalSLidesAction(){
+        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),
+                delayAction(.15, moveGripperAction(JohnsIntake.GripperStates.unclamp)));
     }
 
 
