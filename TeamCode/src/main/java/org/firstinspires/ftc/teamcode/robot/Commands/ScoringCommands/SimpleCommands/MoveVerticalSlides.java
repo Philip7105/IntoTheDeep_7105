@@ -29,7 +29,7 @@ Input input;
     public void periodic() {
 //        verticalSlides.updatePos(input);
         if (Math.abs(verticalSlides.getSlidesError()) > 20){
-            verticalSlides.pidController();
+            verticalSlides.pdController();
         } else if ( verticalSlides.ref == 0) {
 //            verticalSlides.getAndSetPower();
             verticalSlides.zeroPower();

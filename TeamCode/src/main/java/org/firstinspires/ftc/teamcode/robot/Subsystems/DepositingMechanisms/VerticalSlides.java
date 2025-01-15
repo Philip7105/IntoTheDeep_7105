@@ -2,8 +2,7 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
 
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
 
-import com.ThermalEquilibrium.homeostasis.Controllers.Feedback.BasicPID;
-import com.ThermalEquilibrium.homeostasis.Parameters.PIDCoefficients;
+import org.firstinspires.ftc.teamcode.Control.PDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -12,6 +11,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Control.PDController;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -23,25 +23,16 @@ public class VerticalSlides extends Subsystem {
 
     DcMotor rightslide,leftslide;
 
-    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030, highbasket =4010, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
+    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030,getslideposrr,calculate, highbasket =4010, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
-
-    public static PIDCoefficients coefficients = new PIDCoefficients(.008,0,.000000000002);
-
-    BasicPID controller = new BasicPID(coefficients);
-
-    public static double getslideposrr;
-
-    double calculate;
-
+    public static PDCoefficients coefficients = new PDCoefficients(.008,.000000000002);
+    PDController controller = new PDController(coefficients);
     Robot.OpMode opMode;
-
     public VerticalSlides(Robot.OpMode opMode){
         this.opMode = opMode;
     }
-
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
@@ -49,12 +40,9 @@ public class VerticalSlides extends Subsystem {
         verticalSlidesTouchSensor = hwMap.get(TouchSensor.class,"verticalslidestouchsensor");
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");
-
         rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
-
         resetSlides();
     }
-
     @Override
     public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
@@ -70,33 +58,25 @@ public class VerticalSlides extends Subsystem {
             leftslide.setPower(-.3);
             rightslide.setPower(-.3);
         } else {
-
         }
     }
-
     @Override
     public void shutdown() {
-
     }
-
-    public void pidController(){
+    public void pdController(){
         calculate = controller.calculate(ref,getSlidesPos());
         leftslide.setPower(calculate);
         rightslide.setPower(calculate);
     }
-
     public void getAndSetPower(){
         double getPow = leftslide.getPower();
         leftslide.setPower(getPow);
         rightslide.setPower(getPow);
     }
-
     public void zeroPower(){
         leftslide.setPower(0);
         rightslide.setPower(0);
     }
-
-
     public void setPower(double power){
         leftslide.setPower(power);
         rightslide.setPower(power);
@@ -104,12 +84,9 @@ public class VerticalSlides extends Subsystem {
     public double getSlidesError(){
         return ref - getSlidesPos();
     }
-
     public boolean touchSensorIsPressed(){
         return verticalSlidesTouchSensor.isPressed();
     }
-
-
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
         //TODO: Test the slides to see if they weren't working because we didnt have "ref == 0" in the first if statement
 //        inputmanual = input;
@@ -159,20 +136,16 @@ public class VerticalSlides extends Subsystem {
          //   rightslide.setPower(down);
      //   }
     }
-
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
     }
-
     public void getSlidePosRR(){
         getslideposrr = leftslide.getCurrentPosition();
     }
-
     public void resetSlides(){
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
-
     public void resetSlidesWithTimer(){
         if (time.seconds() > 1.5){
             time.reset();

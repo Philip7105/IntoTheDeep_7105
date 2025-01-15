@@ -25,7 +25,7 @@ public class MoveVerticalSlidesAction implements Action {
         telemetryPacket = packet;
         VerticalSlides.holdPos = false;
         VerticalSlides.ref = ref;
-        verticalSlides.pidController();
+        verticalSlides.pdController();
         if (Math.abs(verticalSlides.getSlidesError()) < tolerance){
             return false;
         }
