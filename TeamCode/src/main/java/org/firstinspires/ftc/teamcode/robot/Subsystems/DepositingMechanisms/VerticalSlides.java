@@ -20,19 +20,13 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class VerticalSlides extends Subsystem {
-
     DcMotor rightslide,leftslide;
-
-    public static double  lowchamber = 1605, lowbasket = 2400, hangPos = 2030,getslideposrr,calculate, highbasket =4010, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
+    public static double  lowchamber = 2650, lowbasket = 3500, hangPos = 2030,getslideposrr,calculate, highbasket =5700, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
     public static PDCoefficients coefficients = new PDCoefficients(.008,.000000000002);
     PDController controller = new PDController(coefficients);
-    Robot.OpMode opMode;
-    public VerticalSlides(Robot.OpMode opMode){
-        this.opMode = opMode;
-    }
     @Override
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
@@ -48,17 +42,6 @@ public class VerticalSlides extends Subsystem {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("touchsensor",touchSensorIsPressed());
-        if (opMode == Robot.OpMode.Auto && !touchSensorIsPressed() && holdPos){
-            leftslide.setPower(.128);
-            rightslide.setPower(.128);
-        } else if (opMode == Robot.OpMode.Auto && touchSensorIsPressed()){
-            resetSlidesWithTimer();
-            zeroPower();
-        }else if (opMode == Robot.OpMode.Auto && ref == 0 && !touchSensorIsPressed()){
-            leftslide.setPower(-.3);
-            rightslide.setPower(-.3);
-        } else {
-        }
     }
     @Override
     public void shutdown() {
@@ -87,6 +70,21 @@ public class VerticalSlides extends Subsystem {
     public boolean touchSensorIsPressed(){
         return verticalSlidesTouchSensor.isPressed();
     }
+
+    public void updatePosAuto(){
+        if (!touchSensorIsPressed() && holdPos){
+            leftslide.setPower(.128);
+            rightslide.setPower(.128);
+        } else if (touchSensorIsPressed()){
+            resetSlidesWithTimer();
+            zeroPower();
+        }else if (ref == 0 && !touchSensorIsPressed()){
+            leftslide.setPower(-.3);
+            rightslide.setPower(-.3);
+        } else {
+        }
+    }
+
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
         //TODO: Test the slides to see if they weren't working because we didnt have "ref == 0" in the first if statement
 //        inputmanual = input;

@@ -43,5 +43,6 @@ public class MoveVerticalSlidesBetter extends Command {
     @Override
     public void shutdown() {
         verticalSlides.holdPos = true;
+        
     }
 }

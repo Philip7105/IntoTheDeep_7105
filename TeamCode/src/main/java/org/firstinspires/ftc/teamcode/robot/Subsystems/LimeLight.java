@@ -34,27 +34,27 @@ public class LimeLight extends Subsystem {
 
         limelight = hwMap.get(Limelight3A.class,"limelight");
 
-        limelight.pipelineSwitch(0);
+//        limelight.pipelineSwitch(0);
 
-        limelight.setPollRateHz(100);
+//        limelight.setPollRateHz(100);
         /*
          * Starts polling for data.
          */
-        limelight.start();
+//        limelight.start();
     }
 
     @Override
     public void periodic() {
 //        limelight.updateRobotOrientation(Math.toRadians(driveTrain.getHeadingFixed()));
-        result = limelight.getLatestResult();
-        if (result != null && result.isValid()) {
-            botpose = result.getBotpose_MT2();
-            converter();
-            Dashboard.addData("apriltagheading",getBotHeading());
-            Dashboard.addData("getBotX",x);
-            Dashboard.addData("getBotY",y);
-            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
-        }
+//        result = limelight.getLatestResult();
+//        if (result != null && result.isValid()) {
+//            botpose = result.getBotpose_MT2();
+//            converter();
+//            Dashboard.addData("apriltagheading",getBotHeading());
+//            Dashboard.addData("getBotX",x);
+//            Dashboard.addData("getBotY",y);
+//            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
+//        }
     }
 
     public void converter(){

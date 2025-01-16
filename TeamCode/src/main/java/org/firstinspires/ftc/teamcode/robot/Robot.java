@@ -31,14 +31,13 @@ public class Robot {
     public VerticalSlides verticalslides;
     public HorizontalSlides horizontalslides;
     public JohnHanging hang;
-
     public Robot(HardwareMap hw, OpMode opMode, Gamepad gamepad1, Gamepad gamepad2) {
         // init robot
         driveTrain = new DriveTrain(hw);  // drivetrain
         dashboard= new Dashboard(driveTrain.mecanumDrive);
         clipmech = new ClipMech();
         hang = new JohnHanging();
-        verticalslides = new VerticalSlides(opMode);
+        verticalslides = new VerticalSlides();
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
         intake= new JohnsIntake();  // intake
@@ -55,7 +54,6 @@ public class Robot {
     }
 
     public void update() {  // update everything
-        driveTrain.mecanumDrive.updatePoseEstimate();  // update mecanum drive
         scheduler.run();  // it says run auto but this really just updates the scheduler and runs everything there
     }
 

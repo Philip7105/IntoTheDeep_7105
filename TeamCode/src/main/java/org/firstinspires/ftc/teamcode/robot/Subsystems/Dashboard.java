@@ -45,6 +45,5 @@ public class Dashboard extends Subsystem {
     public void drawRobot(){
         packet.fieldOverlay().setStroke("#3F51B5");
         Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
-//        FtcDashboard.getInstance().sendTelemetryPacket(packet);
     }
 }

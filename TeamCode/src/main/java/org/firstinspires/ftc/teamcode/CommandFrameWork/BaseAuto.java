@@ -45,7 +45,8 @@ public abstract class BaseAuto extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
-            robot.updateTele();
+            robot.verticalslides.updatePosAuto();
+            robot.update();
         }
         robot.shutdown();
     }
