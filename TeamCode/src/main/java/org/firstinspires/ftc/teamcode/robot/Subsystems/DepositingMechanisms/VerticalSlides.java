@@ -22,7 +22,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 public class VerticalSlides extends Subsystem {
     DcMotor rightslide,leftslide;
     public static double  lowchamber = 2650, lowbasket = 3500, hangPos = 2030,getslideposrr,calculate, highbasket =5700, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
-    public static boolean holdPos = false;
+    public static boolean holdPos = false, useBasketPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
     public static PDCoefficients coefficients = new PDCoefficients(.008,.000000000002);
@@ -31,6 +31,7 @@ public class VerticalSlides extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         ref = 0;
         holdPos = false;
+        useBasketPos = false;
         verticalSlidesTouchSensor = hwMap.get(TouchSensor.class,"verticalslidestouchsensor");
         rightslide = hwMap.get(DcMotor.class,"rightslide");
         leftslide = hwMap.get(DcMotor.class,"leftslide");

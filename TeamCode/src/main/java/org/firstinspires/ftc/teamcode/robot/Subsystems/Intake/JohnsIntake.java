@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.highbasket;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.ref;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.useBasketPos;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
@@ -120,6 +119,9 @@ public class JohnsIntake extends Subsystem {
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setPivotStates(JohnsIntake.PivotStates.parallel);
+            setIntake(JohnsIntake.IntakeStates.stop);
+        } else if (useBasketPos) {
+            setPivotStates(PivotStates.basketpos);
             setIntake(JohnsIntake.IntakeStates.stop);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
