@@ -1,15 +1,11 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.firstHang;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.readyFirstHang;
-
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
 import java.util.List;
@@ -39,7 +35,7 @@ public abstract class BaseTele extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
-            robot.intake.intakeTele(robot.gamepad1, robot.horizontalslides);
+            robot.intake.intakeTele(robot.gamepad1, robot.horizontalslides,robot.gamepad2);
             robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
 
@@ -64,8 +60,8 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenDPadRightPressed(groups.armBasketPos());
             robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
 
-            robot.gamepad2.whenDPadRightPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
-            robot.gamepad2.whenDPadLeftPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
+            robot.gamepad2.whenDPadRightPressed(groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP));
+            robot.gamepad2.whenDPadLeftPressed(groups.moveGripper(JohnsIntake.GripperStates.CLAMP));
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
             robot.updateTele();

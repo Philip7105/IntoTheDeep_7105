@@ -23,7 +23,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double clamp = .77, unclamp = .23,basketpos = .64, chamberpos = .76, down = 0.14,parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
+    public static double clamp = .74, unclamp = 0.245,basketpos = .64, chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -96,18 +96,22 @@ public class JohnsIntake extends Subsystem {
 //        }
 //    }
 
-    public void intakeTele(Input input, HorizontalSlides slides){
-        if (input.isLeft_trigger_press()){
+    public void intakeTele(Input input, HorizontalSlides slides, Input input2){
+        if (input2.isCross()) {
+            setGripper(GripperStates.UNCLAMP);
+            setIntake(IntakeStates.STOP);
+            setPivotStates(PivotStates.FORWARD);
+        } else if (input.isLeft_trigger_press()){
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setGripper(GripperStates.unclamp);
-            setIntake(JohnsIntake.IntakeStates.outtake);
+            setGripper(GripperStates.UNCLAMP);
+            setIntake(JohnsIntake.IntakeStates.OUTTAKE);
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
-            setIntake(IntakeStates.intakeslow);
+            setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
         } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
-            setIntake(JohnsIntake.IntakeStates.intake);
+            setIntake(JohnsIntake.IntakeStates.INTAKE);
             setPivotStates(JohnsIntake.PivotStates.FORWARD);
         }
 //        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
@@ -119,35 +123,35 @@ public class JohnsIntake extends Subsystem {
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setPivotStates(JohnsIntake.PivotStates.PARALLEL);
-            setIntake(JohnsIntake.IntakeStates.stop);
+            setIntake(JohnsIntake.IntakeStates.STOP);
         } else if (useBasketPos) {
             setPivotStates(PivotStates.BASKETPOS);
-            setIntake(JohnsIntake.IntakeStates.stop);
+            setIntake(JohnsIntake.IntakeStates.STOP);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setIntake(JohnsIntake.IntakeStates.stop);
+            setIntake(JohnsIntake.IntakeStates.STOP);
         }
     }
 
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
-            case intake:
+            case INTAKE:
                 rightintake.setPower(intakeSpeed);
                 leftintake.setPower(intakeSpeed);
                 break;
-            case intakeslow:
+            case INTAKESLOW:
                 rightintake.setPower(intakeSlow);
                 leftintake.setPower(intakeSlow);
                 break;
-            case outtake:
+            case OUTTAKE:
                 rightintake.setPower(outtake);
                 leftintake.setPower(outtake);
                 break;
-            case outtakeauto:
+            case OUTTAKEAUTO:
                 rightintake.setPower(-.7);
                 leftintake.setPower(-.7);
                 break;
-            case stop:
+            case STOP:
                 rightintake.setPower(0);
                 leftintake.setPower(0);
                 break;
@@ -156,10 +160,10 @@ public class JohnsIntake extends Subsystem {
 
     public void setGripper(GripperStates gripperStates) {
         switch (gripperStates){
-            case unclamp:
+            case UNCLAMP:
                 gripper.setPosition(unclamp);
                 break;
-            case clamp:
+            case CLAMP:
                 gripper.setPosition(clamp);
                 break;
         }
@@ -215,15 +219,15 @@ public class JohnsIntake extends Subsystem {
 //    }
 
     public enum IntakeStates{
-        intake,
-        intakeslow,
-        outtake,
-        outtakeauto,
-        stop
+        INTAKE,
+        INTAKESLOW,
+        OUTTAKE,
+        OUTTAKEAUTO,
+        STOP
     }
     public enum GripperStates{
-        clamp,
-        unclamp
+        CLAMP,
+        UNCLAMP
     }
     public enum PivotStates {
         BASKETPOS,
