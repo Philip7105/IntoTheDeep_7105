@@ -11,24 +11,12 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
 public class HorizontalSlides extends Subsystem {
-
     public ServoImplEx leftservoslide, rightservoslide;
-
-    public static double fullin = .24;
-    public static double halfout = .56;
-    public static HorizontalSlideStates fullout = .88;
-    public static double fullyOutEncoderPos = 240;
-    public static double halfOutEncoderPos = 190;
-    public static double fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,fullout = .88,fullyOutEncoderPos = 240,halfOutEncoderPos = 190,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
-
-
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
-
-
     //13 inches
-
     @Override
     public void initAuto(HardwareMap hwMap) {
         leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");

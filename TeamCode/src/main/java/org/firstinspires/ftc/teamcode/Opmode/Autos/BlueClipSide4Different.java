@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowbasket;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowchamber;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -18,7 +17,6 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
-@Config
 @Autonomous
 public class BlueClipSide4Different extends BaseAuto {
     @Override
@@ -29,17 +27,17 @@ public class BlueClipSide4Different extends BaseAuto {
                 groups.delayAction(.6,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))}))
                 // clip first specimen
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-1.5,32),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))
-                ,groups.moveVerticalSlidesAction(0, normalTolerance),groups.movePivotAction(JohnsIntake.PivotStates.parallel),
+                ,groups.moveVerticalSlidesAction(0, normalTolerance),groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL),
                         groups.moveGripperAction(JohnsIntake.GripperStates.clamp),groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)}))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.unclamp)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.6), Math.toRadians(90)),
-                        groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)),
+                        groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.intake)}))
                 //go to get the human players clip
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,48.6), Math.toRadians(90),new Vector2d(-2.5,33), Math.toRadians(90)),
                         groups.moveGripperAction(JohnsIntake.GripperStates.clamp),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.stop),
-                        groups.movePivotAction(JohnsIntake.PivotStates.chamberpos),
+                        groups.movePivotAction(JohnsIntake.PivotStates.CHAMBERPOS),
                         groups.delayAction(1.1,groups.moveVerticalSlidesAction(lowchamber, normalTolerance)),
                         groups.delayAction(.5,groups.moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos))}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance),groups.delayAction(.6, groups.moveGripperAction(JohnsIntake.GripperStates.unclamp)),
@@ -47,7 +45,7 @@ public class BlueClipSide4Different extends BaseAuto {
                 // go to clip
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-2,33), Math.toRadians(90),new Vector2d(-33,38),Math.toRadians(90))
                 , groups.moveVerticalSlidesAction(0, normalTolerance),
-                groups.movePivotAction(JohnsIntake.PivotStates.parallel),
+                groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL),
                 groups.moveGripperAction(JohnsIntake.GripperStates.clamp),
                 groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-33,38),Math.toRadians(90),new Vector2d(-39,10), Math.toRadians(90))}))
@@ -58,7 +56,7 @@ public class BlueClipSide4Different extends BaseAuto {
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))}))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.unclamp)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.6), Math.toRadians(90)),
-                        groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)),
+                        groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.intake)}));
     }
 }

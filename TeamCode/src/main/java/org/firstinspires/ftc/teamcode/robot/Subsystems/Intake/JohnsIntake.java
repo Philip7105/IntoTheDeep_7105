@@ -23,7 +23,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double clamp = .77, unclamp = .23,basketpos = .64, chamberpos = .68, down = 0.14,parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
+    public static double clamp = .77, unclamp = .23,basketpos = .64, chamberpos = .76, down = 0.14,parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -104,11 +104,11 @@ public class JohnsIntake extends Subsystem {
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(IntakeStates.intakeslow);
-            setPivotStates(PivotStates.slightly_lower_pickup);
-        } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == fullout) {
+            setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
+        } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(JohnsIntake.IntakeStates.intake);
-            setPivotStates(JohnsIntake.PivotStates.forward);
+            setPivotStates(JohnsIntake.PivotStates.FORWARD);
         }
 //        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
 //            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
@@ -118,10 +118,10 @@ public class JohnsIntake extends Subsystem {
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setPivotStates(JohnsIntake.PivotStates.parallel);
+            setPivotStates(JohnsIntake.PivotStates.PARALLEL);
             setIntake(JohnsIntake.IntakeStates.stop);
         } else if (useBasketPos) {
-            setPivotStates(PivotStates.basketpos);
+            setPivotStates(PivotStates.BASKETPOS);
             setIntake(JohnsIntake.IntakeStates.stop);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
@@ -167,39 +167,39 @@ public class JohnsIntake extends Subsystem {
 
     public void setPivotStates(PivotStates pivotStates){
         switch (pivotStates){
-            case forward:
+            case FORWARD:
                 rightarm.setPosition(down); // 121
                 leftarm.setPosition(down);
                 break;
-            case slightly_lower_pickup:
+            case SLIGHTLY_LOWER_PICKUP:
                 rightarm.setPosition(lowerpickup); // 121
                 leftarm.setPosition(lowerpickup);
                 break;
-            case posauto_clip:
+            case POSAUTO_CLIP:
                 rightarm.setPosition(0.25);
                 leftarm.setPosition(0.25);
                 break;
-            case preauto_clip:
+            case PREAUTO_CLIP:
                 rightarm.setPosition(0.4); // 121
                 leftarm.setPosition(0.4);
                 break;
-            case parallel:
+            case PARALLEL:
                 rightarm.setPosition(parallel);
                 leftarm.setPosition(parallel);
                 break;
-            case hookclip:
+            case HOOKCLIP:
                 rightarm.setPosition(.28);
                 leftarm.setPosition(.28);
                 break;
-            case snapclip:
+            case SNAPCLIP:
                 rightarm.setPosition(.23);
                 leftarm.setPosition(.23); //143
                 break;
-            case basketpos:
+            case BASKETPOS:
                 rightarm.setPosition(basketpos);//227
                 leftarm.setPosition(basketpos);
                 break;
-            case chamberpos:
+            case CHAMBERPOS:
                 rightarm.setPosition(chamberpos);//227
                 leftarm.setPosition(chamberpos);
                 break;
@@ -226,14 +226,14 @@ public class JohnsIntake extends Subsystem {
         unclamp
     }
     public enum PivotStates {
-        basketpos,
-        chamberpos,
-        snapclip,
-        parallel,
-        hookclip,
-        forward,
-        slightly_lower_pickup,
-        posauto_clip,
-        preauto_clip
+        BASKETPOS,
+        CHAMBERPOS,
+        SNAPCLIP,
+        PARALLEL,
+        HOOKCLIP,
+        FORWARD,
+        SLIGHTLY_LOWER_PICKUP,
+        POSAUTO_CLIP,
+        PREAUTO_CLIP
     }
 }

@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 @Config
 public class VerticalSlides extends Subsystem {
     DcMotor rightslide,leftslide;
-    public static double  lowchamber = 2650, lowbasket = 3500, hangPos = 2030,getslideposrr,calculate, highbasket =5700, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
+    public static double  lowchamber = 2600, lowbasket = 3500, hangPos = 2030,getslideposrr,calculate, highbasket =5700, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false, useBasketPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();

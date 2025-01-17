@@ -40,7 +40,7 @@ public abstract class BaseTele extends LinearOpMode {
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
             robot.intake.intakeTele(robot.gamepad1, robot.horizontalslides);
-
+            robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
 
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
@@ -64,8 +64,8 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenDPadRightPressed(groups.armBasketPos());
             robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
 
-            robot.gamepad1.whenLeftBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
-            robot.gamepad1.whenRightBumperPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
+            robot.gamepad2.whenDPadRightPressed(groups.moveGripper(JohnsIntake.GripperStates.unclamp));
+            robot.gamepad2.whenDPadLeftPressed(groups.moveGripper(JohnsIntake.GripperStates.clamp));
 
             robot.driveTrain.RobotRelative(robot.gamepad1);
             robot.updateTele();

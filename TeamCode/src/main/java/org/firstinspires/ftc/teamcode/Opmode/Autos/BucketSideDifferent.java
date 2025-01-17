@@ -21,7 +21,7 @@ public class BucketSideDifferent extends BaseAuto {
         robot.driveTrain.setPoseEstimateBetter(new Vector2d(32, 62), Math.toRadians(0));
         runpath = new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(32,62), Math.toRadians(0),new Vector2d(57,55), Math.toRadians(45)), groups.moveVerticalSlidesAction(highbasket, greaterTolerance)})
                 .addNext(new MultipleCommand(groups.moveGripper(JohnsIntake.GripperStates.unclamp),groups.moveIntake(JohnsIntake.IntakeStates.outtake)))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveIntakeAction(JohnsIntake.IntakeStates.stop),groups.moveGripperAction(JohnsIntake.GripperStates.clamp),robot.driveTrain.strafeToLinearHeading(new Vector2d(57,55),Math.toRadians(45),new Vector2d(48.2,47), Math.toRadians(270)),groups.delayAction(.7,groups.moveVerticalSlidesAction(0, greaterTolerance)),groups.movePivotAction(JohnsIntake.PivotStates.parallel)}))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out, halfOutEncoderPos),groups.movePivot(JohnsIntake.PivotStates.forward)));
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveIntakeAction(JohnsIntake.IntakeStates.stop),groups.moveGripperAction(JohnsIntake.GripperStates.clamp),robot.driveTrain.strafeToLinearHeading(new Vector2d(57,55),Math.toRadians(45),new Vector2d(48.2,47), Math.toRadians(270)),groups.delayAction(.7,groups.moveVerticalSlidesAction(0, greaterTolerance)),groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL)}))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out, halfOutEncoderPos),groups.movePivot(JohnsIntake.PivotStates.FORWARD)));
     }
 }

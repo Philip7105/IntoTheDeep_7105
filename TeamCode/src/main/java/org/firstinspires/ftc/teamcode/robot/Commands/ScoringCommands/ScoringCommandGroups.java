@@ -12,12 +12,15 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.DelayAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.DelayActionTimesTwo;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.EmptyAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.HoldVerticalSlidePosAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveHorizontalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeActionShortTime;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MovePivotAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetDelayAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetDelayActionTimesTwo;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetGripperAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetPivotAction;
@@ -59,7 +62,7 @@ public class ScoringCommandGroups {
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp), movePivot(JohnsIntake.PivotStates.chamberpos),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp), movePivot(JohnsIntake.PivotStates.CHAMBERPOS),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
     }
 
     public Command slidesTeleop(){
@@ -75,15 +78,15 @@ public class ScoringCommandGroups {
     }
 
     public Command armChamberPos(){
-        return movePivot(JohnsIntake.PivotStates.chamberpos);
+        return movePivot(JohnsIntake.PivotStates.CHAMBERPOS);
     }
 
     public Command armBasketPos(){
-        return movePivot(JohnsIntake.PivotStates.basketpos);
+        return movePivot(JohnsIntake.PivotStates.BASKETPOS);
     }
 
     public Command armOutFront(){
-        return new MultipleCommand(movePivot(JohnsIntake.PivotStates.forward),moveGripper(JohnsIntake.GripperStates.clamp));
+        return new MultipleCommand(movePivot(JohnsIntake.PivotStates.FORWARD),moveGripper(JohnsIntake.GripperStates.clamp));
     }
 
 
@@ -103,12 +106,12 @@ public class ScoringCommandGroups {
     }
 
     public Command fullExtendHorizontalSLides(){
-        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY), moveGripper(JohnsIntake.GripperStates.unclamp),
-                new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos)));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp).addNext(moveGripper(JohnsIntake.GripperStates.unclamp)),
+                moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos));
     }
 
     public Command clipClip(){
-        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivot(JohnsIntake.PivotStates.preauto_clip),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)).addNext(movePivot(JohnsIntake.PivotStates.posauto_clip).addNext(moveGripper(JohnsIntake.GripperStates.unclamp))));
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivot(JohnsIntake.PivotStates.PREAUTO_CLIP),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)).addNext(movePivot(JohnsIntake.PivotStates.POSAUTO_CLIP).addNext(moveGripper(JohnsIntake.GripperStates.unclamp))));
     }
 
     public Command extendHorizontalSLides(){
@@ -121,7 +124,7 @@ public class ScoringCommandGroups {
     }
 
     public Command bringInHorizontalSLidesBetter(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivot(JohnsIntake.PivotStates.parallel));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.clamp),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivot(JohnsIntake.PivotStates.PARALLEL));
     }
 
     public Command moveClipMag(ClipMech.ArmStates armstates){
@@ -149,6 +152,10 @@ public class ScoringCommandGroups {
         return new SequentialAction(new DelayAction(time,Dashboard.packet), new ResetDelayAction(Dashboard.packet),action);
     }
 
+    public Action delayActionTimesTwo(double time,Action action){
+        return new SequentialAction(new DelayActionTimesTwo(time,Dashboard.packet), new ResetDelayActionTimesTwo(Dashboard.packet),action);
+    }
+
     public Action moveGripperAction(JohnsIntake.GripperStates gripperStates){
         return new SequentialAction(new MoveGripperAction(intake,gripperStates,Dashboard.packet),new ResetGripperAction(Dashboard.packet));
     }
@@ -159,6 +166,10 @@ public class ScoringCommandGroups {
 
     public Action moveIntakeAction(JohnsIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
+    }
+
+    public Action moveIntakeActionForShortTime(JohnsIntake.IntakeStates intakeStates){
+        return new SequentialAction(new MoveIntakeActionShortTime(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
     }
 
     public Action moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates horizontalSlideStates, double target){

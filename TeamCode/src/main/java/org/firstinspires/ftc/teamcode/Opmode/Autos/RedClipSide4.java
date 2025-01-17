@@ -31,7 +31,7 @@ public class RedClipSide4 extends BaseAuto {
                         groups.delayAction(.3,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))}))
                 //  clip first specimen
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-1.5,32),Math.toRadians(90), new Vector2d(-37,37), Math.toRadians(90)), groups.moveVerticalSlidesAction(0, normalTolerance),
-                        groups.movePivotAction(JohnsIntake.PivotStates.parallel), groups.moveGripperAction(JohnsIntake.GripperStates.clamp), groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)})
+                        groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL), groups.moveGripperAction(JohnsIntake.GripperStates.clamp), groups.moveIntakeAction(JohnsIntake.IntakeStates.stop)})
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-37, 37), Math.toRadians(90), new Vector2d(-37,10), Math.toRadians(90))}))
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-37,10), Math.toRadians(90), new Vector2d(-45, 10), Math.toRadians(180))}))
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180), new Vector2d(-45, 55), Math.toRadians(180))}))
@@ -47,31 +47,31 @@ public class RedClipSide4 extends BaseAuto {
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.unclamp)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-55, 30), Math.toRadians(90), new Vector2d(-47,49), Math.toRadians(90)),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.intake),
-                        groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)}))
+                        groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)}))
                 //  intake another specimen
                 .addNext(new Delay(3))
                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In, fullin),
-                        groups.movePivot(JohnsIntake.PivotStates.parallel), groups.moveIntake(JohnsIntake.IntakeStates.stop))
+                        groups.movePivot(JohnsIntake.PivotStates.PARALLEL), groups.moveIntake(JohnsIntake.IntakeStates.stop))
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowchamber, normalTolerance),robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,49), Math.toRadians(90), new Vector2d(-0.5,32),Math.toRadians(90))}))
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance),groups.delayAction(.3, groups.moveGripperAction(JohnsIntake.GripperStates.unclamp)),
                                 groups.delayAction(.3,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))})))
                 //    clip second specimen
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-0.5,32),Math.toRadians(90), new Vector2d(-47,49), Math.toRadians(90)),
-                        groups.moveIntakeAction(JohnsIntake.IntakeStates.intake), groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)})
+                        groups.moveIntakeAction(JohnsIntake.IntakeStates.intake), groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)})
                         //         intake another specimen
                         .addNext(new Delay(3))
                         .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In, fullin),
-                                groups.movePivot(JohnsIntake.PivotStates.parallel), groups.moveIntake(JohnsIntake.IntakeStates.stop))
+                                groups.movePivot(JohnsIntake.PivotStates.PARALLEL), groups.moveIntake(JohnsIntake.IntakeStates.stop))
                                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowchamber, normalTolerance),robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,49), Math.toRadians(90), new Vector2d(0.5,32),Math.toRadians(90))}))
                                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance),groups.delayAction(.3, groups.moveGripperAction(JohnsIntake.GripperStates.unclamp)),
                                         groups.delayAction(.3,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))})))
                         //       clip third specimen
                         .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(0.5,32),Math.toRadians(90), new Vector2d(-47,49), Math.toRadians(90)),
-                                groups.moveIntakeAction(JohnsIntake.IntakeStates.intake), groups.movePivotAction(JohnsIntake.PivotStates.slightly_lower_pickup)})
+                                groups.moveIntakeAction(JohnsIntake.IntakeStates.intake), groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)})
                                 //             intake another specimen
                                 .addNext(new Delay(3))
                                 .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In, fullin),
-                                        groups.movePivot(JohnsIntake.PivotStates.parallel), groups.moveIntake(JohnsIntake.IntakeStates.stop))
+                                        groups.movePivot(JohnsIntake.PivotStates.PARALLEL), groups.moveIntake(JohnsIntake.IntakeStates.stop))
                                         .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowchamber, normalTolerance),robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,49), Math.toRadians(90), new Vector2d(1.5,32), Math.toRadians(90))}))
                                         .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance),groups.delayAction(.3, groups.moveGripperAction(JohnsIntake.GripperStates.unclamp)),
                                                 groups.delayAction(.3,groups.moveIntakeAction(JohnsIntake.IntakeStates.outtake))}))))

@@ -12,7 +12,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 
 @Config
@@ -29,7 +28,6 @@ public class DriveTrain extends Subsystem {
 
     @Override
     public void periodic() {
-        Dashboard.addData("headingdouble",getHeadingFixed());
     }
 
     @Override
@@ -63,7 +61,13 @@ public class DriveTrain extends Subsystem {
                    -input.getRight_stick_x() *.6
            ));
        }
+   }
+
+   public void changeDriveState(Input input){
+       if (input.isLeft_trigger_press()){
+           driveSpeed = DriveSpeed.Slow;
        }
+   }
 
     public void setPoseEstimate(Vector2d vector2d, Rotation2d heading){
         mecanumDrive.pose = new Pose2d(vector2d,heading);
