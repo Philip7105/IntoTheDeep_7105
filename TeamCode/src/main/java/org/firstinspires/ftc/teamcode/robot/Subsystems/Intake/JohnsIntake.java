@@ -13,22 +13,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.Control.RevColorSensorBetter;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class JohnsIntake extends Subsystem {
-
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
-
-    public static double clamp = .74, unclamp = 0.245,basketpos = .64, chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
-
-//    NormalizedColorSensor colorsensor;
-
+    public static double clamp = .74, unclamp = 0.245,basketpos = .64, chamberpos = .76, down = 0.14,opticalthreshold = 180,
+    bluethreshold = 200, redthreshold = 150,
+            parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
+    RevColorSensorBetter colorsensor;
+    SampleStates sampleStates;
     AnalogInput armanalog;
-
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightintake = hwMap.get(CRServo.class,"rightintake");
@@ -37,6 +36,7 @@ public class JohnsIntake extends Subsystem {
         rightarm = hwMap.get(Servo.class,"rightarm");
         leftarm = hwMap.get(Servo.class,"leftarm");
         armanalog = hwMap.get(AnalogInput.class,"armanalog");
+        sampleStates = SampleStates.EMPTY;
 
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
@@ -55,46 +55,52 @@ public class JohnsIntake extends Subsystem {
         return armanalog.getVoltage() / 3.3 * 360;
     }
 
-//    public double getBlue(){
-//        return colorsensor.getNormalizedColors().blue;
-//    }
-//
-//    public double getRed(){
-//        return colorsensor.getNormalizedColors().red;
-//    }
-//
-//    public double getGreen(){
-//        return colorsensor.getNormalizedColors().green;
-//    }
+    public double getOptical(){
+        return colorsensor.rawOptical();
+    }
 
-//    public void getColor(SampleStates samplestates){
-//        switch (samplestates){
-//            case RED:
-//
-//                break;
-//            case BLUE:
-//
-//                break;
-//            case YELLOW:
-//
-//                break;
-//            case READ:
-////                if (colorsensor instanceof SwitchableLight) {
-//                    ((SwitchableLight)colorsensor).enableLight(true);
-////                }
-//                if (getRed() > 200){
-//                    samplestates = SampleStates.RED;
-//                } else if (getBlue() > 200){
-//                    samplestates = SampleStates.BLUE;
-//                } else if (getBlue() > 150 && getRed() > 150) {
-//                    samplestates = SampleStates.YELLOW;
-//                }
-//                break;
-//            case SHUT_OFF:
-//                ((SwitchableLight)colorsensor).enableLight(false);
-//                break;
-//        }
-//    }
+    public double getBlue(){
+        return colorsensor.getNormalizedColors().blue;
+    }
+
+    public double getRed(){
+        return colorsensor.getNormalizedColors().red;
+    }
+
+    public double getGreen(){
+        return colorsensor.getNormalizedColors().green;
+    }
+
+    public void runColorSensor(){
+        switch (sampleStates){
+            case RED:
+
+                break;
+            case BLUE:
+
+                break;
+            case YELLOW:
+
+                break;
+            case READ:
+                if (getOptical() > opticalthreshold){
+                    sampleStates = SampleStates.READCOLOR;
+                }
+                break;
+            case READCOLOR:
+                if (getRed() > 200){
+                    sampleStates = SampleStates.RED;
+                } else if (getBlue() > bluethreshold){
+                    sampleStates = SampleStates.BLUE;
+                } else if (getBlue() > 150 && getRed() > redthreshold) {
+                    sampleStates = SampleStates.YELLOW;
+                }
+                break;
+            case EMPTY:
+
+                break;
+        }
+    }
 
     public void intakeTele(Input input, HorizontalSlides slides, Input input2){
         if (input2.isCross()) {
@@ -114,11 +120,6 @@ public class JohnsIntake extends Subsystem {
             setIntake(JohnsIntake.IntakeStates.INTAKE);
             setPivotStates(JohnsIntake.PivotStates.FORWARD);
         }
-//        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
-//            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
-//            setIntake(JohnsIntake.IntakeStates.intake);
-//            setArmStates(PivotStates.slightly_lower_pickup);
-//        }
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
@@ -210,13 +211,14 @@ public class JohnsIntake extends Subsystem {
         }
     }
 
-//    public enum SampleStates{
-//        BLUE,
-//        RED,
-//        YELLOW,
-//        READ,
-//        SHUT_OFF
-//    }
+    public enum SampleStates{
+        BLUE,
+        RED,
+        YELLOW,
+        READ,
+        READCOLOR,
+        EMPTY
+    }
 
     public enum IntakeStates{
         INTAKE,
@@ -240,4 +242,10 @@ public class JohnsIntake extends Subsystem {
         POSAUTO_CLIP,
         PREAUTO_CLIP
     }
+    public enum IntakeModuleStates{
+        INTAKEFULLOUT,
+        INTAKEHALFOUT,
+        INTAKEIN,
+    }
+
 }
