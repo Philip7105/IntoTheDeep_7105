@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowbasket;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.lowchamber;
 
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -32,7 +31,7 @@ public class RedClipSide4Different extends BaseAuto {
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-1.5,32),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))
                         ,groups.moveVerticalSlidesAction(0, normalTolerance),groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL),
                         groups.moveGripperAction(JohnsIntake.GripperStates.CLAMP),groups.moveIntakeAction(JohnsIntake.IntakeStates.STOP)}))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.6), Math.toRadians(90)),
                         groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.INTAKE)}))
@@ -42,7 +41,7 @@ public class RedClipSide4Different extends BaseAuto {
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.STOP),
                         groups.movePivotAction(JohnsIntake.PivotStates.CHAMBERPOS),
                         groups.delayAction(1.1,groups.moveVerticalSlidesAction(lowchamber, normalTolerance)),
-                        groups.delayAction(.5,groups.moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos))}))
+                        groups.delayAction(.5,groups.moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos))}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance),groups.delayAction(.6, groups.moveGripperAction(JohnsIntake.GripperStates.UNCLAMP)),
                         groups.delayAction(.6,groups.moveIntakeAction(JohnsIntake.IntakeStates.OUTTAKE))}))
                 // go to clip
@@ -57,7 +56,7 @@ public class RedClipSide4Different extends BaseAuto {
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47, 10), Math.toRadians(90))}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,10),Math.toRadians(90),new Vector2d(-54, 53), Math.toRadians(90))}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))}))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.6), Math.toRadians(90)),
                         groups.delayAction(.3,groups.movePivotAction(JohnsIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeAction(JohnsIntake.IntakeStates.INTAKE)}));

@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,fullout = .88,fullyOutEncoderPos = 240,halfOutEncoderPos = 190,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.64,fullout = .88, autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 190,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
@@ -64,21 +64,25 @@ public class HorizontalSlides extends Subsystem {
 
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
-            case Fully_In:                         //161
+            case FULLY_IN:                         //161
                 leftservoslide.setPosition(fullin); //170
                 rightservoslide.setPosition(fullin);
                 break;
-            case Half_Out:
+            case HALF_OUT:
                 leftservoslide.setPosition(halfout);// 190
                 rightservoslide.setPosition(halfout); //199
                 break;
-            case Fully_Out:                         // 236
+            case FULLY_OUT:                         // 236
                 leftservoslide.setPosition(fullout); // 245
                 rightservoslide.setPosition(fullout);
                 break;
-            case Zero_Power:
+            case ZERO_POWER:
                 leftservoslide.setPwmDisable();
                 rightservoslide.setPwmDisable();
+                break;
+            case AUTOPOS:
+                leftservoslide.setPosition(autopos);
+                rightservoslide.setPosition(autopos);
                 break;
             case SHUTOFF:
                 leftservoslide.setPosition(0);
@@ -88,10 +92,11 @@ public class HorizontalSlides extends Subsystem {
     }
 
     public enum HorizontalSlideStates {
-        Fully_Out,
-        Half_Out,
-        Fully_In,
-        Zero_Power,
+        FULLY_OUT,
+        HALF_OUT,
+        AUTOPOS,
+        FULLY_IN,
+        ZERO_POWER,
         SHUTOFF
     }
 }

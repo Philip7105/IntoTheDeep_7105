@@ -62,7 +62,7 @@ public class ScoringCommandGroups {
     }
 
     public Command initRobot(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP), movePivot(JohnsIntake.PivotStates.CHAMBERPOS),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP), movePivot(JohnsIntake.PivotStates.CHAMBERPOS),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos));
     }
 
     public Command slidesTeleop(){
@@ -107,16 +107,16 @@ public class ScoringCommandGroups {
 
     public Command fullExtendHorizontalSLides(){
         return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP)),
-                moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos));
+                moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos));
     }
 
     public Command clipClip(){
-        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivot(JohnsIntake.PivotStates.PREAUTO_CLIP),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)).addNext(movePivot(JohnsIntake.PivotStates.POSAUTO_CLIP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP))));
+        return new MultipleCommand(moveClipMag(ClipMech.ArmStates.Out_The_Way), movePivot(JohnsIntake.PivotStates.PREAUTO_CLIP),new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)).addNext(movePivot(JohnsIntake.PivotStates.POSAUTO_CLIP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP))));
     }
 
     public Command extendHorizontalSLides(){
         return new MultipleCommand(moveClipMag(ClipMech.ArmStates.READY), moveGripper(JohnsIntake.GripperStates.UNCLAMP)
-                ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos)));
+                ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
     }
 
     public Command extendHorizontalSlides_VerticalSlides(ClipMech.ArmStates clipstate, HorizontalSlides.HorizontalSlideStates horizontalstate, double target, JohnsIntake.PivotStates armstate){
@@ -124,7 +124,7 @@ public class ScoringCommandGroups {
     }
 
     public Command bringInHorizontalSLidesBetter(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.Fully_In,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivot(JohnsIntake.PivotStates.PARALLEL));
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos).addNext(moveClipMag(ClipMech.ArmStates.Out_The_Way)), movePivot(JohnsIntake.PivotStates.PARALLEL));
     }
 
     public Command moveClipMag(ClipMech.ArmStates armstates){
@@ -134,12 +134,12 @@ public class ScoringCommandGroups {
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
 
     public Action fullExtendHorizontalSLidesAction(){
-        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_Out,fullyOutEncoderPos),
+        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos),
                 delayAction(.15, moveGripperAction(JohnsIntake.GripperStates.UNCLAMP)));
     }
 
     public Action halfextendHorizontalSLidesAction(){
-        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Half_Out,halfOutEncoderPos),
+        return new ParallelAction(moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),
                 delayAction(.15, moveGripperAction(JohnsIntake.GripperStates.UNCLAMP)));
     }
 

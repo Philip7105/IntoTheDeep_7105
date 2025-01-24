@@ -17,7 +17,7 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
                 .setConstraints(190, 80, Math.toRadians(180), Math.toRadians(180), 16.5)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-13, 63, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9.5, 63, Math.toRadians(90)))
                 .strafeToLinearHeading(new Vector2d(-10,33),Math.toRadians(90))
 //                .strafeToLinearHeading(new Vector2d(-47,47),Math.toRadians(90))
 //                .strafeToLinearHeading(new Vector2d(-47,52),Math.toRadians(90))

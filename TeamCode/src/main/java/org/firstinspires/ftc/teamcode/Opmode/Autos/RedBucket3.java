@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.Opmode.Autos;
 
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.HorizontalSlideStates.Fully_In;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.HorizontalSlideStates.FULLY_IN;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.greaterTolerance;
@@ -35,10 +35,10 @@ public class RedBucket3 extends BaseAuto {
                 .addNext(new MultipleCommand(groups.moveGripper(UNCLAMP), groups.moveIntake(JohnsIntake.IntakeStates.OUTTAKE)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveIntakeAction(JohnsIntake.IntakeStates.STOP), robot.driveTrain.strafeToLinearHeading(new Vector2d(58.5, 56.5), Math.toRadians(225), new Vector2d(53, 53), Math.toRadians(225)), groups.moveGripperAction(CLAMP), groups.delayAction(.5, groups.moveVerticalSlidesAction(0, normalTolerance)), groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL)}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(53, 53), Math.toRadians(225), new Vector2d(48.2, 49.2), Math.toRadians(270))}))
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.Fully_Out, fullyOutEncoderPos), groups.moveGripperAction(UNCLAMP), groups.moveIntakeAction(JohnsIntake.IntakeStates.INTAKE)}))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates.FULLY_OUT, fullyOutEncoderPos), groups.moveGripperAction(UNCLAMP), groups.moveIntakeAction(JohnsIntake.IntakeStates.INTAKE)}))
                 .addNext(groups.movePivot(FORWARD))
                 .addNext(new Delay(.3))
-                .addNext(new MultipleCommand(groups.movePivot(PARALLEL), groups.moveGripper(CLAMP), groups.moveIntake(JohnsIntake.IntakeStates.STOP), groups.moveHorizontalSlides(Fully_In, fullyInEncoderPos)))
+                .addNext(new MultipleCommand(groups.movePivot(PARALLEL), groups.moveGripper(CLAMP), groups.moveIntake(JohnsIntake.IntakeStates.STOP), groups.moveHorizontalSlides(FULLY_IN, fullyInEncoderPos)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(48.2, 49.2), Math.toRadians(270), new Vector2d(58.5, 56.5), Math.toRadians(225)), groups.moveVerticalSlidesAction(highbasket, greaterTolerance)}))
                 .addNext(new MultipleCommand(groups.movePivot(BASKETPOS),groups.moveGripper(UNCLAMP), new Delay(.6).addNext(groups.moveIntake(JohnsIntake.IntakeStates.OUTTAKE))))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveGripperAction(CLAMP),robot.driveTrain.strafeToLinearHeading(new Vector2d(57, 55), Math.toRadians(225), new Vector2d(52.3, 56), Math.toRadians(225)), groups.moveIntakeAction(JohnsIntake.IntakeStates.STOP), groups.delayAction(.5, groups.moveVerticalSlidesAction(0, greaterTolerance)), groups.movePivotAction(JohnsIntake.PivotStates.PARALLEL)}));
