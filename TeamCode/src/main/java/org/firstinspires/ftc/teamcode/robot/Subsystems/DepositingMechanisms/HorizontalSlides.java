@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,autopos = 0.64,fullout = .88, autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 190,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.64,prepreclip = .4,hookclip = 0.34,preclip = .3,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 166, preclipencoderpos = 151.5,autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
@@ -76,6 +76,18 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(fullout); // 245
                 rightservoslide.setPosition(fullout);
                 break;
+            case PREPRESELFCLIP:
+                leftservoslide.setPosition(prepreclip);
+                rightservoslide.setPosition(prepreclip);
+                break;
+            case PRESELFCLIP:
+                leftservoslide.setPosition(preclip);
+                rightservoslide.setPosition(preclip);
+                break;
+            case HOOKCLIP:
+                leftservoslide.setPosition(hookclip);
+                rightservoslide.setPosition(hookclip);
+                break;
             case ZERO_POWER:
                 leftservoslide.setPwmDisable();
                 rightservoslide.setPwmDisable();
@@ -95,6 +107,9 @@ public class HorizontalSlides extends Subsystem {
         FULLY_OUT,
         HALF_OUT,
         AUTOPOS,
+        PREPRESELFCLIP,
+        PRESELFCLIP,
+        HOOKCLIP,
         FULLY_IN,
         ZERO_POWER,
         SHUTOFF

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands;
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.cliparmdone;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
@@ -31,11 +33,11 @@ public class MoveClipMech extends Command {
 
     @Override
     public boolean completed() {
-        return time.seconds() > .7;
+        return cliparmdone;
     }
 
     @Override
     public void shutdown() {
-
+        clipmech.setArmStates(ClipMech.ArmStates.EMPTY);
     }
 }

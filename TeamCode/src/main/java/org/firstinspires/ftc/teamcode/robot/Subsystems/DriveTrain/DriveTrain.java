@@ -99,6 +99,19 @@ public class DriveTrain extends Subsystem {
                 .build();
     }
 
+    public Action getTheSamples(Vector2d startVec, double startHeading) {
+        return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
+                .splineToConstantHeading(new Vector2d(-37,10), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-47, 55), Math.toRadians(90))
+                // push in the first blue sample
+//                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-48, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-56, 25), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-56, 55), Math.toRadians(90))
+                .build();
+    }
+
     public Action strafeToLinearHeadingWithMarker(Vector2d targetVec, Rotation2d targetHeading,double markerX,Action[] actions) {
         return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeadingFixed()))
                 .strafeToLinearHeading(targetVec, targetHeading)

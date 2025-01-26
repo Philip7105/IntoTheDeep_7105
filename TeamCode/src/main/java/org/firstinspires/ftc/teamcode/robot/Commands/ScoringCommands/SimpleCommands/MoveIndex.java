@@ -9,18 +9,18 @@ public class MoveIndex extends Command {
 
     ClipMech clipMech;
 
-    ClipMech.IndexState indexState;
+    ClipMech.LeftIndexState leftIndexState;
 
     ElapsedTime time = new ElapsedTime();
 
-    public MoveIndex(ClipMech clipMech, ClipMech.IndexState indexState){
+    public MoveIndex(ClipMech clipMech, ClipMech.LeftIndexState leftIndexState){
         this.clipMech = clipMech;
-        this.indexState = indexState;
+        this.leftIndexState = leftIndexState;
     }
 
     @Override
     public void init() {
-        clipMech.setIndex(indexState);
+        clipMech.setLeftIndex(leftIndexState);
     }
 
     @Override
@@ -30,11 +30,11 @@ public class MoveIndex extends Command {
 
     @Override
     public boolean completed() {
-        return time.seconds() > .1;
+        return time.seconds() > .4;
     }
 
     @Override
     public void shutdown() {
-        clipMech.setIndex(ClipMech.IndexState.ZEROPOWER);
+
     }
 }

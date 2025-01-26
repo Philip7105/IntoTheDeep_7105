@@ -14,7 +14,7 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepmeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(190, 80, Math.toRadians(180), Math.toRadians(180), 16.5)
+                .setConstraints(70, 60, Math.toRadians(180), Math.toRadians(180), 16.5)
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9.5, 63, Math.toRadians(90)))
@@ -22,16 +22,19 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
 //                .strafeToLinearHeading(new Vector2d(-47,47),Math.toRadians(90))
 //                .strafeToLinearHeading(new Vector2d(-47,52),Math.toRadians(90))
                 // clip first specimen
-                .strafeToLinearHeading(new Vector2d(-33,38),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-39,10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-45, 55), Math.toRadians(180))
+                .strafeToLinearHeading(new Vector2d(-30,38),Math.toRadians(90))
+//                        .splineTo(new Vector2d(1,1),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-36,10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-36,10), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-47, 55), Math.toRadians(90))
                 // push in the first blue sample
 //                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-54, 55), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-48, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-56, 25), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-56, 55), Math.toRadians(90))
                 // push in the second blue sample
-                .strafeToLinearHeading(new Vector2d(-54, 10), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-60, 10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-61, 10), Math.toRadians(180))
                 .strafeToLinearHeading(new Vector2d(-61, 55), Math.toRadians(180))
                 // push in the third blue sample

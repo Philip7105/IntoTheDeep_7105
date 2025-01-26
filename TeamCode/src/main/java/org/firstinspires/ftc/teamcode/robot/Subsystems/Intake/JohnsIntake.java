@@ -23,7 +23,7 @@ public class JohnsIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
 
-    public static double clamp = .74, unclamp = 0.245,basketpos = .64, chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
+    public static double clamp = .74, unclamp = 0.245,basketpos = .64,preclip = .29, hookclip = .3,chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
 
 //    NormalizedColorSensor colorsensor;
 
@@ -179,25 +179,21 @@ public class JohnsIntake extends Subsystem {
                 rightarm.setPosition(lowerpickup); // 121
                 leftarm.setPosition(lowerpickup);
                 break;
-            case POSAUTO_CLIP:
-                rightarm.setPosition(0.25);
-                leftarm.setPosition(0.25);
-                break;
-            case PREAUTO_CLIP:
-                rightarm.setPosition(0.4); // 121
-                leftarm.setPosition(0.4);
-                break;
             case PARALLEL:
                 rightarm.setPosition(parallel);
                 leftarm.setPosition(parallel);
                 break;
             case HOOKCLIP:
-                rightarm.setPosition(.28);
-                leftarm.setPosition(.28);
+                rightarm.setPosition(hookclip);
+                leftarm.setPosition(hookclip);
+                break;
+            case PRECLIP:
+                rightarm.setPosition(preclip);
+                leftarm.setPosition(preclip);
                 break;
             case SNAPCLIP:
-                rightarm.setPosition(.23);
-                leftarm.setPosition(.23); //143
+                rightarm.setPosition(.2);
+                leftarm.setPosition(.2); //143
                 break;
             case BASKETPOS:
                 rightarm.setPosition(basketpos);//227
@@ -235,9 +231,9 @@ public class JohnsIntake extends Subsystem {
         SNAPCLIP,
         PARALLEL,
         HOOKCLIP,
+        PRECLIP,
+        CLIP,
         FORWARD,
-        SLIGHTLY_LOWER_PICKUP,
-        POSAUTO_CLIP,
-        PREAUTO_CLIP
+        SLIGHTLY_LOWER_PICKUP
     }
 }
