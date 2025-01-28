@@ -21,11 +21,11 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 @Config
 public class VerticalSlides extends Subsystem {
     DcMotor rightslide,leftslide;
-    public static double intakeslidesup = 140, clipoffwall = 365, lowchamber = 1300, lowbasket = 1850, hangPos = 2030,getslideposrr,calculate, highbasket =2900, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
+    public static double intakeslidesup = 140, clipoffwall = 365, lowchamber = 1300, lowbasket = 1850, kg = .128, hangPos = 2030,getslideposrr,calculate, highbasket =2900, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false, useBasketPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
-    public static PDCoefficients coefficients = new PDCoefficients(.008,.000000000002);
+    public static PDCoefficients coefficients = new PDCoefficients(.01,.000000000002);
     PDController controller = new PDController(coefficients);
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -49,8 +49,8 @@ public class VerticalSlides extends Subsystem {
     }
     public void pdController(){
         calculate = controller.calculate(ref,getSlidesPos());
-        leftslide.setPower(calculate);
-        rightslide.setPower(calculate);
+        leftslide.setPower(calculate + kg);
+        rightslide.setPower(calculate + kg);
     }
     public void getAndSetPower(){
         double getPow = leftslide.getPower();
@@ -74,8 +74,8 @@ public class VerticalSlides extends Subsystem {
 
     public void updatePosAuto(){
         if (!touchSensorIsPressed() && holdPos){
-            leftslide.setPower(.128);
-            rightslide.setPower(.128);
+            leftslide.setPower(kg);
+            rightslide.setPower(kg);
         } else if (touchSensorIsPressed()){
             resetSlidesWithTimer();
             zeroPower();
@@ -119,8 +119,8 @@ public class VerticalSlides extends Subsystem {
         }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
         ){
-            leftslide.setPower(.128);
-            rightslide.setPower(.128);
+            leftslide.setPower(kg);
+            rightslide.setPower(kg);
             driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
         }
 //        else if (input.isRightStickButtonPressed()){
