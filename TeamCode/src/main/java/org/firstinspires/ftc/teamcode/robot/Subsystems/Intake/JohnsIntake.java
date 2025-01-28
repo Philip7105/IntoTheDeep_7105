@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Control.RevColorSensorBetter;
 import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
@@ -44,6 +45,10 @@ public class JohnsIntake extends Subsystem {
 
     @Override
     public void periodic() {
+        Dashboard.addData("red",getRed());
+        Dashboard.addData("blue",getBlue());
+        Dashboard.addData("green",getGreen());
+        Dashboard.addData("optical",getOptical());
     }
 
     @Override

@@ -94,7 +94,7 @@ public class RevColorSensorBetter extends BroadcomColorSensorImpl implements Dis
     @Override
     public String getDeviceName()
     {
-        return "Rev Color Sensor v3";
+        return "Rev Color Sensor Better";
     }
 
     @Override
