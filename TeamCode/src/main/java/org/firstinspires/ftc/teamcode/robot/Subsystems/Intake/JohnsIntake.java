@@ -13,7 +13,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.RevColorSensorBetter;
 import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
@@ -24,8 +26,8 @@ public class JohnsIntake extends Subsystem {
     Servo gripper,rightarm,leftarm;
 
     public static double clamp = .74, unclamp = 0.245,basketpos = .64,preclip = .29, hookclip = .3,chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.6;//.78  .155
-
-//    NormalizedColorSensor colorsensor;
+    SampleStates sampleStates;
+    RevColorSensorBetter colorsensor;
 
     AnalogInput armanalog;
 
@@ -41,9 +43,12 @@ public class JohnsIntake extends Subsystem {
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
     }
-
     @Override
     public void periodic() {
+        Dashboard.addData("red",getRed());
+        Dashboard.addData("blue",getBlue());
+        Dashboard.addData("green",getGreen());
+        Dashboard.addData("optical",getOptical());
     }
 
     @Override
@@ -55,46 +60,52 @@ public class JohnsIntake extends Subsystem {
         return armanalog.getVoltage() / 3.3 * 360;
     }
 
-//    public double getBlue(){
-//        return colorsensor.getNormalizedColors().blue;
-//    }
-//
-//    public double getRed(){
-//        return colorsensor.getNormalizedColors().red;
-//    }
-//
-//    public double getGreen(){
-//        return colorsensor.getNormalizedColors().green;
-//    }
+    public double getOptical(){
+        return colorsensor.rawOptical();
+    }
 
-//    public void getColor(SampleStates samplestates){
-//        switch (samplestates){
-//            case RED:
-//
-//                break;
-//            case BLUE:
-//
-//                break;
-//            case YELLOW:
-//
-//                break;
-//            case READ:
-////                if (colorsensor instanceof SwitchableLight) {
-//                    ((SwitchableLight)colorsensor).enableLight(true);
-////                }
-//                if (getRed() > 200){
-//                    samplestates = SampleStates.RED;
-//                } else if (getBlue() > 200){
-//                    samplestates = SampleStates.BLUE;
-//                } else if (getBlue() > 150 && getRed() > 150) {
-//                    samplestates = SampleStates.YELLOW;
-//                }
-//                break;
-//            case SHUT_OFF:
-//                ((SwitchableLight)colorsensor).enableLight(false);
-//                break;
-//        }
-//    }
+    public double getBlue(){
+        return colorsensor.getNormalizedColors().blue;
+    }
+
+    public double getRed(){
+        return colorsensor.getNormalizedColors().red;
+    }
+
+    public double getGreen(){
+        return colorsensor.getNormalizedColors().green;
+    }
+
+    public void runColorSensor(){
+        switch (sampleStates){
+            case RED:
+
+                break;
+            case BLUE:
+
+                break;
+            case YELLOW:
+
+                break;
+            case READ:
+                if (getOptical() > 1000){
+                    sampleStates = SampleStates.READCOLOR;
+                }
+                break;
+            case READCOLOR:
+                if (getRed() > 200){
+                    sampleStates = SampleStates.RED;
+                } else if (getBlue() > 400){
+                    sampleStates = SampleStates.BLUE;
+                } else if (getBlue() > 150 && getRed() > 600) {
+                    sampleStates = SampleStates.YELLOW;
+                }
+                break;
+            case EMPTY:
+
+                break;
+        }
+    }
 
     public void intakeTele(Input input, HorizontalSlides slides, Input input2){
         if (input2.isCross()) {
@@ -206,13 +217,14 @@ public class JohnsIntake extends Subsystem {
         }
     }
 
-//    public enum SampleStates{
-//        BLUE,
-//        RED,
-//        YELLOW,
-//        READ,
-//        SHUT_OFF
-//    }
+    public enum SampleStates{
+        BLUE,
+        RED,
+        YELLOW,
+        READ,
+        READCOLOR,
+        EMPTY
+    }
 
     public enum IntakeStates{
         INTAKE,
