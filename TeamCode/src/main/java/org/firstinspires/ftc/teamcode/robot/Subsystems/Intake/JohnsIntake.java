@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 @Config
 public class JohnsIntake extends Subsystem {
 
-    CRServo rightintake,leftintake;
+    CRServo intake;
     Servo gripper,rightarm,leftarm;
 
     public static double clamp = .74, unclamp = 0.245,basketpos = .64,preclip = .29, hookclip = .3,chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.3;//.78  .155
@@ -31,14 +31,12 @@ public class JohnsIntake extends Subsystem {
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-        rightintake = hwMap.get(CRServo.class,"rightintake");
-        leftintake = hwMap.get(CRServo.class,"leftintake");
+        intake = hwMap.get(CRServo.class, "intake");
         gripper = hwMap.get(Servo.class,"gripper");
         rightarm = hwMap.get(Servo.class,"rightarm");
         leftarm = hwMap.get(Servo.class,"leftarm");
         armanalog = hwMap.get(AnalogInput.class,"armanalog");
 
-        leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
     }
 
@@ -136,24 +134,24 @@ public class JohnsIntake extends Subsystem {
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
             case INTAKE:
-                rightintake.setPower(intakeSpeed);
-                leftintake.setPower(intakeSpeed);
+                intake.setPower(intakeSpeed);
+                intake.setPower(intakeSpeed);
                 break;
             case INTAKESLOW:
-                rightintake.setPower(intakeSlow);
-                leftintake.setPower(intakeSlow);
+                intake.setPower(intakeSlow);
+                intake.setPower(intakeSlow);
                 break;
             case OUTTAKE:
-                rightintake.setPower(outtake);
-                leftintake.setPower(outtake);
+                intake.setPower(outtake);
+                intake.setPower(outtake);
                 break;
             case OUTTAKEAUTO:
-                rightintake.setPower(-.7);
-                leftintake.setPower(-.7);
+                intake.setPower(-.7);
+                intake.setPower(-.7);
                 break;
             case STOP:
-                rightintake.setPower(0);
-                leftintake.setPower(0);
+                intake.setPower(0);
+                intake.setPower(0);
                 break;
         }
     }
