@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.CommandFrameWork;
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.firstHang;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging.readyFirstHang;
+
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -9,6 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
 import java.util.List;
@@ -45,10 +49,10 @@ public abstract class BaseTele extends LinearOpMode {
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
-//            robot.hang.manualHang(robot.gamepad2);
+            robot.hang.manualHang(robot.gamepad2);
 
-//            robot.gamepad2.whenRightTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.READYFIRSTHANG, JohnHanging.LeftHangStates.ZERO_POWER,JohnHanging.RightHangStates.READYFIRSTHANG, JohnHanging.RightHangStates.ZERO_POWER,readyFirstHang));
-//            robot.gamepad2.whenLeftTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.FIRSTHANG, JohnHanging.LeftHangStates.HOLDPOS,JohnHanging.RightHangStates.FIRSTHANG, JohnHanging.RightHangStates.HOLDPOS,firstHang));
+            robot.gamepad2.whenRightTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.READYFIRSTHANG, JohnHanging.LeftHangStates.ZERO_POWER,JohnHanging.RightHangStates.READYFIRSTHANG, JohnHanging.RightHangStates.ZERO_POWER,readyFirstHang));
+            robot.gamepad2.whenLeftTriggerPressed(groups.moveHang(JohnHanging.LeftHangStates.FIRSTHANG, JohnHanging.LeftHangStates.HOLDPOS,JohnHanging.RightHangStates.FIRSTHANG, JohnHanging.RightHangStates.HOLDPOS,firstHang));
 
 //            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
 //            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
