@@ -12,5 +12,4 @@ public abstract class BetterSubsystems extends SubsystemBase {
     public BetterSubsystems() {
         CommandScheduler.getInstance().registerSubsystem(this);
     }
-
 }
