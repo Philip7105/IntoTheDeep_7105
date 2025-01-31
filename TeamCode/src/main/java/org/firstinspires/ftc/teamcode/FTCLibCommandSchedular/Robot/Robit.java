@@ -9,8 +9,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.LynxConstants;
 
 import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.ClipMech;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.Intake;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.JohnHanging;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.Limelight;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems.VerticalSlides;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 
 import java.util.ArrayList;
@@ -19,19 +25,20 @@ import java.util.List;
 
 @Config
 public class Robit {
-    public DcMotorEx leftHang, rightHang,leftslide,rightslide;
-
     public Drivetrain drivetrain;
-
+    public HorizontalSlides horizontalSlides;
+    public VerticalSlides verticalSlides;
+    public ClipMech clipMech;
+    public JohnHanging johnHanging;
     public Intake intake;
+    public Limelight limelight;
+    public Dashboard dashboard;
 
     private HardwareMap hardwareMap;
 
     private static Robit instance = null;
 
-    public List<LynxModule> modules;
-    public LynxModule CONTROL_HUB;
-
+    List<LynxModule> allHubs;
 
     private ArrayList<BetterSubsystems> subsystems;
 
@@ -51,38 +58,33 @@ public class Robit {
     public void init(final HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
 
-        // UWUXTENSION
-        leftHang = hardwareMap.get(DcMotorEx.class, "lefthang");
-        rightHang = hardwareMap.get(DcMotorEx.class, "righthang");
-        leftslide = hardwareMap.get(DcMotorEx.class, "leftslide");
-        rightslide = hardwareMap.get(DcMotorEx.class, "rightslide");
+        allHubs= hardwareMap.getAll(LynxModule.class);
 
-        rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
-
-
-//        intakePivotActuator
-
-//        this.rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        modules = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule m : modules) {
-            m.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-            if (m.isParent() && LynxConstants.isEmbeddedSerialNumber(m.getSerialNumber())) CONTROL_HUB = m;
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
 
-
         subsystems = new ArrayList<>();
+        verticalSlides = new VerticalSlides(hardwareMap);
+        horizontalSlides = new HorizontalSlides(hardwareMap);
         drivetrain = new Drivetrain(hardwareMap);
+        clipMech = new ClipMech(hardwareMap);
+        johnHanging = new JohnHanging(hardwareMap);
+        limelight = new Limelight(drivetrain,hardwareMap);
         intake = new Intake(hardwareMap);
+        dashboard = new Dashboard(drivetrain.mecanumDrive);
+
+        drivetrain.init();
+        horizontalSlides.init();
+        verticalSlides.init();
+        clipMech.init();
+        johnHanging.init();
+        intake.init();
+        limelight.init();
+        dashboard.init();
+//        this.rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
 //        if (Globals.IS_AUTO) {
-//
+
 //        } else {
 //            drone = new DroneSubsystem();
 //            hang = new HangSubsystem();
@@ -90,13 +92,20 @@ public class Robit {
     }
 
     public void periodic() {
-        intake.periodic();
         drivetrain.periodic();
-
+        horizontalSlides.periodic();
+        verticalSlides.periodic();
+        clipMech.periodic();
+        johnHanging.periodic();
+        intake.periodic();
+        limelight.periodic();
+        dashboard.periodic();
     }
 
     public void clearBulkCache() {
-        CONTROL_HUB.clearBulkCache();
+        for (LynxModule hub : allHubs) {
+            hub.clearBulkCache();
+        }
     }
 
     public void addSubsystem(BetterSubsystems... subsystems) {

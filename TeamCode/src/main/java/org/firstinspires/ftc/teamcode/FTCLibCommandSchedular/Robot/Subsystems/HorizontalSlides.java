@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
-public class HorizontalSlides extends BetterSubsystems {
+public class HorizontalSlides extends SubsystemBase {
     public ServoImplEx leftservoslide, rightservoslide;
     public static double fullin = .24,halfout = .56,autopos = 0.64,prepreclip = .4,hookclip = 0.34,preclip = .3,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 166, preclipencoderpos = 151.5,autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
@@ -25,11 +26,8 @@ public class HorizontalSlides extends BetterSubsystems {
     }
 
     @Override
-    public void init() {
-        leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");
-        rightservoslide = hwMap.get(ServoImplEx.class,"rightservoslide");
-        leftservoslide.setDirection(Servo.Direction.REVERSE);
-        slideAnalog = hwMap.get(AnalogInput.class, "leftslideencoder");
+    public void in() {
+
     }
 
     @Override
@@ -37,10 +35,6 @@ public class HorizontalSlides extends BetterSubsystems {
         Dashboard.addData("horizontalslides",getSlidePos());
     }
 
-    @Override
-    public void shutdown() {
-//        setHorizontalSlides(HorizontalSlideStates.SHUTOFF);
-    }
 
     public double getSlidePos(){
         return getVoltage() / 3.3 * 360;
