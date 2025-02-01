@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
@@ -15,23 +16,18 @@ import org.firstinspires.ftc.teamcode.robot.Input;
 
 
 @Config
-public class Drivetrain extends BetterSubsystems {
+public class Drivetrain extends SubsystemBase {
     public PinpointDrive mecanumDrive;
     public static DriveSpeed driveSpeed = DriveSpeed.Fast;
     public Drivetrain(HardwareMap hwMap){
         this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
     }
     @Override
-    public void init() {
+    public void register() {
     }
 
     @Override
     public void periodic() {
-    }
-
-    @Override
-    public void shutdown() {
-        mecanumDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
     }
 
     public void RobotRelative(Input input){

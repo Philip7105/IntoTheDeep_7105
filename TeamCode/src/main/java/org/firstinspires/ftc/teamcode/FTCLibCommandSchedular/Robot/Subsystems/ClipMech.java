@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
-public class ClipMech extends BetterSubsystems {
+public class ClipMech extends SubsystemBase {
 
     Servo rightmagarm,leftmagarm,rightindex,leftindex;
 
@@ -26,7 +27,8 @@ public class ClipMech extends BetterSubsystems {
     }
 
     @Override
-    public void init() {
+    public void register() {
+        super.register();
         rightindex = hwMap.get(Servo.class,"rightindex");
         leftindex = hwMap.get(Servo.class,"leftindex");
         rightmagarm = hwMap.get(Servo.class,"rightmagarm");
@@ -54,10 +56,6 @@ public class ClipMech extends BetterSubsystems {
         return clipAnalog.getVoltage();
     }
 
-    @Override
-    public void shutdown() {
-        setArmStates(ArmStates.SHUTOFF);
-    }
     public void setArmStates(ArmStates armStates){
         switch (armStates){
             case CLIPPITY_CLAPPITY_CLICKITY_CLICK: //51

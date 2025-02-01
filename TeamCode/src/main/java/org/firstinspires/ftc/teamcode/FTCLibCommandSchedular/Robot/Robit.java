@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -33,6 +34,8 @@ public class Robit {
     public Intake intake;
     public Limelight limelight;
     public Dashboard dashboard;
+
+    CommandScheduler commandScheduler;
 
     private HardwareMap hardwareMap;
 
@@ -73,15 +76,6 @@ public class Robit {
         limelight = new Limelight(drivetrain,hardwareMap);
         intake = new Intake(hardwareMap);
         dashboard = new Dashboard(drivetrain.mecanumDrive);
-
-        drivetrain.init();
-        horizontalSlides.init();
-        verticalSlides.init();
-        clipMech.init();
-        johnHanging.init();
-        intake.init();
-        limelight.init();
-        dashboard.init();
 //        this.rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
 //        if (Globals.IS_AUTO) {
 

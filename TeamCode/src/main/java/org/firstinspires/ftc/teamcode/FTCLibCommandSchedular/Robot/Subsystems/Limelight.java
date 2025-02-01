@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import com.ThermalEquilibrium.homeostasis.Utils.MathUtils;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 
-public class Limelight extends BetterSubsystems {
+public class Limelight extends SubsystemBase {
 
     Limelight3A limelight;
 
@@ -28,7 +29,8 @@ public class Limelight extends BetterSubsystems {
     }
 
     @Override
-    public void init() {
+    public void register() {
+        super.register();
         x = 0;
         y = 0;
 
@@ -74,9 +76,5 @@ public class Limelight extends BetterSubsystems {
     }
     public double getBotY(){
         return result.getBotpose_MT2().getPosition().y;
-    }
-    @Override
-    public void shutdown() {
-        limelight.shutdown();
     }
 }

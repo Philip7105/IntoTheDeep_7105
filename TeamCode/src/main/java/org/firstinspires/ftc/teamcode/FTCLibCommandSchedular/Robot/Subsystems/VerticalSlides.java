@@ -4,15 +4,14 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTr
 
 import org.firstinspires.ftc.teamcode.Control.PDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Control.PDController;
-import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -20,9 +19,9 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
-public class VerticalSlides extends BetterSubsystems {
+public class VerticalSlides extends SubsystemBase {
     DcMotor rightslide,leftslide;
-    public static double intakeslidesup = 140, clipoffwall = 365, lowchamber = 1300, lowbasket = 1850, kg = .128, hangPos = 2030,getslideposrr,calculate, highbasket =2900, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
+    public static double intakeslidesup = 140, clipoffwall = 390, lowchamber = 1300, lowbasket = 1850, kg = .128, hangPos = 2030,getslideposrr,calculate, highbasket =2900, ref = 0, down = -.3, normalTolerance = 15, greaterTolerance = 30;
     public static boolean holdPos = false, useBasketPos = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
@@ -35,7 +34,8 @@ public class VerticalSlides extends BetterSubsystems {
     }
 
     @Override
-    public void init() {
+    public void register() {
+        super.register();
         ref = 0;
         holdPos = false;
         useBasketPos = false;
@@ -50,9 +50,6 @@ public class VerticalSlides extends BetterSubsystems {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
         Dashboard.addData("touchsensor",touchSensorIsPressed());
-    }
-    @Override
-    public void shutdown() {
     }
     public void pdController(){
         calculate = controller.calculate(ref,getSlidesPos());

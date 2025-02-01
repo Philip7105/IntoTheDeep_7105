@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
-public class JohnHanging extends BetterSubsystems {
+public class JohnHanging extends SubsystemBase {
     DcMotorEx rightHang,leftHang;
     public static double readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .2;
     public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
@@ -21,7 +22,8 @@ public class JohnHanging extends BetterSubsystems {
         this.hwMap = hwMap;
     }
     @Override
-    public void init() {
+    public void register() {
+        super.register();
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
         leftHang = hwMap.get(DcMotorEx.class, "leftHang");
         rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -44,10 +46,8 @@ public class JohnHanging extends BetterSubsystems {
         Dashboard.addData("getHangPow",getPower());
     }
 
-    @Override
-    public void shutdown() {
 
-    }
+
     public void setRightHang(RightHangStates rightHangStates){
         switch(rightHangStates){
             case READYFIRSTHANG:

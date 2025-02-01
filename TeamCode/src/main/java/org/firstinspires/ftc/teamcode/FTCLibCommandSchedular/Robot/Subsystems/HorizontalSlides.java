@@ -20,21 +20,23 @@ public class HorizontalSlides extends SubsystemBase {
     AnalogInput slideAnalog;
     HardwareMap hwMap;
     //13 inches
-
     public HorizontalSlides(HardwareMap hwMap){
         this.hwMap = hwMap;
     }
 
     @Override
-    public void in() {
-
+    public void register() {
+        super.register();
+        leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");
+        rightservoslide = hwMap.get(ServoImplEx.class,"rightservoslide");
+        leftservoslide.setDirection(Servo.Direction.REVERSE);
+        slideAnalog = hwMap.get(AnalogInput.class, "leftslideencoder");
     }
 
     @Override
     public void periodic() {
         Dashboard.addData("horizontalslides",getSlidePos());
     }
-
 
     public double getSlidePos(){
         return getVoltage() / 3.3 * 360;

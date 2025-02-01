@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.NewRR.Drawing;
 import org.firstinspires.ftc.teamcode.NewRR.MecanumDrive;
 
-public class Dashboard extends BetterSubsystems {
+public class Dashboard extends SubsystemBase {
         public static TelemetryPacket packet = new TelemetryPacket();
         FtcDashboard dash = FtcDashboard.getInstance();
 
@@ -21,7 +22,8 @@ public class Dashboard extends BetterSubsystems {
         }
 
         @Override
-        public void init() {
+        public void register() {
+            super.register();
             drawRobot();
             dash.sendTelemetryPacket(packet);
             packet = new TelemetryPacket();
@@ -31,10 +33,6 @@ public class Dashboard extends BetterSubsystems {
             drawRobot();
             dash.sendTelemetryPacket(packet);
             packet = new TelemetryPacket();
-        }
-        @Override
-        public void shutdown() {
-
         }
         public static void addData(String string, Object object){
             packet.put(string,object);

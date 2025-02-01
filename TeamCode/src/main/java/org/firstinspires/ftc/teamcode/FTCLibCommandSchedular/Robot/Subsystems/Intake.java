@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.useBasketPos;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Hori
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
-public class Intake extends BetterSubsystems {
+public class Intake extends SubsystemBase {
 
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
@@ -38,7 +39,8 @@ public class Intake extends BetterSubsystems {
     }
 
     @Override
-    public void init() {
+    public void register() {
+        super.register();
         colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
         rightintake = hwMap.get(CRServo.class,"rightintake");
         leftintake = hwMap.get(CRServo.class,"leftintake");
@@ -59,11 +61,6 @@ public class Intake extends BetterSubsystems {
         Dashboard.addData("optical",getOptical());
         Dashboard.addData("samplestates",sampleStates);
         runColorSensor();
-    }
-
-    @Override
-    public void shutdown() {
-
     }
 
     public double getArmPos(){
