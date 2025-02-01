@@ -18,6 +18,8 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
+
+//This one is the one we ran at rolesville and is the backup auto.
 @Autonomous
 public class RedClipSideRollsvile extends BaseAuto {
     @Override

@@ -29,7 +29,6 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 
-@Config
 @Autonomous
 public class BlueBucket3 extends BaseAuto {
     @Override

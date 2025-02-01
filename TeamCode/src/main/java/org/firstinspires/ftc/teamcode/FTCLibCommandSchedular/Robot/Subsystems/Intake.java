@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
+package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.useBasketPos;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -13,14 +14,14 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
-public class JohnsIntake extends Subsystem {
+public class Intake extends SubsystemBase {
 
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
@@ -31,8 +32,15 @@ public class JohnsIntake extends Subsystem {
 
     AnalogInput armanalog;
 
+    HardwareMap hwMap;
+
+    public Intake(HardwareMap hwMap){
+        this.hwMap = hwMap;
+    }
+
     @Override
-    public void initAuto(HardwareMap hwMap) {
+    public void register() {
+        super.register();
         colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
         rightintake = hwMap.get(CRServo.class,"rightintake");
         leftintake = hwMap.get(CRServo.class,"leftintake");
@@ -44,72 +52,67 @@ public class JohnsIntake extends Subsystem {
         sampleStates = SampleStates.READ;
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
-}
-@Override
-public void periodic() {
-    Dashboard.addData("red",getRed());
-    Dashboard.addData("blue",getBlue());
-    Dashboard.addData("green",getGreen());
-    Dashboard.addData("optical",getOptical());
-    Dashboard.addData("samplestates",sampleStates);
-    runColorSensor();
-}
-
-@Override
-public void shutdown() {
-
-}
-
-public double getArmPos(){
-    return armanalog.getVoltage() / 3.3 * 360;
-}
-
-public double getOptical(){
-    return colorsensor.rawOptical();
-}
-
-public double getBlue(){
-    return colorsensor.blue();
-}
-
-public double getRed(){
-    return colorsensor.red();
-}
-
-public double getGreen(){
-    return colorsensor.green();
-}
-
-public void runColorSensor(){
-    switch (sampleStates){
-        case RED:
-
-            break;
-        case BLUE:
-
-            break;
-        case YELLOW:
-
-            break;
-        case READ:
-            if (getOptical() > 450){
-                sampleStates = SampleStates.READCOLOR;
-            }
-            break;
-        case READCOLOR:
-            if (getBlue() > 1000){
-                sampleStates = SampleStates.BLUE;
-            } else if (getGreen() > 2000) {
-                sampleStates = SampleStates.YELLOW;
-            } else {
-                sampleStates = SampleStates.RED;
-            }
-            break;
-        case EMPTY:
-
-            break;
     }
-}
+    @Override
+    public void periodic() {
+        Dashboard.addData("red",getRed());
+        Dashboard.addData("blue",getBlue());
+        Dashboard.addData("green",getGreen());
+        Dashboard.addData("optical",getOptical());
+        Dashboard.addData("samplestates",sampleStates);
+        runColorSensor();
+    }
+
+    public double getArmPos(){
+        return armanalog.getVoltage() / 3.3 * 360;
+    }
+
+    public double getOptical(){
+        return colorsensor.rawOptical();
+    }
+
+    public double getBlue(){
+        return colorsensor.blue();
+    }
+
+    public double getRed(){
+        return colorsensor.red();
+    }
+
+    public double getGreen(){
+        return colorsensor.green();
+    }
+
+    public void runColorSensor(){
+        switch (sampleStates){
+            case RED:
+
+                break;
+            case BLUE:
+
+                break;
+            case YELLOW:
+
+                break;
+            case READ:
+                if (getOptical() > 450){
+                    sampleStates = SampleStates.READCOLOR;
+                }
+                break;
+            case READCOLOR:
+                if (getBlue() > 1000){
+                    sampleStates = SampleStates.BLUE;
+                } else if (getGreen() > 2000) {
+                    sampleStates = SampleStates.YELLOW;
+                } else {
+                    sampleStates = SampleStates.RED;
+                }
+                break;
+            case EMPTY:
+
+                break;
+        }
+    }
 
     public void intakeTele(Input input, HorizontalSlides slides, Input input2){
         if (input2.isCross()) {
@@ -119,15 +122,15 @@ public void runColorSensor(){
         } else if (input.isLeft_trigger_press()){
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setGripper(GripperStates.UNCLAMP);
-            setIntake(JohnsIntake.IntakeStates.OUTTAKE);
+            setIntake(Intake.IntakeStates.OUTTAKE);
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
             setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
         } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
-            setIntake(JohnsIntake.IntakeStates.INTAKE);
-            setPivotStates(JohnsIntake.PivotStates.FORWARD);
+            setIntake(Intake.IntakeStates.INTAKE);
+            setPivotStates(Intake.PivotStates.FORWARD);
         }
 //        else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == halfout) {
 //            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
@@ -137,14 +140,14 @@ public void runColorSensor(){
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setPivotStates(JohnsIntake.PivotStates.PARALLEL);
-            setIntake(JohnsIntake.IntakeStates.STOP);
+            setPivotStates(Intake.PivotStates.PARALLEL);
+            setIntake(Intake.IntakeStates.STOP);
         } else if (useBasketPos) {
             setPivotStates(PivotStates.BASKETPOS);
-            setIntake(JohnsIntake.IntakeStates.STOP);
+            setIntake(Intake.IntakeStates.STOP);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setIntake(JohnsIntake.IntakeStates.STOP);
+            setIntake(Intake.IntakeStates.STOP);
         }
     }
 
