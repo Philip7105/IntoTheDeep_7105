@@ -144,6 +144,8 @@ public class DriveTrain extends Subsystem {
                 .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-61, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-62.5, 53), Math.toRadians(90))
                 .build();
     }
 

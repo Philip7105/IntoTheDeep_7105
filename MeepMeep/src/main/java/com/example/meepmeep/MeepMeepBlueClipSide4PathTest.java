@@ -22,41 +22,48 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
 //                .strafeToLinearHeading(new Vector2d(-47,47),Math.toRadians(90))
 //                .strafeToLinearHeading(new Vector2d(-47,52),Math.toRadians(90))
                 // clip first specimen
-                .strafeToLinearHeading(new Vector2d(-30,38),Math.toRadians(90))
-//                        .splineTo(new Vector2d(1,1),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-36,10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-36,10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
 //                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-47, 55), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 // push in the first blue sample
 //                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-48, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-56, 25), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-56, 55), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-61, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-62.5, 53), Math.toRadians(90))
+                // push in the first blue sample
+//                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
+//                .splineToConstantHeading(new Vector2d(-48, 10), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-56, 25), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-56, 55), Math.toRadians(90))
                 // push in the second blue sample
-                .splineToConstantHeading(new Vector2d(-60, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-61, 10), Math.toRadians(180))
-                .strafeToLinearHeading(new Vector2d(-61, 55), Math.toRadians(180))
+//                .splineToConstantHeading(new Vector2d(-60, 10), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-61, 10), Math.toRadians(180))
+//                .strafeToLinearHeading(new Vector2d(-61, 55), Math.toRadians(180))
                 // push in the third blue sample
-                .strafeToLinearHeading(new Vector2d(-52, 30), Math.toRadians(90))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-52, 30), Math.toRadians(90))
+//                .waitSeconds(1)
+//                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
                 // pick up a blue specimen
-                .strafeToLinearHeading(new Vector2d(-8,33),Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-8,33),Math.toRadians(90))
                 // place a blue specimen
-                .strafeToLinearHeading(new Vector2d(-52, 40), Math.toRadians(90))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-52, 40), Math.toRadians(90))
+//                .waitSeconds(1)
+//                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
                 // pick up a blue specimen
-                .strafeToLinearHeading(new Vector2d(-6,33),Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-6,33),Math.toRadians(90))
                 // place a blue specimen
-                .strafeToLinearHeading(new Vector2d(-52, 40), Math.toRadians(90))
-                .waitSeconds(1)
-                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-52, 40), Math.toRadians(90))
+//                .waitSeconds(1)
+//                .strafeToLinearHeading(new Vector2d(-52, 55), Math.toRadians(90))
                 // pick up a blue specimen
-                .strafeToLinearHeading(new Vector2d(-4,33),Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-4,33),Math.toRadians(90))
                 // place a blue specimen
-                .strafeToLinearHeading(new Vector2d(-54, 55), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-54, 55), Math.toRadians(90))
                 .build());
 
         meepmeep.setBackground(Background.FIELD_INTO_THE_DEEP_JUICE_DARK)

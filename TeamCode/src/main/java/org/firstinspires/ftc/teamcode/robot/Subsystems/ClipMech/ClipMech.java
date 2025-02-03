@@ -131,6 +131,10 @@ public class ClipMech extends Subsystem {
                     cliparmdone = false;
                 }
                 break;
+            case OUTOFTHEWAYFORAUTO:
+                rightmagarm.setPosition(.1);//279
+                leftmagarm.setPosition(.1);
+                break;
             case DOWN:
                 target = downencoderpos;
                 rightmagarm.setPosition(down);
@@ -227,6 +231,7 @@ public class ClipMech extends Subsystem {
         ALMOST_DOWN,
         SPECIALDOWN,
         DOWN,
+        OUTOFTHEWAYFORAUTO,
         SHUTOFF,
         EMPTY
     }
