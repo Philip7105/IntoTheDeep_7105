@@ -7,39 +7,47 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
 public class ClipMech extends Subsystem {
-
     Servo rightmagarm,leftmagarm,rightindex,leftindex;
-
-    public static double pushnone = .18,pushone = .2,pushtwo = .23,pushthree = .26, pushfour = .29,fully_up = .85,ready = 0.605,hookclip = 0.59,outtheway = .5, down = .04, almost_down = .19, target, downencoderpos = 340, almostdownencoderpos = 281,
+    public static double pushnone = .1,pushone = .22,pushtwo = .31,pushthree = .395, pushfour = .485,fully_up = .85,ready = 0.53,hookclip = 0.59,outtheway = .5, down = .04, almost_down = .19, target, downencoderpos = 340, almostdownencoderpos = 281,
     readyencoderpos = 146.9,outthewayencoderpos = 170,hookclipencoderpos = 151,clippity_clappity_clickity_clickencoderpos = 67;
-    public static boolean cliparmdone = false;
+    public static boolean cliparmdone = false, reverseLeftIndex = false, reverseRightIndex = false;
     AnalogInput clipAnalog;
-
+//    Input input;
+    LeftIndexState leftIndexState;
+    RightIndexState rightIndexState;
+//    public ClipMech(Input input){
+//        this.input = input;
+//    }
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightindex = hwMap.get(Servo.class,"rightindex");
         leftindex = hwMap.get(Servo.class,"leftindex");
         rightmagarm = hwMap.get(Servo.class,"rightmagarm");
         leftmagarm = hwMap.get(Servo.class,"leftmagarm");
+        leftIndexState = LeftIndexState.OUTOFTHEWAY;
+        rightIndexState = RightIndexState.OUTOFTHEWAY;
         leftmagarm.setDirection(Servo.Direction.REVERSE);
         rightmagarm.setDirection(Servo.Direction.REVERSE);
+            leftindex.setDirection(Servo.Direction.REVERSE);
+        if (reverseRightIndex){
+            rightindex.setDirection(Servo.Direction.REVERSE);
+        }
+
         clipAnalog = hwMap.get(AnalogInput.class, "clipanalog");
         cliparmdone = false;
     }
-
     @Override
     public void periodic() {
         Dashboard.addData("clipmagpos",getClipMagPos());
     }
-
     public double getClipMagPos(){
         return clipAnalog.getVoltage() / 3.3 * 360;
     }
-
     public double getClipMagError(){
         return Math.abs(target - getClipMagPos());
     }
@@ -141,42 +149,72 @@ public class ClipMech extends Subsystem {
         }
     }
 
-    public void setLeftIndex(LeftIndexState leftIndexState){
+    public void setLeftIndex(Input input){
         switch (leftIndexState){
             case PUSHONE:
                 leftindex.setPosition(pushone);
+                if (input.isRightTriggerPressed()){
+                    leftIndexState = LeftIndexState.PUSHTWO;
+                }
                 break;
             case PUSHTWO:
                 leftindex.setPosition(pushtwo);
+                if (input.isRightTriggerPressed()){
+                    leftIndexState = LeftIndexState.PUSHTHREE;
+                }
                 break;
             case PUSHTHREE:
                 leftindex.setPosition(pushthree);
+                if (input.isRightTriggerPressed()){
+                    leftIndexState = LeftIndexState.PUSHFOUR;
+                }
                 break;
             case PUSHFOUR:
                 leftindex.setPosition(pushfour);
+                if (input.isRightTriggerPressed()){
+                    leftIndexState = LeftIndexState.OUTOFTHEWAY;
+                }
                 break;
             case OUTOFTHEWAY:
                 leftindex.setPosition(pushnone);
+                if (input.isRightTriggerPressed()){
+                    leftIndexState = LeftIndexState.PUSHONE;
+                }
                 break;
         }
     }
 
-    public void setRightIndex(RightIndexState rightIndexState){
+    public void setRightIndex(Input input){
         switch (rightIndexState){
             case PUSHONE:
                 rightindex.setPosition(pushone);
+                if (input.isLeftTriggerPressed()){
+                    rightIndexState = RightIndexState.PUSHTWO;
+                }
                 break;
             case PUSHTWO:
                 rightindex.setPosition(pushtwo);
+                if (input.isLeftTriggerPressed()){
+                    rightIndexState = RightIndexState.PUSHTHREE;
+                }
                 break;
             case PUSHTHREE:
                 rightindex.setPosition(pushthree);
+                if (input.isLeftTriggerPressed()){
+                    rightIndexState = RightIndexState.PUSHFOUR;
+                }
                 break;
             case PUSHFOUR:
                 rightindex.setPosition(pushfour);
+                if (input.isLeftTriggerPressed()){
+                    rightIndexState = RightIndexState.OUTOFTHEWAY;
+                }
                 break;
             case OUTOFTHEWAY:
                 rightindex.setPosition(pushnone);
+                if (input.isLeftTriggerPressed()){
+                    rightIndexState = RightIndexState.PUSHONE;
+                }
                 break;
         }
     }

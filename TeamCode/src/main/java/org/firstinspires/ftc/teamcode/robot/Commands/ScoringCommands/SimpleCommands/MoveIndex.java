@@ -20,7 +20,7 @@ public class MoveIndex extends Command {
 
     @Override
     public void init() {
-        clipMech.setLeftIndex(leftIndexState);
+//        clipMech.setLeftIndex(leftIndexState);
     }
 
     @Override

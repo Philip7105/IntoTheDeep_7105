@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 
-public class MoveClipMech extends Command {
+public class MoveClipMagTimeBased extends Command {
 
     ElapsedTime time = new ElapsedTime();
 
@@ -15,7 +15,7 @@ public class MoveClipMech extends Command {
 
     ClipMech.ArmStates armstates;
 
-    public MoveClipMech(ClipMech clipmech, ClipMech.ArmStates armstates){
+    public MoveClipMagTimeBased(ClipMech clipmech, ClipMech.ArmStates armstates){
         this.clipmech = clipmech;
         this.armstates = armstates;
     }

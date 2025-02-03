@@ -24,7 +24,7 @@ public class JohnsIntake extends Subsystem {
 
     CRServo rightintake,leftintake;
     Servo gripper,rightarm,leftarm;
-    public static double clamp = .74, unclamp = 0.245,basketpos = .64,preclip = .29, hookclip = .3,chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.6;//.78  .155
+    public static double clamp = .74, unclamp = 0.245,basketpos = .64,preclip = 0.215, hookclip = .31,chamberpos = .76, down = 0.14, parallel = .26,lowerpickup = .13,intakeSlow = .2,intakeSpeed = 1,outtake = -.6;//.78  .155
 
     SampleStates sampleStates;
     RevColorSensorV3 colorsensor;

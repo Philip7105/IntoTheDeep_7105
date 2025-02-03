@@ -18,12 +18,15 @@ import org.firstinspires.ftc.teamcode.robot.Input;
 public class DriveTrain extends Subsystem {
     public PinpointDrive mecanumDrive;
    public static DriveSpeed driveSpeed = DriveSpeed.Fast;
+   public static double headingoffset = 0;
+   public static boolean engagePTO = false;
    public DriveTrain(HardwareMap hwMap){
        this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
    }
 
     @Override
     public void initAuto(HardwareMap hwMap) {
+       engagePTO = false;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void RobotRelative(Input input){
-       if (driveSpeed == DriveSpeed.Fast) {
+       if (driveSpeed == DriveSpeed.Fast && !engagePTO) {
            mecanumDrive.setDrivePowers(new PoseVelocity2d(
                    new Vector2d(
                            -input.getLeft_stick_y(),
@@ -44,7 +47,16 @@ public class DriveTrain extends Subsystem {
                    ),
                    -input.getRight_stick_x()
            ));
-       } else if (driveSpeed == DriveSpeed.Slow) {
+       }
+       else if (engagePTO) {
+           mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                   new Vector2d(
+                           0,
+                           -input.getLeft_stick_x() * .1
+                   ),
+                   0
+           ));
+       } else if (driveSpeed == DriveSpeed.Slow && !engagePTO) {
            mecanumDrive.setDrivePowers(new PoseVelocity2d(
                    new Vector2d(
                            -input.getLeft_stick_y() * .3,
@@ -52,7 +64,7 @@ public class DriveTrain extends Subsystem {
                    ),
                    -input.getRight_stick_x() *.3
            ));
-           }else if (driveSpeed == DriveSpeed.MEDIUM) {
+           }else if (driveSpeed == DriveSpeed.MEDIUM && !engagePTO) {
            mecanumDrive.setDrivePowers(new PoseVelocity2d(
                    new Vector2d(
                            -input.getLeft_stick_y() * .6,
@@ -63,9 +75,18 @@ public class DriveTrain extends Subsystem {
        }
    }
 
+   public void moveDriveMotors(double speed){
+       mecanumDrive.rightFront.setPower(speed);
+       mecanumDrive.rightBack.setPower(speed);
+       mecanumDrive.leftFront.setPower(speed);
+       mecanumDrive.leftBack.setPower(speed);
+   }
+
    public void changeDriveState(Input input){
        if (input.isLeft_trigger_press()){
            driveSpeed = DriveSpeed.Slow;
+       } else {
+           driveSpeed = DriveSpeed.Fast;
        }
    }
 
@@ -75,6 +96,18 @@ public class DriveTrain extends Subsystem {
 
     public void setPoseEstimateBetter(Vector2d vector2d, double heading){
         mecanumDrive.pose = new Pose2d(vector2d,heading);
+    }
+
+    public double getVelX(){
+       return mecanumDrive.pinpoint.getVelX();
+    }
+
+    public double getVelY(){
+        return mecanumDrive.pinpoint.getVelY();
+    }
+
+    public Pose2d getPoseEstimate(){
+       return mecanumDrive.pose;
     }
 
     public double getXPos(){
@@ -90,7 +123,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public double getHeadingFixed(){
-        return Math.toDegrees(getHeading().toDouble());
+        return Math.toDegrees(getHeading().toDouble()) + headingoffset;
     }
 
     public Action strafeToLinearHeading(Vector2d startVec,double startHeading, Vector2d targetVec, double targetHeading) {
