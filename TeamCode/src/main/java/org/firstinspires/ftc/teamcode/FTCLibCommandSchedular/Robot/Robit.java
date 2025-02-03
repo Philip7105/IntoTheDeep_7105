@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.Subsystem;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -43,7 +44,7 @@ public class Robit {
 
     List<LynxModule> allHubs;
 
-    private ArrayList<BetterSubsystems> subsystems;
+    private ArrayList<Subsystem> subsystems;
 
     public static Robit getInstance() {
         if (instance == null) {
@@ -75,7 +76,9 @@ public class Robit {
         johnHanging = new JohnHanging(hardwareMap);
         limelight = new Limelight(drivetrain,hardwareMap);
         intake = new Intake(hardwareMap);
+        addSubsystem(verticalSlides,horizontalSlides,drivetrain,clipMech,johnHanging,limelight,intake);
         dashboard = new Dashboard(drivetrain.mecanumDrive);
+//        commandScheduler = new org.firstinspires.ftc.teamcode.CommandFrameWork.CommandScheduler(hardwareMap,new );
 //        this.rightHang.setDirection(DcMotorSimple.Direction.REVERSE);
 //        if (Globals.IS_AUTO) {
 
@@ -86,14 +89,15 @@ public class Robit {
     }
 
     public void periodic() {
-        drivetrain.periodic();
-        horizontalSlides.periodic();
-        verticalSlides.periodic();
-        clipMech.periodic();
-        johnHanging.periodic();
-        intake.periodic();
-        limelight.periodic();
-        dashboard.periodic();
+        commandScheduler.run();
+//        drivetrain.periodic();
+//        horizontalSlides.periodic();
+//        verticalSlides.periodic();
+//        clipMech.periodic();
+//        johnHanging.periodic();
+//        intake.periodic();
+//        limelight.periodic();
+//        dashboard.periodic();
     }
 
     public void clearBulkCache() {
@@ -102,7 +106,7 @@ public class Robit {
         }
     }
 
-    public void addSubsystem(BetterSubsystems... subsystems) {
+    public void addSubsystem(Subsystem... subsystems) {
         this.subsystems.addAll(Arrays.asList(subsystems));
     }
 
