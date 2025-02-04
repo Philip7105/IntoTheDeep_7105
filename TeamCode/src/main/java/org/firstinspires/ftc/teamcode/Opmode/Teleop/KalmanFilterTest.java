@@ -31,13 +31,13 @@ public class KalmanFilterTest extends LinearOpMode {
                 robot.limelight.limelight.updateRobotOrientation(robot.driveTrain.getHeadingFixed());
 
 //        if (result != null && result.isValid()) {
-            botpose = result.getBotpose_MT2();
-            Dashboard.addData("apriltagheading",robot.driveTrain());
-            Dashboard.addData("getBotX",x);
-            Dashboard.addData("getBotY",y);
-            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
-
-                robot.driveTrain.setPoseEstimateBetter(new Vector2d(limelight.getLatestResult().getBotpose().getPosition().x*39.3701007874, robot.limelight.getLatestResult().getBotpose().getPosition().y*39.3701007874), driveTrain.getHeadingFixed());
+//            botpose = result.getBotpose_MT2();
+//            Dashboard.addData("apriltagheading",robot.driveTrain());
+//            Dashboard.addData("getBotX",x);
+//            Dashboard.addData("getBotY",y);
+//            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
+//
+//                robot.driveTrain.setPoseEstimateBetter(new Vector2d(limelight.getLatestResult().getBotpose().getPosition().x*39.3701007874, robot.limelight.getLatestResult().getBotpose().getPosition().y*39.3701007874), driveTrain.getHeadingFixed());
             }
         }
     }
