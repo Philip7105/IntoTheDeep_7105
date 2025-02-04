@@ -53,7 +53,7 @@ import java.util.List;
 
 @Config
 public class MecanumDrive {
-
+    public static double error = 3, vel = 0.5;
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -408,8 +408,8 @@ public class MecanumDrive {
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
             Pose2d error = txWorldTarget.value().minusExp(pose);
 // TODO: Check to make sure that this works.
-            if ((t >= timeTrajectory.duration && error.position.norm() < 3
-                    && robotVelRobot.linearVel.norm() < 0.5) || t >= timeTrajectory.duration + 1) {
+            if ((t >= timeTrajectory.duration && error.position.norm() < MecanumDrive.error
+                    && robotVelRobot.linearVel.norm() < vel) || t >= timeTrajectory.duration + 1) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);

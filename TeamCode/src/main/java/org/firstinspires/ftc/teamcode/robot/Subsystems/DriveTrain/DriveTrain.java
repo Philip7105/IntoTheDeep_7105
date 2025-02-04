@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.NewRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
 
@@ -133,19 +134,23 @@ public class DriveTrain extends Subsystem {
     }
 
     public Action getTheSamples(Vector2d startVec, double startHeading) {
+//        MecanumDrive.Params.vel = 4;
+//        MecanumDrive.Params.error = 4.5;
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
-                .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-35,40),Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-44.5,10), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
 //                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-44.5, 53), Math.toRadians(90))
                 // push in the first blue sample
 //                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-61, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-62.5, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-44.5, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-54.5, 10), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(-50, 25), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-54.5, 50), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-62, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-64, 52), Math.toRadians(90))
                 .build();
     }
 
