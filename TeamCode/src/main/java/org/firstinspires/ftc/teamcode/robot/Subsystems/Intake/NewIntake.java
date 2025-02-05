@@ -23,9 +23,10 @@ public class NewIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo coaxial,rightarm;
     public static double shovelpos = .05, offthewallcoaxial = .3,offthewallpivot = 0.26, hoverpos = .4, clamppos = 0.44, clampposoutback =  0.86,releasepos = 0.7,
-            basketpos = .64,preclip = 0.215, hookclip = .31,chamberpos = .65, down = 0.14,
+            basketpos = .64,preclippivot = 0.1, preclipcoaxial = .46, hookclippivot = .18,hookclipcoaxial = 0.44 ,chamberpos = .65, down = 0.14,
             parallel = .23,lowerpickup = .13,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
 
+//    0.35
 //    SampleStates sampleStates;
 //    RevColorSensorV3 colorsensor;
 
@@ -220,10 +221,12 @@ public class NewIntake extends Subsystem {
                 rightarm.setPosition(parallel);
                 break;
             case HOOKCLIP:
-                rightarm.setPosition(hookclip);
+                rightarm.setPosition(hookclippivot);
+                coaxial.setPosition(hookclipcoaxial);
                 break;
             case PRECLIP:
-                rightarm.setPosition(preclip);
+                rightarm.setPosition(preclippivot);
+                coaxial.setPosition(preclipcoaxial);
                 break;
             case SNAPCLIP:
                 rightarm.setPosition(.2);
@@ -274,7 +277,6 @@ public class NewIntake extends Subsystem {
         PARALLEL,
         HOOKCLIP,
         PRECLIP,
-        CLIP,
         FORWARD,
         SLIGHTLY_LOWER_PICKUP
     }
