@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Vert
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.LimeLight;
 
 /** sets up the framework for the robt
@@ -21,7 +22,7 @@ public class Robot {
     public Dashboard dashboard;  // set up dashboard
     public Input gamepad1, gamepad2;  // set up gamepads
 //    ScoringCommandGroups groups;
-    public JohnsIntake intake;  // set up intake
+    public NewIntake intake;  // set up intake
     public ClipMech clipmech;
     public DriveTrain driveTrain;  // set up the drivetrain
     protected CommandScheduler scheduler;  // set up the command scheduler
@@ -38,7 +39,7 @@ public class Robot {
         verticalslides = new VerticalSlides();
         horizontalslides = new HorizontalSlides();
         limelight = new LimeLight(driveTrain);
-        intake= new JohnsIntake();  // intake
+        intake= new NewIntake();  // intake
 //        groups = new ScoringCommandGroups(intake,verticalslides,horizontalslides,clipmech,hang);
         scheduler = new CommandScheduler(hw,dashboard,intake,driveTrain,verticalslides,horizontalslides,limelight,clipmech,hang);  // set the scheduler up w/ all the subsystems.  MAKE SURE TO ADD NEW SUBSYSTEMS HERE
         this.gamepad1 = new Input(gamepad1,scheduler);

@@ -4,17 +4,18 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 
 public class MovePivotTimeBased extends Command {
 
     ElapsedTime timer = new ElapsedTime();
 
-    JohnsIntake johnsIntake;
+    NewIntake johnsIntake;
 
-    JohnsIntake.PivotStates pivotStates;
+    NewIntake.PivotStates pivotStates;
 
-    public MovePivotTimeBased(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates){
+    public MovePivotTimeBased(NewIntake johnsIntake, NewIntake.PivotStates pivotStates){
         this.johnsIntake = johnsIntake;
         this.pivotStates = pivotStates;
     }
@@ -31,7 +32,7 @@ public class MovePivotTimeBased extends Command {
 
     @Override
     public boolean completed() {
-        return timer.seconds() > 1.5;
+        return timer.seconds() > .8;
     }
 
     @Override

@@ -6,17 +6,18 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 
 public class MoveIntakeJohn extends Command {
 
     ElapsedTime timer = new ElapsedTime();
 
-    JohnsIntake johnsIntake;
+    NewIntake johnsIntake;
 
-    JohnsIntake.IntakeStates intakeStates;
+    NewIntake.IntakeStates intakeStates;
 
-    public MoveIntakeJohn(JohnsIntake johnsIntake, JohnsIntake.IntakeStates intakeStates){
+    public MoveIntakeJohn(NewIntake johnsIntake, NewIntake.IntakeStates intakeStates){
 
         this.johnsIntake = johnsIntake;
         this.intakeStates = intakeStates;

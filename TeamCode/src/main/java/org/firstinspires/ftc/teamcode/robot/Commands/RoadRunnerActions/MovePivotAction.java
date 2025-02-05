@@ -4,21 +4,21 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 public class MovePivotAction implements Action {
     ElapsedTime timer = new ElapsedTime();
 
-    JohnsIntake johnsIntake;
+    NewIntake intake;
 
-    JohnsIntake.PivotStates pivotStates;
+    NewIntake.PivotStates pivotStates;
 
     public static boolean loopOncePivot = false;
 
     TelemetryPacket packet;
 
-    public MovePivotAction(JohnsIntake johnsIntake, JohnsIntake.PivotStates pivotStates, TelemetryPacket telemetryPacket){
-        this.johnsIntake = johnsIntake;
+    public MovePivotAction(NewIntake intake, NewIntake.PivotStates pivotStates, TelemetryPacket telemetryPacket){
+        this.intake = intake;
         this.packet = telemetryPacket;
         this.pivotStates = pivotStates;
         loopOncePivot = false;
@@ -34,7 +34,7 @@ public class MovePivotAction implements Action {
     @Override
     public boolean run(TelemetryPacket telemetryPacket) {
         init();
-        johnsIntake.setPivotStates(pivotStates);
+        intake.setPivotStates(pivotStates);
         if (timer.seconds() > 1){
             return false;
         }
