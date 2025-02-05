@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.Robot.Subsystems;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.useBasketPos;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -14,7 +13,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.FTCLibCommandSchedular.BetterSubsystems;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -141,9 +139,6 @@ public class Intake extends SubsystemBase {
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setPivotStates(Intake.PivotStates.PARALLEL);
-            setIntake(Intake.IntakeStates.STOP);
-        } else if (useBasketPos) {
-            setPivotStates(PivotStates.BASKETPOS);
             setIntake(Intake.IntakeStates.STOP);
         } else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;

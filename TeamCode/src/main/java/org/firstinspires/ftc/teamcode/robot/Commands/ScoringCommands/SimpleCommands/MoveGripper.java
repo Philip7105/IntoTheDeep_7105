@@ -4,24 +4,25 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 
 public class MoveGripper extends Command {
 
     ElapsedTime timer = new ElapsedTime();
 
-    JohnsIntake johnsIntake;
+    NewIntake johnsIntake;
 
-    JohnsIntake.GripperStates gripperStates;
+//    NewIntake.GripperStates gripperStates;
 
-    public MoveGripper(JohnsIntake johnsIntake,JohnsIntake.GripperStates gripperStates){
+    public MoveGripper(NewIntake johnsIntake,JohnsIntake.GripperStates gripperStates){
         this.johnsIntake = johnsIntake;
-        this.gripperStates = gripperStates;
+//        this.gripperStates = gripperStates;
     }
     @Override
     public void init() {
         timer.reset();
-        johnsIntake.setGripper(gripperStates);
+//        johnsIntake.setGripper(gripperStates);
     }
 
     @Override

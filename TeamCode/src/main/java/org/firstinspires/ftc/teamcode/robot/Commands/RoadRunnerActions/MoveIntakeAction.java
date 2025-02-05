@@ -7,16 +7,17 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 public class MoveIntakeAction implements Action {
 
     ElapsedTime timer = new ElapsedTime();
-    JohnsIntake johnsIntake;
-    JohnsIntake.IntakeStates intakeStates;
+    NewIntake johnsIntake;
+    NewIntake.IntakeStates intakeStates;
     TelemetryPacket packet;
     public static boolean loopOnceIntake = false;
 
-    public MoveIntakeAction(JohnsIntake johnsIntake,JohnsIntake.IntakeStates intakeStates, TelemetryPacket telemetryPacket){
+    public MoveIntakeAction(NewIntake johnsIntake,NewIntake.IntakeStates intakeStates, TelemetryPacket telemetryPacket){
         this.johnsIntake = johnsIntake;
         this.intakeStates = intakeStates;
         this.packet = telemetryPacket;

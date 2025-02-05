@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.useBasketPos;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
@@ -139,10 +138,7 @@ public void runColorSensor(){
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setPivotStates(JohnsIntake.PivotStates.PARALLEL);
             setIntake(JohnsIntake.IntakeStates.STOP);
-        } else if (useBasketPos) {
-            setPivotStates(PivotStates.BASKETPOS);
-            setIntake(JohnsIntake.IntakeStates.STOP);
-        } else {
+        }else {
             DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
             setIntake(JohnsIntake.IntakeStates.STOP);
         }
