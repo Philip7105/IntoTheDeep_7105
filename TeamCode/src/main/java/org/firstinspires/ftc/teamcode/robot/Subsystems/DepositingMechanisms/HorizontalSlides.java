@@ -12,11 +12,14 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,preprepreclip = 0.7,prepreclip = .38,hookclip = 0.34,preclip = .29,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 159, preclipencoderpos = 162,preprepreclipencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.64,prepreclip = .4,hookclip = 0.34,preclip = .3,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 162, preclipencoderpos = 160,autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
     //13 inches
+
+    //    0.28
+//    0.38
     @Override
     public void initAuto(HardwareMap hwMap) {
         leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");
@@ -76,10 +79,6 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(fullout); // 245
                 rightservoslide.setPosition(fullout);
                 break;
-            case PREPREPRESELFCLIP:
-                leftservoslide.setPosition(preprepreclip);
-                rightservoslide.setPosition(preprepreclip);
-                break;
             case PREPRESELFCLIP:
                 leftservoslide.setPosition(prepreclip);
                 rightservoslide.setPosition(prepreclip);
@@ -96,17 +95,26 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPwmDisable();
                 rightservoslide.setPwmDisable();
                 break;
+            case AUTOPOS:
+                leftservoslide.setPosition(autopos);
+                rightservoslide.setPosition(autopos);
+                break;
+            case SHUTOFF:
+                leftservoslide.setPosition(0);
+                rightservoslide.setPosition(0);
+                break;
         }
     }
 
     public enum HorizontalSlideStates {
         FULLY_OUT,
         HALF_OUT,
-        PREPREPRESELFCLIP,
+        AUTOPOS,
         PREPRESELFCLIP,
         PRESELFCLIP,
         HOOKCLIP,
         FULLY_IN,
-        ZERO_POWER
+        ZERO_POWER,
+        SHUTOFF
     }
 }

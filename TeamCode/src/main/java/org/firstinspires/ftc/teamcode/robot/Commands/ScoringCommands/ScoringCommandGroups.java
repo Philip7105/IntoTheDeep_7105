@@ -8,7 +8,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepreclipencoderpos;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preprepreclipencoderpos;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -59,7 +58,7 @@ public class ScoringCommandGroups {
     HorizontalSlides horizontalSlides;
     VerticalSlides verticalslides;
     JohnHanging hang;
-//    LinearOpMode opMode;
+    //    LinearOpMode opMode;
     public ScoringCommandGroups(NewIntake intake, VerticalSlides verticalslides, HorizontalSlides horizontalslides, ClipMech clipmech, JohnHanging hanging) {
         this.intake = intake;
         this.verticalslides = verticalslides;
@@ -119,17 +118,19 @@ public class ScoringCommandGroups {
     }
 
     public Command clipClip(){
-        return moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPREPRESELFCLIP,preprepreclipencoderpos)
-                .addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PREPRESELFCLIP,prepreclipencoderpos))
-                .addNext(new Delay(.3)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PRESELFCLIP,preclipencoderpos))
+        return moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PREPRESELFCLIP,prepreclipencoderpos)
+                .addNext(new Delay(.1)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PRESELFCLIP,preclipencoderpos))
 //                .addNext(new Delay(.2)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos))))
 //                ,movePivot(JohnsIntake.PivotStates.PRECLIP)))
-                .addNext(new Delay(.4))
-                .addNext(movePivot(NewIntake.PivotStates.HOOKCLIP))
-                .addNext(new Delay(.3).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.HOOKCLIP,hookclipencoderpos)))
+                .addNext(new Delay(.25))
+                .addNext(moveClipMag(ClipMech.ArmStates.READY))
                 .addNext(new Delay(.2))
-                .addNext(new MultipleCommand(new MovePivotTimeBased(intake,NewIntake.PivotStates.FORWARD),new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK)))
-                .addNext(new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOS),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullin)));
+                .addNext(movePivot(NewIntake.PivotStates.HOOKCLIP))
+                .addNext(moveClipMag(ClipMech.ArmStates.HOOKCLIP))
+//                .addNext(new Delay(.3).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.HOOKCLIP,hookclipencoderpos)))
+//                .addNext(new Delay(.2))
+                .addNext(new MultipleCommand(new MovePivotTimeBased(intake,NewIntake.PivotStates.PRECLIP),new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK)));
+//                .addNext(new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOS),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullin)));
 //                .addNext(new MultipleCommand(movePivot(JohnsIntake.PivotStates.CHAMBERPOS),moveClipMag(ClipMech.ArmStates.READY)));
     }
 
