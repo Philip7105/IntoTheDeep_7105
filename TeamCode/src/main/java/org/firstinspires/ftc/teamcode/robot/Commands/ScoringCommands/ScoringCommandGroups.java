@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepreclipencoderpos;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preprepreclipencoderpos;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -118,7 +119,8 @@ public class ScoringCommandGroups {
     }
 
     public Command clipClip(){
-        return moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PREPRESELFCLIP,prepreclipencoderpos)
+        return moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPREPRESELFCLIP,preprepreclipencoderpos)
+                .addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PREPRESELFCLIP,prepreclipencoderpos))
                 .addNext(new Delay(.3)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PRESELFCLIP,preclipencoderpos))
 //                .addNext(new Delay(.2)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos))))
 //                ,movePivot(JohnsIntake.PivotStates.PRECLIP)))
