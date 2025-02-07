@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepreclipencoderpos;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepselfclipencoderpos;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -40,6 +41,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleComma
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveRightHang;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveVerticalSlidesBetter;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveVerticalSlidesAction;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.NoSamples;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
@@ -113,34 +115,35 @@ public class ScoringCommandGroups {
     }
 
     public Command fullExtendHorizontalSLides(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.CLAMP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP)),
+        return new MultipleCommand(new NoSamples(),moveGripper(JohnsIntake.GripperStates.CLAMP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP)),
                 moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos));
+    }
+
+    public Command prepSelfClip(){
+        return new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPSELFCLIP, prepselfclipencoderpos)
+                ,movePivot(NewIntake.PivotStates.PRECLIP),
+                moveClipMag(ClipMech.ArmStates.HOOKCLIP),moveIntake(NewIntake.IntakeStates.STOP));
     }
 
     public Command clipClip(){
         return moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PREPRESELFCLIP,prepreclipencoderpos)
                 .addNext(new Delay(.1)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PRESELFCLIP,preclipencoderpos))
-//                .addNext(new Delay(.2)).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos))))
-//                ,movePivot(JohnsIntake.PivotStates.PRECLIP)))
                 .addNext(new Delay(.25))
                 .addNext(moveClipMag(ClipMech.ArmStates.READY))
                 .addNext(new Delay(.2))
                 .addNext(movePivot(NewIntake.PivotStates.HOOKCLIP))
                 .addNext(moveClipMag(ClipMech.ArmStates.HOOKCLIP))
-//                .addNext(new Delay(.3).addNext(moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.HOOKCLIP,hookclipencoderpos)))
-//                .addNext(new Delay(.2))
                 .addNext(new MultipleCommand(new MovePivotTimeBased(intake,NewIntake.PivotStates.PRECLIP),new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK)));
-//                .addNext(new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOS),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullin)));
-//                .addNext(new MultipleCommand(movePivot(JohnsIntake.PivotStates.CHAMBERPOS),moveClipMag(ClipMech.ArmStates.READY)));
+//                .addNext(new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOSBOTH),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullin)));
     }
 
     public Command extendHorizontalSLides(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.UNCLAMP)
+        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.UNCLAMP), new NoSamples()
                 ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
     }
 
     public Command bringInHorizontalSLidesBetter(){
-        return new MultipleCommand(new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos), movePivot(NewIntake.PivotStates.PARALLEL), new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP));
+        return new MultipleCommand(moveIntake(NewIntake.IntakeStates.STOP),new MoveHorizontalSlidesEncoder(this.horizontalSlides,HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos), movePivot(NewIntake.PivotStates.PARALLEL), new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP));
     }
 
     public Command moveClipMag(ClipMech.ArmStates armstates){

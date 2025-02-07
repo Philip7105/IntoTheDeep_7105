@@ -32,7 +32,7 @@ public class MovePivot extends Command {
 
     @Override
     public boolean completed() {
-        return timer.seconds() > 1;
+        return timer.seconds() > .7;
     }
 
     @Override

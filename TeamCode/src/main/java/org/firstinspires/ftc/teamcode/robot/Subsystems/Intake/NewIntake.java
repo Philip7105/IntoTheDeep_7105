@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepreclip;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepselfclip;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,7 +16,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
@@ -23,23 +28,29 @@ public class NewIntake extends Subsystem {
     CRServo rightintake,leftintake;
     Servo coaxial,rightarm;
     public static double shovelpos = .05, offthewallcoaxial = .3,offthewallpivot = 0.26, hoverpos = .4, clamppos = 0.44, clampposoutback =  0.86,releasepos = 0.7,
-            basketpos = .64,preclippivot = 0.1, preclipcoaxial = .46, hookclippivot = .18,hookclipcoaxial = 0.44 ,chamberpos = .65, down = 0.14,
+            basketpos = .64,preclippivot = 0.1,overheadpos = 0, preclipcoaxial = .46, hookclippivot = .18,hookclipcoaxial = 0.44 ,chamberpos = .65, down = 0.14,
             parallel = .23,lowerpickup = .13,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
 
 //    0.35
+    public static boolean shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
 //    SampleStates sampleStates;
-//    RevColorSensorV3 colorsensor;
+    RevColorSensorV3 colorsensor;
 
     AnalogInput armanalog;
 
     @Override
     public void initAuto(HardwareMap hwMap) {
-//        colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
+        colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
         rightintake = hwMap.get(CRServo.class,"rightintake");
         leftintake = hwMap.get(CRServo.class,"leftintake");
         coaxial = hwMap.get(Servo.class,"coaxial");
         rightarm = hwMap.get(Servo.class,"rightarm");
         armanalog = hwMap.get(AnalogInput.class,"armanalog");
+        redSample = false;
+        blueSample = false;
+        yellowSample = false;
+        shovelMode = true;
+        overHeadMode = false;
 
 //        sampleStates = SampleStates.READ;
         leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -60,21 +71,21 @@ public class NewIntake extends Subsystem {
         return armanalog.getVoltage() / 3.3 * 360;
     }
 
-//    public double getOptical(){
-//        return colorsensor.rawOptical();
-//    }
-//
-//    public double getBlue(){
-//        return colorsensor.blue();
-//    }
-//
-//    public double getRed(){
-//        return colorsensor.red();
-//    }
-//
-//    public double getGreen(){
-//        return colorsensor.green();
-//    }
+    public double getOptical(){
+        return colorsensor.rawOptical();
+    }
+
+    public double getBlue(){
+        return colorsensor.blue();
+    }
+
+    public double getRed(){
+        return colorsensor.red();
+    }
+
+    public double getGreen(){
+        return colorsensor.green();
+    }
 //
 //    public void runColorSensor(){
 //        switch (sampleStates){
@@ -106,6 +117,91 @@ public class NewIntake extends Subsystem {
 //                break;
 //        }
 //    }
+
+    public void runColorSensor(ScoringCommandGroups groups, Robot robot){
+        if (getOptical() > 1800){
+            if (getGreen() > 4000) {
+                //yellow
+                blueSample= false;
+                redSample = false;
+                yellowSample = true;
+                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+            } else if (getBlue() > 2200) {
+                //blue
+                redSample= false;
+                yellowSample = false;
+                blueSample = true;
+//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+            } else if (getRed() > 2000 && getGreen() < 3400) {
+                //red
+                blueSample= false;
+                yellowSample = false;
+                redSample = true;
+//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+            }
+        }
+    }
+
+    public void intakeTeleNew(Input input,Input input2,Robot robot, ScoringCommandGroups groups){
+        if (input.isRightBumperPressed() && !shovelMode &&!blueSample && !redSample && !yellowSample&& robot.horizontalslides.leftservoslide.getPosition() != fullin&& robot.horizontalslides.leftservoslide.getPosition() != prepselfclip){
+            shovelMode = true;
+            overHeadMode = false;
+        } else if (input.isRightBumperPressed() && shovelMode && robot.horizontalslides.leftservoslide.getPosition() != fullin
+                && robot.horizontalslides.leftservoslide.getPosition() != prepselfclip){
+            shovelMode = false;
+            overHeadMode = true;
+        }else if (input2.isSquare()) {
+            shovelMode = false;
+            overHeadMode = false;
+            setIntake(IntakeStates.INTAKESLOW);
+            setPivotStates(PivotStates.OFFTHEWALL);
+            setCoaxial(CoaxialStates.OFFTHEWALL);
+        } else if (input.isLeft_trigger_press()&&robot.horizontalslides.leftservoslide.getPosition() == fullin){
+            setCoaxial(CoaxialStates.RELEASE);
+            setIntake(IntakeStates.INTAKEOUTTAKE);
+            setPivotStates(PivotStates.CHAMBERPOS);
+        }else if (shovelMode && robot.horizontalslides.leftservoslide.getPosition() != fullin &&!blueSample && !redSample && !yellowSample
+                && robot.horizontalslides.leftservoslide.getPosition() != prepselfclip) {
+            if (input.isRight_trigger_press()){
+                setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
+                setPivotStates(PivotStates.FORWARD);
+                setIntake(IntakeStates.INTAKE);
+                runColorSensor(groups,robot);
+            }  else if (input.isLeft_trigger_press()) {
+                setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
+                setPivotStates(PivotStates.PARALLEL);
+                setIntake(IntakeStates.OUTTAKE);
+            } else {
+                setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
+                setPivotStates(PivotStates.PARALLEL);
+                setIntake(IntakeStates.STOP);
+            }
+        } else if (overHeadMode && robot.horizontalslides.leftservoslide.getPosition() != fullin
+                && robot.horizontalslides.leftservoslide.getPosition() != prepselfclip
+        && !blueSample && !redSample && !yellowSample) {
+            if (input.isRight_trigger_press()){
+                setCoaxial(CoaxialStates.OVERHEADPOS);
+                setPivotStates(PivotStates.PARALLEL);
+                setIntake(IntakeStates.INTAKE);
+                runColorSensor(groups,robot);
+            } else if (input.isLeft_trigger_press()) {
+                setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
+                setPivotStates(PivotStates.PARALLEL);
+                setIntake(IntakeStates.OUTTAKE);
+            } else {
+                setCoaxial(CoaxialStates.OVERHEADPOS);
+                setPivotStates(PivotStates.PARALLEL);
+                setIntake(IntakeStates.STOP);
+            }
+        } else if (robot.horizontalslides.leftservoslide.getPosition() != prepselfclip && !blueSample && !redSample && !yellowSample){
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            setIntake(NewIntake.IntakeStates.STOP);
+            setPivotStates(PivotStates.PARALLEL);
+            setCoaxial(CoaxialStates.CLAMP);
+        }
+    }
 
     public void intakeTele(Input input, HorizontalSlides slides,Input input2){
         if (input.isLeft_trigger_press()&& slides.leftservoslide.getPosition() != fullin ){
@@ -191,6 +287,9 @@ public class NewIntake extends Subsystem {
             case CLAMP:
                 coaxial.setPosition(clamppos);
                 break;
+            case OVERHEADPOS:
+                coaxial.setPosition(overheadpos);
+                break;
             case RELEASE:
                 coaxial.setPosition(releasepos);
                 break;
@@ -263,6 +362,7 @@ public class NewIntake extends Subsystem {
     }
     public enum CoaxialStates {
         OFFTHEWALL,
+        OVERHEADPOS,
         COAXIALSHOVELPOS,
         CLAMP,
         RELEASE,
