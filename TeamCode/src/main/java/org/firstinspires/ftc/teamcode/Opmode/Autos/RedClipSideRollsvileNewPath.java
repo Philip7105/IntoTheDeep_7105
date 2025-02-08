@@ -7,7 +7,6 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides.highchamber;
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -25,7 +24,7 @@ public class RedClipSideRollsvileNewPath extends BaseAuto {
     @Override
     public void runAuto() {
         robot.driveTrain.setPoseEstimateBetter(new Vector2d(-9.5, 63), Math.toRadians(90));
-        runpath = new MultipleRRActionsWithPathing(new Action[]{groups.delayAction(.3, groups.moveVerticalSlidesAction(highchamber, greaterTolerance)), robot.driveTrain.strafeToLinearHeading(new Vector2d(-9.5, 63), Math.toRadians(90), new Vector2d(-4, 31), Math.toRadians(90)), groups.moveClipMagAction(ClipMech.ArmStates.OUT_THE_WAY)})
+        runpath = new MultipleRRActionsWithPathing(new Action[]{groups.delayAction(.3, groups.moveVerticalSlidesAction(highchamber, greaterTolerance)), robot.driveTrain.strafeToLinearHeading(new Vector2d(-9.5, 63), Math.toRadians(90), new Vector2d(-4, 31), Math.toRadians(90)), groups.moveClipMagAction(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES)})
                 .addNext(new Delay(.2))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance), groups.delayAction(.6
                         , groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.OUTTAKE))}))
@@ -50,7 +49,7 @@ public class RedClipSideRollsvileNewPath extends BaseAuto {
                 // go to clip
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.getTheSamples(new Vector2d(-2.5, 32), Math.toRadians(90))
                         , groups.moveVerticalSlidesAction(0, greaterTolerance)
-                        , groups.moveClipMagAction(ClipMech.ArmStates.OUT_THE_WAY),
+                        , groups.moveClipMagAction(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES),
                         groups.movePivotAction(NewIntake.PivotStates.PARALLEL),
                         groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.STOP)}));
 

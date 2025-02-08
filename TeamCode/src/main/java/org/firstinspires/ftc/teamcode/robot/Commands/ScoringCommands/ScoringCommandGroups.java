@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands;
 
 
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepreclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepselfclipencoderpos;
@@ -23,7 +21,6 @@ import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveHoriz
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeActionShortTime;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MovePivotAction;
-import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetClipMagAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetDelayAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetPivotAction;
@@ -86,12 +83,8 @@ public class ScoringCommandGroups {
         return new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOSBOTH));
     }
 
-    public Command armBasketPos(){
-        return movePivot(NewIntake.PivotStates.BASKETPOS);
-    }
-
     public Command armOutFront(){
-        return new MultipleCommand(movePivot(NewIntake.PivotStates.FORWARD),new MoveAxial(intake, NewIntake.CoaxialStates.RELEASE));
+        return new MultipleCommand(movePivot(NewIntake.PivotStates.SHOVELPIVOTPOS),new MoveAxial(intake, NewIntake.CoaxialStates.RELEASE));
     }
 
     public Command movePivot(NewIntake.PivotStates pivotStates){
@@ -115,8 +108,7 @@ public class ScoringCommandGroups {
     }
 
     public Command fullExtendHorizontalSLides(){
-        return new MultipleCommand(new NoSamples(),moveGripper(JohnsIntake.GripperStates.CLAMP).addNext(moveGripper(JohnsIntake.GripperStates.UNCLAMP)),
-                moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos));
+        return new MultipleCommand(new NoSamples(), moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos)));
     }
 
     public Command prepSelfClip(){
@@ -138,8 +130,8 @@ public class ScoringCommandGroups {
     }
 
     public Command extendHorizontalSLides(){
-        return new MultipleCommand(moveGripper(JohnsIntake.GripperStates.UNCLAMP), new NoSamples()
-                ,new Delay(.1).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
+        return new MultipleCommand(new NoSamples()
+                ,moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
     }
 
     public Command bringInHorizontalSLidesBetter(){
@@ -161,23 +153,19 @@ public class ScoringCommandGroups {
     }
 
     public Action moveClipMagAction(ClipMech.ArmStates armStates){
-        return new SequentialAction(new MoveClipMagAction(clipmech,armStates,Dashboard.packet),new ResetClipMagAction(Dashboard.packet));
-//        return null;
+        return new MoveClipMagAction(clipmech,armStates,Dashboard.packet);
     }
 
     public Action movePivotAction(NewIntake.PivotStates pivotStates){
         return new SequentialAction(new MovePivotAction(intake,pivotStates,Dashboard.packet),new ResetPivotAction(Dashboard.packet));
-//        return null;
     }
 
     public Action moveIntakeAction(NewIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
-//        return null;
     }
 
     public Action moveIntakeActionForShortTime(NewIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeActionShortTime(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
-//        return null;
     }
 
     public Action moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates horizontalSlideStates, double target){

@@ -39,6 +39,5 @@ public class MoveClipMagTimeBased extends Command {
 
     @Override
     public void shutdown() {
-        clipmech.setArmStates(ClipMech.ArmStates.EMPTY);
     }
 }

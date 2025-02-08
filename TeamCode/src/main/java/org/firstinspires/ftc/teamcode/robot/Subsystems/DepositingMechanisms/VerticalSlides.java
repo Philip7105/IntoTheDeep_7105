@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Control.PDController;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
@@ -25,17 +26,10 @@ public class VerticalSlides extends Subsystem {
     public static boolean holdPos = false, hangISReady = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
-    public VerticalSlideStates verticalSlideStates;
     public static PDCoefficients coefficients = new PDCoefficients(.01,.000000000002);
     PDController controller = new PDController(coefficients);
-//    Input input;
-
-//    public VerticalSlides(Input input){
-//        this.input = input;
-//    }
     @Override
     public void initAuto(HardwareMap hwMap) {
-//        verticalSlideStates = VerticalSlideStates.TOUCHSENSORPRESSED;
         ref = 0;
         holdPos = false;
         hangISReady = false;
@@ -49,8 +43,7 @@ public class VerticalSlides extends Subsystem {
     public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
-        Dashboard.addData("touchsensor",touchSensorIsPressed());
-//        setVerticalSlideStates(input);
+//        Dashboard.addData("touchsensor",touchSensorIsPressed());
     }
     @Override
     public void shutdown() {
@@ -95,32 +88,30 @@ public class VerticalSlides extends Subsystem {
     }
 
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
-        //TODO: Test the slides to see if they weren't working because we didnt have "ref == 0" in the first if statement
-//        inputmanual = input;
         if (input.isRightBumperPressed() && ref == 0){
 //            hangISReady =false;
             ref = highchamber;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         }  else if (input.isLeftBumperPressed() && ref == highchamber){
 //            hangISReady =false;
             ref = 0;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         } else if (input.isRightBumperPressed() && ref == highchamber){
 //            hangISReady =false;
             ref = lowbasket;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         } else if (input.isLeftBumperPressed() && ref == lowbasket){
 //            hangISReady =false;
             ref = highchamber;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         } else if (input.isRightBumperPressed() && ref == lowbasket){
 //            hangISReady =false;
             ref = highbasket;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         } else if (input.isLeftBumperPressed() && ref == highbasket){
 //            hangISReady =false;
             ref = lowbasket;
-            robot.getScheduler().forceCommand(groups.slidesTeleop());
+            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
         } else if (ref == 0 && !touchSensorIsPressed()) {
 //            hangISReady =false;
             setPower(-.3);
@@ -171,126 +162,8 @@ public class VerticalSlides extends Subsystem {
 //            rightslide.setPower(0);
 //        }
     }
-
-    public void setVerticalSlideStates(Input input){
-        switch (verticalSlideStates){
-            case HIGHBASKET:
-                ref = highbasket;
-                pdController();
-                if (input.isLeftBumperPressed()) {
-                    verticalSlideStates = VerticalSlideStates.LOWBASKET;
-                }
-                break;
-                case HOLDPOS_HIGHBASKET:
-                    leftslide.setPower(kg);
-                    rightslide.setPower(kg);
-                    if (input.isLeftBumperPressed()){
-                        verticalSlideStates = VerticalSlideStates.LOWBASKET;
-                    }
-                break;
-            case LOWBASKET:
-                ref = lowbasket;
-                pdController();
-                if (input.isRightBumperPressed()){
-                    verticalSlideStates = VerticalSlideStates.HIGHBASKET;
-                }else if (input.isLeftBumperPressed()) {
-                    verticalSlideStates = VerticalSlideStates.HIGHCHAMBER;
-                }
-                break;
-            case HOLDPOS_LOWBASKET:
-                leftslide.setPower(kg);
-                rightslide.setPower(kg);
-
-                if (input.isRightBumperPressed()){
-                    verticalSlideStates = VerticalSlideStates.HIGHBASKET;
-                }else if (input.isLeftBumperPressed()) {
-                    verticalSlideStates = VerticalSlideStates.HIGHCHAMBER;
-                }
-                break;
-            case HIGHCHAMBER:
-                ref = highchamber;
-                pdController();
-                if (input.isRightBumperPressed()){
-                    verticalSlideStates = VerticalSlideStates.LOWBASKET;
-                }else if (input.isLeftBumperPressed()) {
-                    verticalSlideStates = VerticalSlideStates.TARGETPOSDOWN;
-                }
-                break;
-            case HOLDPOS_HIGHCHAMBER:
-                leftslide.setPower(kg);
-                rightslide.setPower(kg);
-
-                if (input.isRightBumperPressed()){
-
-                } else if (input.isLeftBumperPressed()){
-
-                }
-                break;
-            case PICKUPOFFWALL:
-                ref = clipoffwall;
-                pdController();
-                if (input.isDpadUpPressed()){
-                    verticalSlideStates = VerticalSlideStates.PICKUPSUBMERSIBLE;
-                } else if (input.isDpad_down()){
-                    verticalSlideStates = VerticalSlideStates.TARGETPOSDOWN;
-                }
-                break;
-            case HOLDPOS_PICKUPOFFWALL:
-                leftslide.setPower(kg);
-                rightslide.setPower(kg);
-                if (input.isDpadUpPressed()){
-                    verticalSlideStates = VerticalSlideStates.TARGETPOSDOWN;
-                } else if (input.isDpad_down()){
-                    verticalSlideStates = VerticalSlideStates.PICKUPSUBMERSIBLE;
-                }
-                break;
-            case PICKUPSUBMERSIBLE:
-                ref = intakeslidesup;
-                pdController();
-                if (input.isDpadUpPressed()){
-                    verticalSlideStates = VerticalSlideStates.PICKUPSUBMERSIBLE;
-                } else if (input.isDpad_down()){
-                    verticalSlideStates = VerticalSlideStates.TARGETPOSDOWN;
-                }
-                break;
-            case HOLDPOS_PICKUPOUTOFTHESUBMERSIBLE:
-                leftslide.setPower(kg);
-                rightslide.setPower(kg);
-                if (input.isDpadUpPressed()){
-                    verticalSlideStates = VerticalSlideStates.PICKUPSUBMERSIBLE;
-                } else if (input.isDpad_down()){
-                    verticalSlideStates = VerticalSlideStates.TARGETPOSDOWN;
-                }
-                break;
-            case TARGETPOSDOWN:
-                if (touchSensorIsPressed()){
-                    verticalSlideStates = VerticalSlideStates.TOUCHSENSORPRESSED;
-                }
-                break;
-            case TOUCHSENSORPRESSED:
-                resetSlidesWithTimer();
-                driveSpeed = DriveTrain.DriveSpeed.Fast;
-                zeroPower();
-
-                if (!touchSensorIsPressed()){
-                    verticalSlideStates = VerticalSlideStates.TOUCHSENSOR_NOTPRESSED;
-                }
-                break;
-            case TOUCHSENSOR_NOTPRESSED:
-                leftslide.setPower(-.3);
-                rightslide.setPower(-.3);
-                if (touchSensorIsPressed()){
-                    verticalSlideStates = VerticalSlideStates.TOUCHSENSORPRESSED;
-                }
-                break;
-        }
-    }
-
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
-    }
-    public void getSlidePosRR(){
-        getslideposrr = leftslide.getCurrentPosition();
     }
     public void resetSlides(){
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -301,20 +174,5 @@ public class VerticalSlides extends Subsystem {
             time.reset();
         leftslide.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftslide.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);}
-    }
-    public enum VerticalSlideStates{
-        HIGHBASKET,
-        LOWBASKET,
-        TOUCHSENSOR_NOTPRESSED,
-        TOUCHSENSORPRESSED,
-        TARGETPOSDOWN,
-        PICKUPOFFWALL,
-        PICKUPSUBMERSIBLE,
-        HOLDPOS_HIGHBASKET,
-        HOLDPOS_LOWBASKET,
-        HOLDPOS_HIGHCHAMBER,
-        HOLDPOS_PICKUPOFFWALL,
-        HOLDPOS_PICKUPOUTOFTHESUBMERSIBLE,
-        HIGHCHAMBER
     }
 }
