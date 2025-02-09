@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,autopos = 0.64, prepselfclip = .7,prepreclip = .4,hookclip = 0.34,preclip = .3,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 162, preclipencoderpos = 160,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.64, prepselfclip = .7,prepreclip = .4,hookclip = 0.37,hookclipencoderpos = 160,preclip = 0.3,fullout = .88, prepreclipencoderpos = 165, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
@@ -31,6 +31,7 @@ public class HorizontalSlides extends Subsystem {
     @Override
     public void periodic() {
         Dashboard.addData("horizontalslides",getSlidePos());
+        Dashboard.addData("getvoltage",getVoltage());
     }
 
     @Override
@@ -95,17 +96,9 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(hookclip);
                 rightservoslide.setPosition(hookclip);
                 break;
-            case ZERO_POWER:
-                leftservoslide.setPwmDisable();
-                rightservoslide.setPwmDisable();
-                break;
             case AUTOPOS:
                 leftservoslide.setPosition(autopos);
                 rightservoslide.setPosition(autopos);
-                break;
-            case SHUTOFF:
-                leftservoslide.setPosition(0);
-                rightservoslide.setPosition(0);
                 break;
         }
     }
@@ -118,8 +111,6 @@ public class HorizontalSlides extends Subsystem {
         PREPRESELFCLIP,
         PRESELFCLIP,
         HOOKCLIP,
-        FULLY_IN,
-        ZERO_POWER,
-        SHUTOFF
+        FULLY_IN
     }
 }

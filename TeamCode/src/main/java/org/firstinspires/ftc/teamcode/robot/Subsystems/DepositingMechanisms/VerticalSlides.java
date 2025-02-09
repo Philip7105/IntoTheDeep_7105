@@ -87,49 +87,68 @@ public class VerticalSlides extends Subsystem {
         }
     }
 
+
+    public void runHang(Input input,Robot robot) {
+        if (input.getLeft_stick_y() > .8) {
+            hangISReady = true;
+            leftslide.setPower(-down);
+            rightslide.setPower(-down);
+            robot.driveTrain.moveDriveMotors(down);
+        } else if (input.getRight_stick_y() > .8) {
+            leftslide.setPower(down);
+            rightslide.setPower(down);
+            robot.driveTrain.moveDriveMotors(-down);
+        } else if (!(input.getLeft_stick_y() > .8) || !(input.getRight_stick_y() > .8)) {
+            leftslide.setPower(0);
+            rightslide.setPower(0);
+            robot.driveTrain.moveDriveMotors(0);
+        }
+    }
+
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
         if (input.isRightBumperPressed() && ref == 0){
 //            hangISReady =false;
-            ref = highchamber;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        }  else if (input.isLeftBumperPressed() && ref == highchamber){
+                ref = highchamber;
+                robot.getScheduler().forceCommand((groups.slidesTeleop()));
+            }  else if (input.isLeftBumperPressed() && ref == highchamber){
 //            hangISReady =false;
-            ref = 0;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        } else if (input.isRightBumperPressed() && ref == highchamber){
+                ref = 0;
+                robot.getScheduler().forceCommand(groups.slidesTeleop());
+            } else if (input.isRightBumperPressed() && ref == highchamber){
 //            hangISReady =false;
-            ref = lowbasket;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        } else if (input.isLeftBumperPressed() && ref == lowbasket){
+                ref = lowbasket;
+                robot.getScheduler().forceCommand(groups.slidesTeleop());
+            } else if (input.isLeftBumperPressed() && ref == lowbasket){
 //            hangISReady =false;
-            ref = highchamber;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        } else if (input.isRightBumperPressed() && ref == lowbasket){
+                ref = highchamber;
+                robot.getScheduler().forceCommand(groups.slidesTeleop());
+            } else if (input.isRightBumperPressed() && ref == lowbasket){
 //            hangISReady =false;
-            ref = highbasket;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        } else if (input.isLeftBumperPressed() && ref == highbasket){
+                ref = highbasket;
+                robot.getScheduler().forceCommand(groups.slidesTeleop());
+            } else if (input.isLeftBumperPressed() && ref == highbasket){
 //            hangISReady =false;
-            ref = lowbasket;
-            robot.getScheduler().forceCommand(groups.moveClipMag(ClipMech.ArmStates.READY).addNext(groups.slidesTeleop()));
-        } else if (ref == 0 && !touchSensorIsPressed()) {
+                ref = lowbasket;
+                robot.getScheduler().forceCommand(groups.slidesTeleop());
+            } else if (ref == 0 && !touchSensorIsPressed()) {
 //            hangISReady =false;
-            setPower(-.3);
-        } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
+                setPower(-.3);
+            } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
-        ){
+            ){
 //            hangISReady =false;
-            resetSlidesWithTimer();
-            driveSpeed = DriveTrain.DriveSpeed.Fast;
-            holdPos = false;
-            zeroPower();
-        }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
+                resetSlidesWithTimer();
+                driveSpeed = DriveTrain.DriveSpeed.Fast;
+                holdPos = false;
+                zeroPower();
+            }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7
-        ){
+            ){
 //            hangISReady =false;
-            leftslide.setPower(kg);
-            rightslide.setPower(kg);
-            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
+                leftslide.setPower(kg);
+                rightslide.setPower(kg);
+                driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
+            }
         }
 //        else if (input.isRightStickButtonPressed()){
 //            ref = hangPos;
@@ -161,7 +180,7 @@ public class VerticalSlides extends Subsystem {
 //            leftslide.setPower(0);
 //            rightslide.setPower(0);
 //        }
-    }
+
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
     }

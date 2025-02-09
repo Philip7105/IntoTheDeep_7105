@@ -18,20 +18,21 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class NewIntake extends Subsystem {
     ElapsedTime time = new ElapsedTime();
-    CRServo rightintake,leftintake;
+    CRServo intake;
     Servo coaxial,rightarm;
-    public static double shovelpos = .12, offthewallcoaxial = .3,offthewallpivot = 0.26, hoverpos = .4,clamppos = .56, clampposforselfclip = 0.44, clampposoutback =  1,releasepos = 0.8,
-            basketpos = .64,preclippivot = 0.1,overheadpos = 0, preclipcoaxial = .46, hookclippivot = .18,hookclipcoaxial = 0.44 ,chamberpos = .65, down = 0.14,
+    public static double shovelpos = .15, offthewallcoaxial = .3,offthewallpivot = 0.26,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  1,releasepos = 0.8,
+             snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .65, down = 0.14,
             parallel = .19,lowerpickup = .13, pivotoverheadpos = .22,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
 
 //    0.35
-    public static boolean shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
+    public static boolean enableColorSensorTelem =false, shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
 //    SampleStates sampleStates;
     RevColorSensorV3 colorsensor;
 
@@ -40,8 +41,8 @@ public class NewIntake extends Subsystem {
     @Override
     public void initAuto(HardwareMap hwMap) {
         colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
-        rightintake = hwMap.get(CRServo.class,"rightintake");
-        leftintake = hwMap.get(CRServo.class,"leftintake");
+        intake = hwMap.get(CRServo.class,"intake");
+//        leftintake = hwMap.get(CRServo.class,"leftintake");
         coaxial = hwMap.get(Servo.class,"coaxial");
         rightarm = hwMap.get(Servo.class,"rightarm");
         armanalog = hwMap.get(AnalogInput.class,"armanalog");
@@ -52,13 +53,17 @@ public class NewIntake extends Subsystem {
         overHeadMode = false;
 
 //        sampleStates = SampleStates.READ;
-        leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
     }
     @Override
     public void periodic() {
-//        Dashboard.addData("samplestates",sampleStates);
-//        runColorSensor();
+        if (enableColorSensorTelem) {
+            Dashboard.addData("optical",getOptical());
+            Dashboard.addData("red", getRed());
+            Dashboard.addData("blue", getBlue());
+            Dashboard.addData("green", getGreen());
+        }
     }
 
     @Override
@@ -160,7 +165,7 @@ public class NewIntake extends Subsystem {
                 yellowSample = false;
                 blueSample = true;
 //                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             } else if (getRed() > 2000 && getGreen() < 3400) {
                 //red
                 blueSample= false;
@@ -263,7 +268,7 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 yellowSample = false;
                 redSample = true;
 //                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             }
         } else {
             blueSample= false;
@@ -285,15 +290,15 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 redSample= false;
                 yellowSample = false;
                 blueSample = true;
-                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-//                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             } else if (getRed() > 2000 && getGreen() < 3400) {
                 //red
                 blueSample= false;
                 yellowSample = false;
                 redSample = true;
-                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-//                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
+//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             }
         }
     }
@@ -349,11 +354,6 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 setPivotStates(PivotStates.OVERHEADPOS);
                 setIntake(IntakeStates.STOP);
             }
-        } else if (robot.horizontalslides.leftservoslide.getPosition() != prepselfclip && !blueSample && !redSample && !yellowSample){
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setIntake(NewIntake.IntakeStates.STOP);
-            setPivotStates(PivotStates.PARALLEL);
-            setCoaxial(CoaxialStates.CLAMP);
         }
     }
 
@@ -400,37 +400,37 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
             case INTAKE:
-                rightintake.setPower(intakeSpeed);
-                leftintake.setPower(intakeSpeed);
+                intake.setPower(intakeSpeed);
+//                leftintake.setPower(intakeSpeed);
                 time.reset();
                 break;
             case INTAKESLOW:
-                rightintake.setPower(intakeSlow);
-                leftintake.setPower(intakeSlow);
+                intake.setPower(intakeSlow);
+//                leftintake.setPower(intakeSlow);
                 time.reset();
                 break;
             case OUTTAKE:
-                rightintake.setPower(outtake);
-                leftintake.setPower(outtake);
+                intake.setPower(outtake);
+//                leftintake.setPower(outtake);
                 time.reset();
                 break;
             case OUTTAKEAUTO:
-                rightintake.setPower(-.7);
-                leftintake.setPower(-.7);
+                intake.setPower(-.7);
+//                leftintake.setPower(-.7);
                 time.reset();
                 break;
             case STOP:
-                rightintake.setPower(0);
-                leftintake.setPower(0);
+                intake.setPower(0);
+//                leftintake.setPower(0);
                 time.reset();
                 break;
             case INTAKEOUTTAKE:
                 if (time.seconds() > .3){
-                    rightintake.setPower(outtake);
-                    leftintake.setPower(outtake);
+                    intake.setPower(outtake);
+//                    leftintake.setPower(outtake);
                 } else {
-                    rightintake.setPower(intakeSpeed);
-                    leftintake.setPower(intakeSpeed);
+                    intake.setPower(intakeSpeed);
+//                    leftintake.setPower(intakeSpeed);
                 }
                 break;
         }
@@ -440,6 +440,9 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
         switch (coaxialstates){
             case CLAMP:
                 coaxial.setPosition(clamppos);
+                break;
+            case PRECLIP:
+                coaxial.setPosition(.4);
                 break;
             case CLAMPSELFCLIP:
                 coaxial.setPosition(clampposforselfclip);
@@ -452,9 +455,6 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 break;
             case COAXIALSHOVELPOS:
                 coaxial.setPosition(shovelpos);
-                break;
-            case COAXIALHOVERPOS:
-                coaxial.setPosition(hoverpos);
                 break;
             case OFFTHEWALL:
                 coaxial.setPosition(offthewallcoaxial);
@@ -479,13 +479,18 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
             case PARALLEL:
                 rightarm.setPosition(parallel);
                 break;
+            case PRECLIP:
+                rightarm.setPosition(.16);
+                break;
+            case PRECLIP2:
+                rightarm.setPosition(.18);
+                break;
             case HOOKCLIP:
                 rightarm.setPosition(hookclippivot);
-                coaxial.setPosition(hookclipcoaxial);
+//                coaxial.setPosition(hookclipcoaxial);
                 break;
-            case PRECLIP:
-                rightarm.setPosition(preclippivot);
-                coaxial.setPosition(preclipcoaxial);
+            case SNAPCLIP:
+                rightarm.setPosition(snapclip);
                 break;
             case CHAMBERPOS:
                 rightarm.setPosition(chamberpos);//227
@@ -510,8 +515,8 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
         COAXIALSHOVELPOS,
         CLAMPSELFCLIP,
         CLAMP,
+        PRECLIP,
         RELEASE,
-        COAXIALHOVERPOS
     }
     public enum PivotStates {
         OFFTHEWALL,
@@ -520,7 +525,9 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
         PARALLEL,
         OVERHEADPOS,
         HOOKCLIP,
+        PRECLIP2,
         PRECLIP,
+        SNAPCLIP,
         SHOVELPIVOTPOS,
         SLIGHTLY_LOWER_PICKUP
     }

@@ -7,13 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 import java.util.List;
 
@@ -43,10 +40,9 @@ public class TestingSelfClip extends LinearOpMode {
             double frequency = 1 / loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time", frequency);
-            robot.gamepad1.whenDPadLeftPressed(groups.clipClip());
-            robot.gamepad1.whenDPadRightPressed(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT, HorizontalSlides.fullout)
-                    ,groups.movePivot(NewIntake.PivotStates.PRECLIP),
-                    groups.moveClipMag(ClipMech.ArmStates.HOOKCLIP)));
+//            robot.gamepad1.whenDPadLeftPressed(groups.clipClip());
+            robot.gamepad1.whenDPadRightPressed(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT, HorizontalSlides.fullout),
+                    groups.moveClipMag(ClipMech.ArmStates.PRECLIP)));
         }
     }
 }
