@@ -1,21 +1,19 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions;
-
-
-import static org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveClipMagAction.*;
+import static org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveCoAxialAction.runOnceCoAxial;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
-public class ResetClipMagAction implements Action {
+public class ResetCoAxialAction implements Action {
     TelemetryPacket packet;
-    public ResetClipMagAction(TelemetryPacket telemetryPacket){
+    public ResetCoAxialAction(TelemetryPacket telemetryPacket){
         this.packet = telemetryPacket;
     }
 
     @Override
     public boolean run(TelemetryPacket telemetryPacket) {
         telemetryPacket = packet;
-        loopClipMagOnce = false;
+        runOnceCoAxial = false;
         return false;
     }
 }

@@ -24,8 +24,6 @@ public abstract class BaseAuto extends LinearOpMode {
         List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
         robot.getScheduler().forceCommand(groups.initRobot());
 
-
-
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }

@@ -9,12 +9,13 @@ public class MoveVerticalSlidesBetter extends Command {
 
     boolean setTarget;
 
-    double ref;
+    double ref,tolerance;
 
-    public MoveVerticalSlidesBetter(VerticalSlides verticalSlides, boolean setTarget, double ref){
+    public MoveVerticalSlidesBetter(VerticalSlides verticalSlides, boolean setTarget, double ref, double tolerance){
         this.verticalSlides = verticalSlides;
         this.setTarget = setTarget;
         this.ref = ref;
+        this.tolerance = tolerance;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class MoveVerticalSlidesBetter extends Command {
 
     @Override
     public boolean completed() {
-        return Math.abs(verticalSlides.getSlidesError()) < 10;
+        return Math.abs(verticalSlides.getSlidesError()) < tolerance;
     }
 
     @Override

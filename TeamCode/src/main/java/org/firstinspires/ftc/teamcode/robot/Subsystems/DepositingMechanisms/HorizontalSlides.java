@@ -12,13 +12,14 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,autopos = 0.64,prepreclip = .4,hookclip = 0.34,preclip = .3,fullout = .88,hookclipencoderpos = 153, prepreclipencoderpos = 162, preclipencoderpos = 160,autoposencoderpos = 204,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.44, prepselfclip = .7,prepreclip = .4,hookclip = 0.38,hookclipencoderpos = 158,preclip = 0.3,fullout = .88,
+            autoposencoderpos = 172,prepreclipencoderpos = 165, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
     //13 inches
 
-//    0.28
+    //    0.28
 //    0.38
     @Override
     public void initAuto(HardwareMap hwMap) {
@@ -79,6 +80,10 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(fullout); // 245
                 rightservoslide.setPosition(fullout);
                 break;
+            case PREPSELFCLIP:
+                leftservoslide.setPosition(prepselfclip);
+                rightservoslide.setPosition(prepselfclip);
+                break;
             case PREPRESELFCLIP:
                 leftservoslide.setPosition(prepreclip);
                 rightservoslide.setPosition(prepreclip);
@@ -91,17 +96,9 @@ public class HorizontalSlides extends Subsystem {
                 leftservoslide.setPosition(hookclip);
                 rightservoslide.setPosition(hookclip);
                 break;
-            case ZERO_POWER:
-                leftservoslide.setPwmDisable();
-                rightservoslide.setPwmDisable();
-                break;
             case AUTOPOS:
                 leftservoslide.setPosition(autopos);
                 rightservoslide.setPosition(autopos);
-                break;
-            case SHUTOFF:
-                leftservoslide.setPosition(0);
-                rightservoslide.setPosition(0);
                 break;
         }
     }
@@ -110,11 +107,10 @@ public class HorizontalSlides extends Subsystem {
         FULLY_OUT,
         HALF_OUT,
         AUTOPOS,
+        PREPSELFCLIP,
         PREPRESELFCLIP,
         PRESELFCLIP,
         HOOKCLIP,
-        FULLY_IN,
-        ZERO_POWER,
-        SHUTOFF
+        FULLY_IN
     }
 }

@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,12 +12,12 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class ClipMech extends Subsystem {
     Servo rightmagarm,leftmagarm,rightindex,leftindex;
-    public static double pushnone = .1,pushone = .22,pushtwo = .31,pushthree = .395, pushfour = .485,fully_up = .85,ready = 0.55,hookclip = 0.61,outtheway = .5, down = .04, almost_down = .19, target, downencoderpos = 340, almostdownencoderpos = 281,
-    readyencoderpos = 146.9,outthewayencoderpos = 170,hookclipencoderpos = 151,clippity_clappity_clickity_clickencoderpos = 67;
+    public static double pushnone = .1,pushone = .22,pushtwo = .31,pushthree = .395, pushfour = .485,fully_up = .85,ready = 0.53,hookclip = 0.64
+            ,outtheway = .7, down = .07, almost_down = 0.215, target, downencoderpos = 333, almostdownencoderpos = 274, backbeforeclip = .61, backbeforeclipencoderpos = 146,
+    readyencoderpos = 171,outthewayencoderpos = 117, preclip = .8, hookclipencoderpos = 137,preclipencoderpos = 84,clippity_clappity_clickity_clickencoderpos = 69;
     public static boolean cliparmdone = false, reverseLeftIndex = false, reverseRightIndex = false;
     AnalogInput clipAnalog;
 //    Input input;
-//    0.59
     LeftIndexState leftIndexState;
     RightIndexState rightIndexState;
 //    public ClipMech(Input input){
@@ -47,7 +46,7 @@ public class ClipMech extends Subsystem {
         Dashboard.addData("clipmagpos",getClipMagPos());
     }
     public double getClipMagPos(){
-        return clipAnalog.getVoltage() / 3.3 * 360;
+        return getVoltage() / 3.3 * 360;
     }
     public double getClipMagError(){
         return Math.abs(target - getClipMagPos());
@@ -59,93 +58,48 @@ public class ClipMech extends Subsystem {
 
     @Override
     public void shutdown() {
-        setArmStates(ArmStates.SHUTOFF);
     }
     public void setArmStates(ArmStates armStates){
         switch (armStates){
-            case CLIPPITY_CLAPPITY_CLICKITY_CLICK: //51
-                target = clippity_clappity_clickity_clickencoderpos;
+            case CLIPPITY_CLAPPITY_CLICKITY_CLICK:
                 rightmagarm.setPosition(fully_up);
                 leftmagarm.setPosition(fully_up);
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
                 break;
             case READY:
-                target = readyencoderpos;
-                rightmagarm.setPosition(ready); //115
+                rightmagarm.setPosition(ready);
                 leftmagarm.setPosition(ready);
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
                 break;
+            case PRECLIP:
+                rightmagarm.setPosition(preclip);
+                leftmagarm.setPosition(preclip);
+                break;
+            case PRECLIP2:
+                rightmagarm.setPosition(.7); //117
+                leftmagarm.setPosition(.7);
+                break;
+            case PRECLIP3:
+                rightmagarm.setPosition(0.565); // 160
+                leftmagarm.setPosition(0.565);
+                break;
+            case BACKBEFORECLIP:
+                rightmagarm.setPosition(backbeforeclip);
+                leftmagarm.setPosition(backbeforeclip);
+                    break;
             case HOOKCLIP:
-                target = readyencoderpos;
-                rightmagarm.setPosition(hookclip); //115
+                rightmagarm.setPosition(hookclip);
                 leftmagarm.setPosition(hookclip);
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
                 break;
-            case EMPTY:
-                Dashboard.addData("cliparmdone",cliparmdone);
-                break;
-            case OUT_THE_WAY:
-                target = outthewayencoderpos;
+            case OUT_THE_WAYOFHORIZONTALSLIDES:
                 rightmagarm.setPosition(outtheway);
-                leftmagarm.setPosition(outtheway); //179
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
+                leftmagarm.setPosition(outtheway);
                 break;
             case ALMOST_DOWN:
-                target = almostdownencoderpos;
-                rightmagarm.setPosition(almost_down);//279
+                rightmagarm.setPosition(almost_down);
                 leftmagarm.setPosition(almost_down);
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
-                break;
-            case SPECIALDOWN:
-                target = downencoderpos;
-                rightmagarm.setPosition(.1);
-                leftmagarm.setPosition(.1);//359
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
                 break;
             case DOWN:
-                target = downencoderpos;
                 rightmagarm.setPosition(down);
-                leftmagarm.setPosition(down);//359
-                Dashboard.addData("cliparmdone",cliparmdone);
-                if (getClipMagError() < 7){
-                    cliparmdone = true;
-                } else {
-                    cliparmdone = false;
-                }
-                break;
-            case SHUTOFF:
-                rightmagarm.setPosition(0);
-                leftmagarm.setPosition(0);//359
+                leftmagarm.setPosition(down);
                 break;
         }
     }
@@ -223,13 +177,14 @@ public class ClipMech extends Subsystem {
     public enum ArmStates{
         CLIPPITY_CLAPPITY_CLICKITY_CLICK, // This states is for fully engaging the clips
         READY,
+        PRECLIP,
+        PRECLIP2,
+        PRECLIP3,
         HOOKCLIP,
-        OUT_THE_WAY,
+        OUT_THE_WAYOFHORIZONTALSLIDES,
         ALMOST_DOWN,
-        SPECIALDOWN,
-        DOWN,
-        SHUTOFF,
-        EMPTY
+        BACKBEFORECLIP,
+        DOWN
     }
 
     public enum RightIndexState{
