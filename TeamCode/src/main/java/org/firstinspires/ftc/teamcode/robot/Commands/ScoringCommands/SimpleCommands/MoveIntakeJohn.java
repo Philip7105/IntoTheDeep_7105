@@ -17,8 +17,10 @@ public class MoveIntakeJohn extends Command {
 
     NewIntake.IntakeStates intakeStates;
 
-    public MoveIntakeJohn(NewIntake johnsIntake, NewIntake.IntakeStates intakeStates){
+    double time;
 
+    public MoveIntakeJohn(NewIntake johnsIntake, NewIntake.IntakeStates intakeStates,double time){
+        this.time = time;
         this.johnsIntake = johnsIntake;
         this.intakeStates = intakeStates;
     }
@@ -34,7 +36,7 @@ public class MoveIntakeJohn extends Command {
 
     @Override
     public boolean completed() {
-        return timer.seconds() > 0.4;
+        return timer.seconds() > time;
     }
 
     @Override

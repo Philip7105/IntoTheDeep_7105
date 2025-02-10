@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 public class ClipMech extends Subsystem {
     Servo rightmagarm,leftmagarm,rightindex,leftindex;
     public static double pushnone = .1,pushone = .22,pushtwo = .31,pushthree = .395, pushfour = .485,fully_up = .85,ready = 0.53,hookclip = 0.64
-            ,outtheway = .7, down = .04, almost_down = .19, target, downencoderpos = 334, almostdownencoderpos = 281, backbeforeclip = .61, backbeforeclipencoderpos = 146,
-    readyencoderpos = 171,outthewayencoderpos = 116, preclip = .8, hookclipencoderpos = 137,preclipencoderpos = 84,clippity_clappity_clickity_clickencoderpos = 69;
+            ,outtheway = .7, down = .07, almost_down = 0.215, target, downencoderpos = 333, almostdownencoderpos = 274, backbeforeclip = .61, backbeforeclipencoderpos = 146,
+    readyencoderpos = 171,outthewayencoderpos = 117, preclip = .8, hookclipencoderpos = 137,preclipencoderpos = 84,clippity_clappity_clickity_clickencoderpos = 69;
     public static boolean cliparmdone = false, reverseLeftIndex = false, reverseRightIndex = false;
     AnalogInput clipAnalog;
 //    Input input;

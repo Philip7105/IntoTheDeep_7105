@@ -36,7 +36,7 @@ public class BlueTele extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
-            robot.intake.intakeTeleNew(robot.gamepad1,robot.gamepad2,robot,groups);
+            robot.intake.intakeTeleBlue(robot.gamepad1,robot.gamepad2,robot,groups);
             robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
 //            robot.clipmech.setLeftIndex(robot.gamepad2);

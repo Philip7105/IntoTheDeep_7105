@@ -21,7 +21,7 @@ public class LimeLight extends Subsystem {
 
     LLResult result;
 
-    public static double x,y, heading;
+    public static double x,y, heading,xmulti = 34.80859179266,ymulti;
 
     public LimeLight(DriveTrain driveTrain){
         this.driveTrain = driveTrain;
@@ -41,48 +41,35 @@ public class LimeLight extends Subsystem {
          * Starts polling for data.
          */
         limelight.start();
+
     }
 
     @Override
     public void periodic() {
-//        limelight.updateRobotOrientation(driveTrain.getHeadingFixed());
-//        result = limelight.getLatestResult();
-//        if (result != null && result.isValid()) {
-//            botpose = result.getBotpose_MT2();
-//            converter();
-//            Dashboard.addData("apriltagheading",getBotHeading());
-//            Dashboard.addData("getBotX",x);
-//            Dashboard.addData("getBotY",y);
-//            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
-//        }
+        limelight.updateRobotOrientation(driveTrain.getHeadingFixed());
+        result = limelight.getLatestResult();
+        if (result != null && result.isValid()) {
+            botpose = result.getBotpose_MT2();
+            converter();
+            Dashboard.addData("apriltagheading",getBotHeading());
+            Dashboard.addData("getBotX",x);
+            Dashboard.addData("getBotY",y);
+            driveTrain.setPoseEstimateBetter(new Vector2d(x,y), getBotHeading());
+        }
     }
-
     public void converter(){
-        x = (getBotX() * 34.80859179266); //35.9375
-        y = (getBotY() * 39.24964035808);
+        x = (getBotX() * xmulti); //35.9375
+        y = (getBotY() * ymulti);
     }
-
-    public double angleWrap(double pos, double offset){
-        return MathUtils.AngleWrap(pos+offset);
-    }
-
     public double getBotHeading(){
-        return result.getBotpose_MT2().getOrientation().getYaw();
+        return botpose.getOrientation().getYaw();
     }
     public double getBotX(){
-        return result.getBotpose_MT2().getPosition().x;
+        return botpose.getPosition().x;
     }
-
     public double getBotY(){
-        return result.getBotpose_MT2().getPosition().y;
+        return botpose.getPosition().y;
     }
-
-//    public void setOdo(double x,double y, double heading){
-//        robotx = x + odo.getXPos();
-//        roboty = y + odo.getYPos();
-//        robotH = heading + odo.getHeading();
-//    }
-
     @Override
     public void shutdown() {
         limelight.shutdown();

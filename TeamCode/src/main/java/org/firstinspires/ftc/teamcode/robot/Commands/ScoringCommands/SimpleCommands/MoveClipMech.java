@@ -44,7 +44,7 @@ public class MoveClipMech extends Command {
         } else if (armstates == ClipMech.ArmStates.BACKBEFORECLIP) {
             target = backbeforeclipencoderpos;
         } else if (armstates == ClipMech.ArmStates.PRECLIP2) {
-            target = 117;
+            target = 116;
         } else if (armstates == ClipMech.ArmStates.PRECLIP3) {
             target = 160;
         }

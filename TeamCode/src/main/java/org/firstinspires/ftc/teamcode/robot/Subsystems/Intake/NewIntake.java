@@ -27,17 +27,14 @@ public class NewIntake extends Subsystem {
     ElapsedTime time = new ElapsedTime();
     CRServo intake;
     Servo coaxial,rightarm;
-    public static double shovelpos = .15, offthewallcoaxial = .3,offthewallpivot = 0.26,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  1,releasepos = 0.8,
-             snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .65, down = 0.14,
+    public static double shovelpos = .15, offthewallcoaxial = .4,offthewallpivot = 0.25,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
+             snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
             parallel = .19,lowerpickup = .13, pivotoverheadpos = .22,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
 
 //    0.35
     public static boolean enableColorSensorTelem =false, shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
-//    SampleStates sampleStates;
     RevColorSensorV3 colorsensor;
-
     AnalogInput armanalog;
-
     @Override
     public void initAuto(HardwareMap hwMap) {
         colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
@@ -52,18 +49,16 @@ public class NewIntake extends Subsystem {
         shovelMode = true;
         overHeadMode = false;
 
-//        sampleStates = SampleStates.READ;
-//        leftintake.setDirection(DcMotorSimple.Direction.REVERSE);
         rightarm.setDirection(Servo.Direction.REVERSE);
     }
     @Override
     public void periodic() {
-        if (enableColorSensorTelem) {
-            Dashboard.addData("optical",getOptical());
-            Dashboard.addData("red", getRed());
-            Dashboard.addData("blue", getBlue());
-            Dashboard.addData("green", getGreen());
-        }
+//        if (enableColorSensorTelem) {
+//            Dashboard.addData("optical",getOptical());
+//            Dashboard.addData("red", getRed());
+//            Dashboard.addData("blue", getBlue());
+//            Dashboard.addData("green", getGreen());
+//        }
     }
 
     @Override
@@ -164,15 +159,12 @@ public class NewIntake extends Subsystem {
                 redSample= false;
                 yellowSample = false;
                 blueSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             } else if (getRed() > 2000 && getGreen() < 3400) {
                 //red
                 blueSample= false;
                 yellowSample = false;
                 redSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-//                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
             }
         } else {
             blueSample= false;
@@ -260,14 +252,11 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 redSample= false;
                 yellowSample = false;
                 blueSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-//                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip()));
             } else if (getRed() > 2000 && getGreen() < 3400) {
                 //red
                 blueSample= false;
                 yellowSample = false;
                 redSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             }
         } else {
@@ -290,14 +279,12 @@ public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGr
                 redSample= false;
                 yellowSample = false;
                 blueSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             } else if (getRed() > 2000 && getGreen() < 3400) {
                 //red
                 blueSample= false;
                 yellowSample = false;
                 redSample = true;
-//                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             }
         }
