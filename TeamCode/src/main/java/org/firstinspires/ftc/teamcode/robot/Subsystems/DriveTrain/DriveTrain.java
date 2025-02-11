@@ -20,10 +20,9 @@ public class DriveTrain extends Subsystem {
    public static DriveSpeed driveSpeed = DriveSpeed.Fast;
    public static double headingoffset = 0;
    public static boolean engagePTO = false;
-   public DriveTrain(HardwareMap hwMap){
+      public DriveTrain(HardwareMap hwMap){
        this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
-   }
-
+    }
     @Override
     public void initAuto(HardwareMap hwMap) {
        engagePTO = false;
@@ -83,7 +82,7 @@ public class DriveTrain extends Subsystem {
    }
 
    public void changeDriveState(Input input){
-       if (input.isLeft_trigger_press()){
+       if (input.isLeftBumperPressed()){
            driveSpeed = DriveSpeed.Slow;
        } else {
            driveSpeed = DriveSpeed.Fast;
@@ -141,6 +140,18 @@ public class DriveTrain extends Subsystem {
                 .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 // push in the first blue sample
 //                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
+                .build();
+    }
+
+    public Action getTheSamplesBetter(Vector2d startVec, double startHeading) {
+        return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
+                .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))

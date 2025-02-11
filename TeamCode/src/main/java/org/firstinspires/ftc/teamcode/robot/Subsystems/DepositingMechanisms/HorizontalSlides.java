@@ -12,15 +12,10 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,autopos = 0.455, prepselfclip = .7,prepreclip = .4,hookclip = 0.38,hookclipencoderpos = 158,preclip = 0.3,fullout = .88,
-            autoposencoderpos = 180, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.46, prepselfclip = .7,prepreclip = .4,hookclip = 0.38,hookclipencoderpos = 158,preclip = 0.3,fullout = .88,
+            autoposencoderpos = 184, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
-    //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
-    //13 inches
-
-    //    0.28
-//    0.38
     @Override
     public void initAuto(HardwareMap hwMap) {
         leftservoslide = hwMap.get(ServoImplEx.class,"leftservoslide");
@@ -28,44 +23,32 @@ public class HorizontalSlides extends Subsystem {
         leftservoslide.setDirection(Servo.Direction.REVERSE);
         slideAnalog = hwMap.get(AnalogInput.class, "leftslideencoder");
     }
-
     @Override
     public void periodic() {
         Dashboard.addData("horizontalslides",getSlidePos());
     }
-
     @Override
     public void shutdown() {
-//        setHorizontalSlides(HorizontalSlideStates.SHUTOFF);
     }
-
     public double getSlidePos(){
         return getVoltage() / 3.3 * 360;
     }
-
     public double getVoltage(){
         return slideAnalog.getVoltage();
     }
-
     public double getSlideError(double ref){
         return ref - getSlidePos();
     }
-
     public double getSlideErrorInches(double ref){
         return ref - ticksToInches();
     }
-
-
     public double ticksToInches(){
         return (getSlidePos() - 143) / 5.846;
     }
-
     public void setPosition(double ref){
         leftservoslide.setPosition(ref);
         rightservoslide.setPosition(ref);
     }
-
-
     public void setHorizontalSlides(HorizontalSlideStates horizontalslidestates){
         switch (horizontalslidestates){
             case FULLY_IN:                         //161
@@ -102,7 +85,6 @@ public class HorizontalSlides extends Subsystem {
                 break;
         }
     }
-
     public enum HorizontalSlideStates {
         FULLY_OUT,
         HALF_OUT,
