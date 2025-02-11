@@ -94,7 +94,7 @@ public class ScoringCommandGroups {
     public Command moveIntakeTime(NewIntake.IntakeStates intakeStates,double time){
         return new MoveIntakeJohn(this.intake, intakeStates,time);
     }
-    public Command moveGripper(JohnsIntake.GripperStates gripperStates){
+    public Command moveCoAxial(JohnsIntake.GripperStates gripperStates){
         return new MoveGripper(this.intake, gripperStates);
     }
 

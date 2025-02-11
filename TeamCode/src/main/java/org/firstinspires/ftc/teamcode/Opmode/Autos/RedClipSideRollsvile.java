@@ -32,7 +32,7 @@ public class RedClipSideRollsvile extends BaseAuto {
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(1,31),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))
                         ,groups.moveVerticalSlidesAction(0, greaterTolerance),groups.movePivotAction(NewIntake.PivotStates.PARALLEL),
                         groups.moveIntakeAction(NewIntake.IntakeStates.STOP)}))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveCoAxial(JohnsIntake.GripperStates.UNCLAMP)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48.5), Math.toRadians(90)),
                         groups.delayAction(.3,groups.movePivotAction(NewIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.INTAKE)}))
@@ -58,7 +58,7 @@ public class RedClipSideRollsvile extends BaseAuto {
 //                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,10),Math.toRadians(90),new Vector2d(-54, 53), Math.toRadians(90))}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-45,53),Math.toRadians(90),new Vector2d(-47,45), Math.toRadians(90))}))
                 .addNext(new Delay(2))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos),groups.moveCoAxial(JohnsIntake.GripperStates.UNCLAMP)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47,45), Math.toRadians(90),new Vector2d(-47,48), Math.toRadians(90)),
                         groups.delayAction(.3,groups.movePivotAction(NewIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.INTAKE)}))

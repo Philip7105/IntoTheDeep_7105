@@ -33,7 +33,7 @@ public class RedClipSideRollsvileNewPath extends BaseAuto {
                         , groups.moveClipMagAction(ClipMech.ArmStates.ALMOST_DOWN)
                         , groups.moveVerticalSlidesAction(0, greaterTolerance), groups.movePivotAction(NewIntake.PivotStates.PARALLEL),
                         groups.moveIntakeAction(NewIntake.IntakeStates.STOP)}))
-                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT, halfOutEncoderPos), groups.moveGripper(JohnsIntake.GripperStates.UNCLAMP)))
+                .addNext(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT, halfOutEncoderPos), groups.moveCoAxial(JohnsIntake.GripperStates.UNCLAMP)))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-47, 45), Math.toRadians(90), new Vector2d(-47, 48.5), Math.toRadians(90)),
                         groups.delayAction(.3, groups.movePivotAction(NewIntake.PivotStates.SLIGHTLY_LOWER_PICKUP)),
                         groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.INTAKE)}))
