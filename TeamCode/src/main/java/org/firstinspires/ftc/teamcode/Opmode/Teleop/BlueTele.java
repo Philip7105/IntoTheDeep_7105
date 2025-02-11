@@ -39,13 +39,13 @@ public class BlueTele extends LinearOpMode {
             robot.intake.intakeTeleBlue(robot.gamepad1,robot.gamepad2,robot,groups);
             robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
-//            robot.clipmech.setLeftIndex(robot.gamepad2);
-//            robot.clipmech.setRightIndex(robot.gamepad2);
+            robot.clipmech.setLeftIndex(robot.gamepad2);
+            robot.clipmech.setRightIndex(robot.gamepad2);
 
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
-            robot.hang.manualHang(robot.gamepad2);
+//            robot.hang.manualHang(robot.gamepad2);
 //            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
 //            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
 

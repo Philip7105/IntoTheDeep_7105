@@ -11,7 +11,11 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @Config
 public class ClipMech extends Subsystem {
-    Servo rightmagarm,leftmagarm,rightindex,leftindex;
+    Servo rightmagarm,leftmagarm,
+            rightindex, // the right index is the servo on the right side of the robot if you
+    // are looking the same way that the intake faces while picking up
+            leftindex;//the left index is the servo on the left side of the robot if you
+    // are looking the same way that the intake faces while picking up
     public static double pushnone = .1,pushone = .22,pushtwo = .31,pushthree = .395, pushfour = .485,fully_up = .85,ready = 0.53,hookclip = 0.64
             ,outtheway = .7, down = .07, almost_down = 0.215, target, downencoderpos = 333, almostdownencoderpos = 274, backbeforeclip = .61, backbeforeclipencoderpos = 146,
     readyencoderpos = 171,outthewayencoderpos = 117, preclip = .8, hookclipencoderpos = 137,preclipencoderpos = 84,clippity_clappity_clickity_clickencoderpos = 69;

@@ -78,7 +78,7 @@ public class NewIntake extends Subsystem {
             setPivotStates(PivotStates.PARALLEL);
             setIntake(IntakeStates.OUTTAKE);
             runColorSensorBlue(groups,robot);
-        }else if (input.isRightBumperPressed() && !shovelMode  && !redSample && !yellowSample&& robot.horizontalslides.leftservoslide.getPosition() != fullin&& robot.horizontalslides.leftservoslide.getPosition() != prepselfclip){
+        }else if (input.isRightBumperPressed() && !shovelMode  && !redSample && !yellowSample && robot.horizontalslides.leftservoslide.getPosition() != fullin&& robot.horizontalslides.leftservoslide.getPosition() != prepselfclip){
             shovelMode = true;
             overHeadMode = false;
         } else if (input.isRightBumperPressed() && shovelMode && robot.horizontalslides.leftservoslide.getPosition() != fullin

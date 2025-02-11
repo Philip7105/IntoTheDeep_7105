@@ -39,13 +39,13 @@ public class RedTele extends LinearOpMode {
             robot.intake.intakeTeleRed(robot.gamepad1,robot.gamepad2,robot,groups);
             robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
-//            robot.clipmech.setLeftIndex(robot.gamepad2);
-//            robot.clipmech.setRightIndex(robot.gamepad2);
+            robot.clipmech.setLeftIndex(robot.gamepad2);
+            robot.clipmech.setRightIndex(robot.gamepad2);
 
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
-            robot.hang.manualHang(robot.gamepad2);
+//            robot.hang.manualHang(robot.gamepad2);
 //            robot.gamepad2.whenDPadUpPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK));
             robot.gamepad2.whenDPadLeftPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.ALMOST_DOWN));
             robot.gamepad2.whenDPadDownPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.DOWN));

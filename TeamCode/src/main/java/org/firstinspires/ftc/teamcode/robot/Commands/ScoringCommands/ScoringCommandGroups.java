@@ -1,4 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.autoposencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyInEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullyOutEncoderPos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfOutEncoderPos;
@@ -111,7 +112,11 @@ public class ScoringCommandGroups {
                 .addNext(new Delay(.2))
                 .addNext(new HorizontalCommandsLowerTolerance(horizontalSlides,HorizontalSlides.HorizontalSlideStates.HOOKCLIP,hookclipencoderpos))
                 .addNext(new MultipleCommand(new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK),new MovePivotTimeBased(intake,NewIntake.PivotStates.SNAPCLIP)))
-                .addNext(new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN, fullyInEncoderPos),new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.READY),new MovePivotTimeBased(intake,NewIntake.PivotStates.CHAMBERPOSBOTH)));
+                .addNext(new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN, fullyInEncoderPos),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),movePivot(NewIntake.PivotStates.OFFTHEWALL)));
+    }
+
+    public Command deliverSelfMadeSpecimen(){
+        return moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.AUTOPOS,autoposencoderpos);
     }
     public Command extendHorizontalSLides(){
         return new MultipleCommand(new NoSamples()
