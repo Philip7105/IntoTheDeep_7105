@@ -29,7 +29,7 @@ public class NewIntake extends Subsystem {
     Servo coaxial,rightarm;
     public static double shovelpos = .15, offthewallcoaxial = .4,offthewallpivot = 0.25,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
              snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
-            parallel = .19,lowerpickup = .13, pivotoverheadpos = .22,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
+            parallel = .19,lowerpickup = .13, pivotoverheadpos = .23,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
 
 //    0.35
     public static boolean enableColorSensorTelem =false, shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
@@ -177,7 +177,7 @@ public class NewIntake extends Subsystem {
 public void intakeTeleRed(Input input,Input input2,Robot robot, ScoringCommandGroups groups){
     if (blueSample){
         setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
-        setPivotStates(PivotStates.PARALLEL);
+        setPivotStates(PivotStates.PARALLEL);   // if blue sample outtake sample
         setIntake(IntakeStates.OUTTAKE);
         runColorSensorRed(groups,robot);
     }else if (input.isRightBumperPressed() && !shovelMode  &&  !redSample && !yellowSample&& robot.horizontalslides.leftservoslide.getPosition() != fullin&& robot.horizontalslides.leftservoslide.getPosition() != prepselfclip){
