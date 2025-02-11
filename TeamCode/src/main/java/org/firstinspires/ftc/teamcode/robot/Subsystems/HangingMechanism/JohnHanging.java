@@ -36,9 +36,9 @@ public class JohnHanging extends Subsystem {
 
     @Override
     public void periodic() {
-        Dashboard.addData("lefthangpos",getLeftHangPos());
-        Dashboard.addData("righthangpos",getRightHangPos());
-        Dashboard.addData("getHangPow",getPower());
+//        Dashboard.addData("lefthangpos",getLeftHangPos());
+//        Dashboard.addData("righthangpos",getRightHangPos());
+//        Dashboard.addData("getHangPow",getPower());
     }
 
     @Override

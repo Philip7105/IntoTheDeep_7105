@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
-
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
-
 import org.firstinspires.ftc.teamcode.Control.PDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,16 +7,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.Control.PDController;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
-
 @Config
 public class VerticalSlides extends Subsystem {
     DcMotor rightslide,leftslide;
@@ -43,7 +38,6 @@ public class VerticalSlides extends Subsystem {
     public void periodic() {
         Dashboard.addData("verticalslidepos",getSlidesPos());
         Dashboard.addData("reference",ref);
-//        Dashboard.addData("touchsensor",touchSensorIsPressed());
     }
     @Override
     public void shutdown() {
@@ -72,7 +66,6 @@ public class VerticalSlides extends Subsystem {
     public boolean touchSensorIsPressed(){
         return verticalSlidesTouchSensor.isPressed();
     }
-
     public void updatePosAuto(){
         if (!touchSensorIsPressed() && holdPos){
             leftslide.setPower(kg);
@@ -86,8 +79,6 @@ public class VerticalSlides extends Subsystem {
         } else {
         }
     }
-
-
     public void runHang(Input input,Robot robot) {
         if (input.getLeft_stick_y() > .8) {
             hangISReady = true;
@@ -104,7 +95,6 @@ public class VerticalSlides extends Subsystem {
             robot.driveTrain.moveDriveMotors(0);
         }
     }
-
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups){
         if (input.isRightBumperPressed() && ref == 0){
 //            hangISReady =false;
@@ -180,7 +170,6 @@ public class VerticalSlides extends Subsystem {
 //            leftslide.setPower(0);
 //            rightslide.setPower(0);
 //        }
-
     public double getSlidesPos(){
         return leftslide.getCurrentPosition();
     }

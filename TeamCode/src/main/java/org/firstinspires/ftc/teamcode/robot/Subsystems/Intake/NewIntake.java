@@ -27,12 +27,11 @@ public class NewIntake extends Subsystem {
     ElapsedTime time = new ElapsedTime();
     CRServo intake;
     Servo coaxial,rightarm;
-    public static double shovelpos = .15, offthewallcoaxial = .4,offthewallpivot = 0.25,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
+    public static double shovelpos = .15, offthewallcoaxial = .445,offthewallpivot = 0.25,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
              snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
             parallel = .19,lowerpickup = .13, pivotoverheadpos = .22,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
-
 //    0.35
-    public static boolean enableColorSensorTelem =false, shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
+    public static boolean shovelMode = false, overHeadMode = false, yellowSample = false, blueSample = false, redSample = false;
     RevColorSensorV3 colorsensor;
     AnalogInput armanalog;
     @Override
@@ -53,17 +52,10 @@ public class NewIntake extends Subsystem {
     }
     @Override
     public void periodic() {
-//        if (enableColorSensorTelem) {
-//            Dashboard.addData("optical",getOptical());
-//            Dashboard.addData("red", getRed());
-//            Dashboard.addData("blue", getBlue());
-//            Dashboard.addData("green", getGreen());
-//        }
     }
 
     @Override
     public void shutdown() {
-
     }
     public double getArmPos(){
         return armanalog.getVoltage() / 3.3 * 360;
@@ -80,7 +72,6 @@ public class NewIntake extends Subsystem {
     public double getGreen(){
         return colorsensor.green();
     }
-
     public void intakeTeleBlue(Input input,Input input2,Robot robot, ScoringCommandGroups groups){
         if (redSample){
             setCoaxial(CoaxialStates.COAXIALSHOVELPOS);

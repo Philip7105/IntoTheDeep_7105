@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 @Config
 public class HorizontalSlides extends Subsystem {
     public ServoImplEx leftservoslide, rightservoslide;
-    public static double fullin = .24,halfout = .56,autopos = 0.44, prepselfclip = .7,prepreclip = .4,hookclip = 0.38,hookclipencoderpos = 158,preclip = 0.3,fullout = .88,
-            autoposencoderpos = 172,prepreclipencoderpos = 165, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
+    public static double fullin = .24,halfout = .56,autopos = 0.455, prepselfclip = .7,prepreclip = .4,hookclip = 0.38,hookclipencoderpos = 158,preclip = 0.3,fullout = .88,
+            autoposencoderpos = 180, preclipencoderpos = 148,prepselfclipencoderpos = 212,fullyOutEncoderPos = 240,halfOutEncoderPos = 202,fullyInEncoderPos = 144;
     //TODO max and min constrains must be fixed
     //get our analog input from the hardwareMap
     AnalogInput slideAnalog;
