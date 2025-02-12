@@ -41,7 +41,22 @@ public class LimeLight extends Subsystem {
          * Starts polling for data.
          */
         limelight.start();
+    }
 
+    @Override
+    public void initTeleop(HardwareMap hwMap) {
+        x = 0;
+        y = 0;
+
+        limelight = hwMap.get(Limelight3A.class,"limelight");
+
+        limelight.pipelineSwitch(0);
+
+        limelight.setPollRateHz(100);
+        /*
+         * Starts polling for data.
+         */
+        limelight.shutdown();
     }
 
     @Override

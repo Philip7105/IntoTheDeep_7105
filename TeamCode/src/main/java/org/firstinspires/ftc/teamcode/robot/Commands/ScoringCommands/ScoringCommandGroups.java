@@ -71,7 +71,7 @@ public class ScoringCommandGroups {
         return new MoveVerticalSlidesBetter(verticalslides,true,target,tolerance);
     }
     public Command armChamberPos(){
-        return new MultipleCommand(movePivot(NewIntake.PivotStates.CHAMBERPOSBOTH));
+        return movePivot(NewIntake.PivotStates.CHAMBERPOSBOTH);
     }
     public Command armOutFront(){
         return new MultipleCommand(movePivot(NewIntake.PivotStates.SHOVELPIVOTPOS),new MoveAxial(intake, NewIntake.CoaxialStates.RELEASE));
@@ -123,10 +123,12 @@ public class ScoringCommandGroups {
                 ,moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
     }
     public Command bringInHorizontalSLidesBetter(){
-        return new MultipleCommand(moveIntakeTime(NewIntake.IntakeStates.STOP,.1),moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos)), movePivot(NewIntake.PivotStates.PARALLEL), new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP));
+        return new MultipleCommand(moveIntakeTime(NewIntake.IntakeStates.STOP,.1),
+                moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos)),
+                movePivot(NewIntake.PivotStates.PARALLEL), new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP));
     }
     public Command moveClipMag(ClipMech.ArmStates armstates){
-        return new MoveClipMech(clipmech,armstates);
+        return new MoveClipMech(clipmech,armstates,horizontalSlides.getSetPos());
     }
 // Below are the Actions for RR we will use these actions to seamlessly flow into the command scheduler.
     public Action emptyAction(){

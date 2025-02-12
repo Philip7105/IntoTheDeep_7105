@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.outthewayencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.readyencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.target;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
@@ -16,13 +17,13 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 public class MoveClipMech extends Command {
 
     ClipMech clipmech;
-//    0.49
-//.565
+    boolean underneathslides = false;
     ClipMech.ArmStates armstates;
-
-    public MoveClipMech(ClipMech clipmech, ClipMech.ArmStates armstates){
+    double horizontalservopos;
+    public MoveClipMech(ClipMech clipmech, ClipMech.ArmStates armstates, double horizontalservopos){
         this.clipmech = clipmech;
         this.armstates = armstates;
+        this.horizontalservopos = horizontalservopos;
     }
 
     @Override
@@ -33,6 +34,10 @@ public class MoveClipMech extends Command {
             target = almostdownencoderpos;
         } else if (armstates == ClipMech.ArmStates.READY) {
             target = readyencoderpos;
+        } else if (armstates == ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES && clipmech.getClipMagPos() > 200 && horizontalservopos != fullin ) {
+            underneathslides = true;
+            target = almostdownencoderpos;
+            clipmech.setArmStates(ClipMech.ArmStates.ALMOST_DOWN);
         } else if (armstates == ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES) {
             target = outthewayencoderpos;
         }else if (armstates == ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK) {
@@ -48,7 +53,9 @@ public class MoveClipMech extends Command {
         } else if (armstates == ClipMech.ArmStates.PRECLIP3) {
             target = 160;
         }
-        clipmech.setArmStates(armstates);
+        if (!underneathslides) {
+            clipmech.setArmStates(armstates);
+        }
     }
 
     @Override
@@ -64,5 +71,6 @@ public class MoveClipMech extends Command {
 
     @Override
     public void shutdown() {
+        underneathslides = false;
     }
 }

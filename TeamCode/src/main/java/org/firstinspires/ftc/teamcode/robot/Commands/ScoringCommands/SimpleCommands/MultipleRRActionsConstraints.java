@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Action;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.ActionChill;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
+import org.firstinspires.ftc.teamcode.NewRR.MecanumDrive;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MultipleActions;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
@@ -11,8 +12,10 @@ public class MultipleRRActionsConstraints extends Command {
 
     MultipleActions multipleActions;
 
-    public MultipleRRActionsConstraints(Action[] actions){
+    public MultipleRRActionsConstraints(Action[] actions, double velocitytolerance, double errortolerance){
         multipleActions = new MultipleActions(actions,Dashboard.packet);
+        MecanumDrive.velocitytolerance = velocitytolerance;
+        MecanumDrive.errortolerance = errortolerance;
     }
 
     @Override

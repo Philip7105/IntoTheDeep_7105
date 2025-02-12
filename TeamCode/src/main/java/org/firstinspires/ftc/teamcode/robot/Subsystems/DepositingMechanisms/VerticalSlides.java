@@ -113,15 +113,12 @@ public class VerticalSlides extends Subsystem {
                 ref = highchamber;
                 robot.getScheduler().forceCommand(groups.slidesTeleop());
             } else if (input.isRightBumperPressed() && ref == lowbasket){
-//            hangISReady =false;
                 ref = highbasket;
                 robot.getScheduler().forceCommand(groups.slidesTeleop());
             } else if (input.isLeftBumperPressed() && ref == highbasket){
-//            hangISReady =false;
                 ref = lowbasket;
                 robot.getScheduler().forceCommand(groups.slidesTeleop());
             } else if (ref == 0 && !touchSensorIsPressed()) {
-//            hangISReady =false;
                 setPower(-.3);
             } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
 //                && inputmanual.getLeft_stick_y() < .7

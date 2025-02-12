@@ -82,7 +82,7 @@ public class DriveTrain extends Subsystem {
    }
 
    public void changeDriveState(Input input){
-       if (input.isLeftBumperPressed()){
+       if (input.isLeft_bumper()){
            driveSpeed = DriveSpeed.Slow;
        } else {
            driveSpeed = DriveSpeed.Fast;
@@ -150,11 +150,14 @@ public class DriveTrain extends Subsystem {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
                 .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-49, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-50, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-57, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-63, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-63, 53), Math.toRadians(90))
                 .build();
     }
 

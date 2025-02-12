@@ -30,7 +30,7 @@ public class SelfClippingAUto extends BaseAuto {
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(lowbasket, greaterTolerance)}))
                 .addNext(new MultipleRRActionsWithPathing(new Action[]{groups.moveVerticalSlidesAction(1100,greaterTolerance),groups.moveCoAxialAction(NewIntake.CoaxialStates.RELEASE),groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.OUTTAKE)}))
                 // clip first specimen
-                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-6, 31), Math.toRadians(90), new Vector2d(-43.8, 56.7), Math.toRadians(90))
+                .addNext(new MultipleRRActionsWithPathing(new Action[]{robot.driveTrain.strafeToLinearHeading(new Vector2d(-6, 31), Math.toRadians(90), new Vector2d(-6, 56.7), Math.toRadians(90))
                         ,new SequentialAction(groups.moveVerticalSlidesAction(0, greaterTolerance)),groups.moveIntakeActionForShortTime(NewIntake.IntakeStates.STOP)
                         ,groups.moveCoAxialAction(NewIntake.CoaxialStates.OFFTHEWALL),groups.movePivotAction(NewIntake.PivotStates.OFFTHEWALL)}))
                 .addNext(groups.moveClipMag(ClipMech.ArmStates.ALMOST_DOWN))

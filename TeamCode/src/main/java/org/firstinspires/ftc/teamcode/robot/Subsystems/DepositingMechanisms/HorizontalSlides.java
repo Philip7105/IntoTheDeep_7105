@@ -45,6 +45,10 @@ public class HorizontalSlides extends Subsystem {
     public double ticksToInches(){
         return (getSlidePos() - 143) / 5.846;
     }
+
+    public double getSetPos(){
+        return leftservoslide.getPosition();
+    }
     public void setPosition(double ref){
         leftservoslide.setPosition(ref);
         rightservoslide.setPosition(ref);

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
+import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.TurnAutoSelfClipOnAndOff;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
@@ -42,18 +43,16 @@ public class BlueTele extends LinearOpMode {
             robot.clipmech.setLeftIndex(robot.gamepad2);
             robot.clipmech.setRightIndex(robot.gamepad2);
 
+            robot.gamepad2.whenPSButtonPressed(new TurnAutoSelfClipOnAndOff());
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
 //            robot.hang.manualHang(robot.gamepad2);
 //            robot.gamepad1.whenSquarePressed(new MoveHorizontalSlides(robot.horizontalslides, HorizontalSlides.HorizontalSlideStates.Fully_In));
 //            robot.gamepad1.whenCrossPressed(groups.moveArmJohn(JohnsIntake.PivotStates.parallel));
-
-//            robot.gamepad2.whenDPadUpPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK));
-            robot.gamepad2.whenDPadLeftPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.ALMOST_DOWN));
-//            robot.gamepad2.whenDPadRightPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.READY));
-            robot.gamepad2.whenDPadDownPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.DOWN));
-            robot.gamepad2.whenDPadRightPressed(new MoveClipMech(robot.clipmech, ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES));
+            robot.gamepad2.whenDPadLeftPressed(groups.moveClipMag(ClipMech.ArmStates.ALMOST_DOWN));
+            robot.gamepad2.whenDPadDownPressed(groups.moveClipMag(ClipMech.ArmStates.DOWN));
+            robot.gamepad2.whenDPadRightPressed(groups.moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES));
 
             robot.gamepad1.whenDPadUpPressed(groups.armChamberPos());
             robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
