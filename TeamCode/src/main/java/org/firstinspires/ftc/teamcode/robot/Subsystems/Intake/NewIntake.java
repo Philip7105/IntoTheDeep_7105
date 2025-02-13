@@ -27,7 +27,7 @@ public class NewIntake extends Subsystem {
     Servo coaxial,rightarm;
     public static double shovelpos = .15, offthewallcoaxial = .44,offthewallpivot = 0.24,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
              snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
-            parallel = 0.23,lowerpickup = .13, pivotoverheadpos = .21,pivotpostselfclip = .265,coaxialpostselfclip = .53,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;
+            parallel = 0.23,lowerpickup = .13, pivotoverheadpos = .21,pivotpostselfclip = .265,coaxialpostselfclip = .56,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;
     public static boolean yellowSample = false, blueSample = false, redSample = false,enableAutoSelfClip = true;
     RevColorSensorV3 colorsensor;
     AnalogInput armanalog;
@@ -47,6 +47,8 @@ public class NewIntake extends Subsystem {
     }
     @Override
     public void periodic() {
+        Dashboard.addData("green",getGreen());
+        Dashboard.addData("red",getRed());
     }
     @Override
     public void shutdown() {
@@ -112,7 +114,7 @@ public class NewIntake extends Subsystem {
     }
     public void runColorSensorBlue(ScoringCommandGroups groups, Robot robot){
         if (getOptical() > 1800){
-            if (getGreen() > 4000) {
+            if (getGreen() > 3200) {
                 //yellow
                 blueSample= false;
                 redSample = false;
@@ -128,7 +130,7 @@ public class NewIntake extends Subsystem {
                 } else {
                     robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 }
-            } else if (getRed() > 2000 && getGreen() < 3400) {
+            } else if (getRed() > 2000 && getGreen() < 2000) {
                 //red
                 blueSample= false;
                 yellowSample = false;
@@ -186,7 +188,7 @@ public class NewIntake extends Subsystem {
 }
     public void runColorSensorRed(ScoringCommandGroups groups, Robot robot){
         if (getOptical() > 1800){
-            if (getGreen() > 4000) {
+            if (getGreen() > 3200) {
                 //yellow
                 blueSample= false;
                 redSample = false;
@@ -197,7 +199,7 @@ public class NewIntake extends Subsystem {
                 redSample= false;
                 yellowSample = false;
                 blueSample = true;
-            } else if (getRed() > 2000 && getGreen() < 3400) {
+            } else if (getRed() > 2000 && getGreen() < 2000) {
                 //red
                 blueSample= false;
                 yellowSample = false;

@@ -113,7 +113,7 @@ public class ScoringCommandGroups {
                 .addNext(new MultipleCommand(new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK),new MovePivotTimeBased(intake,NewIntake.PivotStates.SNAPCLIP)))
                 .addNext(new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN, fullyInEncoderPos)
                         ,moveCoAxial(NewIntake.CoaxialStates.POSTSELFCLIP)
-                        ,moveClipMag(ClipMech.ArmStates.READY),movePivot(NewIntake.PivotStates.POSTSELFCLIP)));
+                        ,new Delay(.1).addNext(moveClipMag(ClipMech.ArmStates.READY)),new Delay(.1).addNext(movePivot(NewIntake.PivotStates.POSTSELFCLIP))));
     }
     public Command deliverSelfMadeSpecimen(){
         return moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.AUTOPOS,autoposencoderpos);
