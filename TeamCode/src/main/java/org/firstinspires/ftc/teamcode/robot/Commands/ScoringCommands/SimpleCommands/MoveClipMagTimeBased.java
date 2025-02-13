@@ -8,32 +8,21 @@ import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 
 public class MoveClipMagTimeBased extends Command {
-
     ElapsedTime time = new ElapsedTime();
-
     ClipMech clipmech;
-
     ClipMech.ArmStates armstates;
-
     public MoveClipMagTimeBased(ClipMech clipmech, ClipMech.ArmStates armstates){
         this.clipmech = clipmech;
-        this.armstates = armstates;
-    }
-
+        this.armstates = armstates;}
     @Override
     public void init() {
         time.reset();
-        clipmech.setArmStates(armstates);
-    }
-
+        clipmech.setArmStates(armstates);}
     @Override
-    public void periodic() {
-
-    }
-
+    public void periodic() {}
     @Override
     public boolean completed() {
-        return time.seconds() > .7;
+        return time.seconds() > 1;
 //        return cliparmdone;
     }
 

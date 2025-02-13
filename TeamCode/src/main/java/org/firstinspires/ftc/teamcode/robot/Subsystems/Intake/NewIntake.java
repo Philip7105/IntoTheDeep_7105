@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
-
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
@@ -21,7 +20,6 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
-
 @Config
 public class NewIntake extends Subsystem {
     ElapsedTime time = new ElapsedTime();
@@ -29,8 +27,7 @@ public class NewIntake extends Subsystem {
     Servo coaxial,rightarm;
     public static double shovelpos = .15, offthewallcoaxial = .44,offthewallpivot = 0.24,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
              snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
-            parallel = .19,lowerpickup = .13, pivotoverheadpos = .21,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;//.78  .155
-//    0.35
+            parallel = 0.23,lowerpickup = .13, pivotoverheadpos = .21,pivotpostselfclip = .265,coaxialpostselfclip = .53,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;
     public static boolean yellowSample = false, blueSample = false, redSample = false,enableAutoSelfClip = true;
     RevColorSensorV3 colorsensor;
     AnalogInput armanalog;
@@ -38,7 +35,6 @@ public class NewIntake extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         colorsensor = hwMap.get(RevColorSensorV3.class,"colorsensor");
         intake = hwMap.get(CRServo.class,"intake");
-//        leftintake = hwMap.get(CRServo.class,"leftintake");
         coaxial = hwMap.get(Servo.class,"coaxial");
         rightarm = hwMap.get(Servo.class,"rightarm");
         armanalog = hwMap.get(AnalogInput.class,"armanalog");
@@ -149,7 +145,7 @@ public class NewIntake extends Subsystem {
         setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
         setPivotStates(PivotStates.PARALLEL);
         setIntake(IntakeStates.OUTTAKE);
-        runColorSensorBlue(groups,robot);
+        runColorSensorRed(groups,robot);
     }else if (input2.isSquare() && !redSample&&!blueSample&&!yellowSample) {
         setIntake(IntakeStates.INTAKESLOW);
         setPivotStates(PivotStates.OFFTHEWALL);
@@ -218,31 +214,6 @@ public class NewIntake extends Subsystem {
             redSample = false;
         }
     }
-
-    public void runColorSensor(ScoringCommandGroups groups, Robot robot){
-        if (getOptical() > 1800){
-            if (getGreen() > 4000) {
-                //yellow
-                blueSample= false;
-                redSample = false;
-                yellowSample = true;
-                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
-            } else if (getBlue() > 2200) {
-                //blue
-                redSample= false;
-                yellowSample = false;
-                blueSample = true;
-                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
-            } else if (getRed() > 2000 && getGreen() < 3400) {
-                //red
-                blueSample= false;
-                yellowSample = false;
-                redSample = true;
-                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
-            }
-        }
-    }
-
     public void setIntake(IntakeStates intakeStates){
         switch (intakeStates){
             case INTAKE:
@@ -274,9 +245,11 @@ public class NewIntake extends Subsystem {
                 break;
         }
     }
-
     public void setCoaxial(CoaxialStates coaxialstates) {
         switch (coaxialstates){
+            case POSTSELFCLIP:
+                coaxial.setPosition(coaxialpostselfclip);
+                break;
             case CLAMP:
                 coaxial.setPosition(clamppos);
                 break;
@@ -300,12 +273,14 @@ public class NewIntake extends Subsystem {
                 break;
         }
     }
-
     public void setPivotStates(PivotStates pivotStates){
         switch (pivotStates){
             case OFFTHEWALL:
                 rightarm.setPosition(offthewallpivot);
                 break;
+            case POSTSELFCLIP:
+                rightarm.setPosition(pivotpostselfclip);
+                    break;
             case SHOVELPIVOTPOS:
                 rightarm.setPosition(down); // 121
                 break;
@@ -326,7 +301,6 @@ public class NewIntake extends Subsystem {
                 break;
             case HOOKCLIP:
                 rightarm.setPosition(hookclippivot);
-//                coaxial.setPosition(hookclipcoaxial);
                 break;
             case SNAPCLIP:
                 rightarm.setPosition(snapclip);
@@ -354,12 +328,14 @@ public class NewIntake extends Subsystem {
         COAXIALSHOVELPOS,
         CLAMPSELFCLIP,
         CLAMP,
+        POSTSELFCLIP,
         PRECLIP,
         RELEASE,
     }
     public enum PivotStates {
         OFFTHEWALL,
         CHAMBERPOSBOTH,
+        POSTSELFCLIP,
         CHAMBERPOS,
         PARALLEL,
         OVERHEADPOS,

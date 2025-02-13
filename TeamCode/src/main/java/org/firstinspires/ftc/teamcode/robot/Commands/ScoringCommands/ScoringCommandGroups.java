@@ -100,21 +100,21 @@ public class ScoringCommandGroups {
     public Command prepSelfClip(){
         return new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPSELFCLIP, prepselfclipencoderpos)
                 ,movePivot(NewIntake.PivotStates.PRECLIP),new MoveAxial(intake, NewIntake.CoaxialStates.PRECLIP),
-                moveClipMag(ClipMech.ArmStates.PRECLIP), moveIntakeTime(NewIntake.IntakeStates.STOP,.1));
+                moveClipMag(ClipMech.ArmStates.PRECLIP2), moveIntakeTime(NewIntake.IntakeStates.STOP,.1));
     }
     public Command clipClip2(){
         return moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.PRESELFCLIP,preclipencoderpos)
-                .addNext(moveClipMag(ClipMech.ArmStates.PRECLIP2))
-                .addNext(new Delay(.2))
+                .addNext(new Delay(.1))
                 .addNext(moveClipMag(ClipMech.ArmStates.PRECLIP3))
                 .addNext(new Delay(.2))
                 .addNext(new MultipleCommand(movePivot(NewIntake.PivotStates.PRECLIP2),new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP)))
                 .addNext(new Delay(.2))
                 .addNext(new HorizontalCommandsLowerTolerance(horizontalSlides,HorizontalSlides.HorizontalSlideStates.HOOKCLIP,hookclipencoderpos))
                 .addNext(new MultipleCommand(new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK),new MovePivotTimeBased(intake,NewIntake.PivotStates.SNAPCLIP)))
-                .addNext(new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN, fullyInEncoderPos),moveClipMag(ClipMech.ArmStates.ALMOST_DOWN),movePivot(NewIntake.PivotStates.OFFTHEWALL)));
+                .addNext(new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN, fullyInEncoderPos)
+                        ,moveCoAxial(NewIntake.CoaxialStates.POSTSELFCLIP)
+                        ,moveClipMag(ClipMech.ArmStates.READY),movePivot(NewIntake.PivotStates.POSTSELFCLIP)));
     }
-
     public Command deliverSelfMadeSpecimen(){
         return moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.AUTOPOS,autoposencoderpos);
     }

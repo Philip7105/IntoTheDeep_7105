@@ -19,7 +19,7 @@ public class LimeLight extends Subsystem {
 
     Pose3D botpose;
 
-    LLResult result;
+    public LLResult result;
 
     public static double x,y, heading,xmulti = 34.80859179266,ymulti;
 
@@ -61,6 +61,7 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodic() {
+        result = limelight.getLatestResult();
 //        limelight.updateRobotOrientation(driveTrain.getHeadingFixed());
 //        result = limelight.getLatestResult();
 //        if (result != null && result.isValid()) {
