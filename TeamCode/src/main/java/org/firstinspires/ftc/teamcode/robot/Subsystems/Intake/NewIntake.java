@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.Intake;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullout;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.halfout;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepselfclip;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -18,7 +16,6 @@ import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringComm
 import org.firstinspires.ftc.teamcode.robot.Input;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 @Config
 public class NewIntake extends Subsystem {
@@ -26,7 +23,7 @@ public class NewIntake extends Subsystem {
     CRServo intake;
     Servo coaxial,rightarm;
     public static double shovelpos = .15, offthewallcoaxial = .44,offthewallpivot = 0.24,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
-             snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13,
+             snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberpos = .63, down = 0.13, preclip2 = .18,
             parallel = 0.23,lowerpickup = .13, pivotoverheadpos = .21,pivotpostselfclip = .265,coaxialpostselfclip = .56,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;
     public static boolean yellowSample = false, blueSample = false, redSample = false,enableAutoSelfClip = true;
     RevColorSensorV3 colorsensor;
@@ -47,8 +44,6 @@ public class NewIntake extends Subsystem {
     }
     @Override
     public void periodic() {
-        Dashboard.addData("green",getGreen());
-        Dashboard.addData("red",getRed());
     }
     @Override
     public void shutdown() {
@@ -77,6 +72,7 @@ public class NewIntake extends Subsystem {
         }else if (input2.isSquare() && !redSample&&!blueSample&&!yellowSample) {
             setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.OFFTHEWALL);
+            driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setCoaxial(CoaxialStates.OFFTHEWALL);
         } else if (input.isLeft_trigger_press()&&robot.horizontalslides.leftservoslide.getPosition() == fullin){
             setCoaxial(CoaxialStates.RELEASE);
@@ -88,11 +84,13 @@ public class NewIntake extends Subsystem {
                 setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
                 setPivotStates(PivotStates.SHOVELPIVOTPOS);
                 setIntake(IntakeStates.INTAKE);
+                driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
                 runColorSensorBlue(groups,robot);
             } else if (input.isRight_bumper()){
                 setCoaxial(CoaxialStates.OVERHEADPOS);
                 setPivotStates(PivotStates.OVERHEADPOS);
                 setIntake(IntakeStates.INTAKE);
+                driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
                 runColorSensorBlue(groups,robot);
             } else if (input.isLeft_trigger_press()) {
                 setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
@@ -101,15 +99,9 @@ public class NewIntake extends Subsystem {
             } else {
                 setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
                 setPivotStates(PivotStates.PARALLEL);
+                driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
                 setIntake(IntakeStates.STOP);
             }
-        } else if (robot.horizontalslides.leftservoslide.getPosition() != prepselfclip &&!blueSample &&
-                robot.horizontalslides.leftservoslide.getPosition() != fullin
-                && !redSample && !yellowSample){
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-            setIntake(NewIntake.IntakeStates.STOP);
-            setPivotStates(PivotStates.PARALLEL);
-            setCoaxial(CoaxialStates.CLAMP);
         }
     }
     public void runColorSensorBlue(ScoringCommandGroups groups, Robot robot){
@@ -152,6 +144,7 @@ public class NewIntake extends Subsystem {
         setIntake(IntakeStates.INTAKESLOW);
         setPivotStates(PivotStates.OFFTHEWALL);
         setCoaxial(CoaxialStates.OFFTHEWALL);
+        driveSpeed = DriveTrain.DriveSpeed.SLOW;
     } else if (input.isLeft_trigger_press()&&robot.horizontalslides.leftservoslide.getPosition() == fullin){
         setCoaxial(CoaxialStates.RELEASE);
         setIntake(IntakeStates.INTAKEOUTTAKE);
@@ -162,11 +155,13 @@ public class NewIntake extends Subsystem {
             setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
             setPivotStates(PivotStates.SHOVELPIVOTPOS);
             setIntake(IntakeStates.INTAKE);
+            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
             runColorSensorRed(groups,robot);
         } else if (input.isRight_bumper()){
             setCoaxial(CoaxialStates.OVERHEADPOS);
             setPivotStates(PivotStates.OVERHEADPOS);
             setIntake(IntakeStates.INTAKE);
+            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
             runColorSensorRed(groups,robot);
         } else if (input.isLeft_trigger_press()) {
             setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
@@ -175,15 +170,9 @@ public class NewIntake extends Subsystem {
         } else {
             setCoaxial(CoaxialStates.COAXIALSHOVELPOS);
             setPivotStates(PivotStates.PARALLEL);
+            driveSpeed = DriveTrain.DriveSpeed.FAST;
             setIntake(IntakeStates.STOP);
         }
-    } else if (robot.horizontalslides.leftservoslide.getPosition() != prepselfclip &&
-            robot.horizontalslides.leftservoslide.getPosition() != fullin&&!blueSample
-            && !redSample && !yellowSample){
-        DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
-        setIntake(NewIntake.IntakeStates.STOP);
-        setPivotStates(PivotStates.PARALLEL);
-        setCoaxial(CoaxialStates.CLAMP);
     }
 }
     public void runColorSensorRed(ScoringCommandGroups groups, Robot robot){
@@ -193,7 +182,7 @@ public class NewIntake extends Subsystem {
                 blueSample= false;
                 redSample = false;
                 yellowSample = true;
-                robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
+                robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
             } else if (getBlue() > 2200) {
                 //blue
                 redSample= false;
@@ -299,7 +288,7 @@ public class NewIntake extends Subsystem {
                 rightarm.setPosition(.16);
                 break;
             case PRECLIP2:
-                rightarm.setPosition(.18);
+                rightarm.setPosition(preclip2);
                 break;
             case HOOKCLIP:
                 rightarm.setPosition(hookclippivot);

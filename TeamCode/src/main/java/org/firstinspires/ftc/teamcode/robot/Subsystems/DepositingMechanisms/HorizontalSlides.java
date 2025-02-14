@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
 
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -8,6 +10,7 @@ import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 
 @Config
 public class HorizontalSlides extends Subsystem {
@@ -70,6 +73,7 @@ public class HorizontalSlides extends Subsystem {
             case PREPSELFCLIP:
                 leftservoslide.setPosition(prepselfclip);
                 rightservoslide.setPosition(prepselfclip);
+                driveSpeed = DriveTrain.DriveSpeed.CLIPSPEED;
                 break;
             case PREPRESELFCLIP:
                 leftservoslide.setPosition(prepreclip);

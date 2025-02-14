@@ -118,15 +118,15 @@ public class Intake extends SubsystemBase {
             setIntake(IntakeStates.STOP);
             setPivotStates(PivotStates.FORWARD);
         } else if (input.isLeft_trigger_press()){
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setGripper(GripperStates.UNCLAMP);
             setIntake(Intake.IntakeStates.OUTTAKE);
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
         } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(Intake.IntakeStates.INTAKE);
             setPivotStates(Intake.PivotStates.FORWARD);
         }
@@ -137,11 +137,11 @@ public class Intake extends SubsystemBase {
 //        }
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setPivotStates(Intake.PivotStates.PARALLEL);
             setIntake(Intake.IntakeStates.STOP);
         } else {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setIntake(Intake.IntakeStates.STOP);
         }
     }

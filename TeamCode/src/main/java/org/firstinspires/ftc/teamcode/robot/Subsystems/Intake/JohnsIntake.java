@@ -116,15 +116,15 @@ public void runColorSensor(){
             setIntake(IntakeStates.STOP);
             setPivotStates(PivotStates.FORWARD);
         } else if (input.isLeft_trigger_press()){
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setGripper(GripperStates.UNCLAMP);
             setIntake(JohnsIntake.IntakeStates.OUTTAKE);
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
         } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Slow;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(JohnsIntake.IntakeStates.INTAKE);
             setPivotStates(JohnsIntake.PivotStates.FORWARD);
         }
@@ -135,11 +135,11 @@ public void runColorSensor(){
 //        }
         else if (slides.leftservoslide.getPosition() != fullin
                 && !input.isRight_trigger_press() && !input.isLeft_trigger_press()) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setPivotStates(JohnsIntake.PivotStates.PARALLEL);
             setIntake(JohnsIntake.IntakeStates.STOP);
         }else {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.Fast;
+            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.FAST;
             setIntake(JohnsIntake.IntakeStates.STOP);
         }
     }

@@ -6,12 +6,14 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.preclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.prepselfclipencoderpos;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Command;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
+import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.ChangeDriveStates;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.DelayAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.EmptyAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.HoldVerticalSlidePosAction;
@@ -20,6 +22,7 @@ import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveCoAxi
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveHorizontalSlidesAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeActionShortTime;
+import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MoveIntakeActionTime;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.MovePivotAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetCoAxialAction;
 import org.firstinspires.ftc.teamcode.robot.Commands.RoadRunnerActions.ResetDelayAction;
@@ -44,6 +47,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.HangingMechanism.JohnHanging;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
@@ -98,7 +102,7 @@ public class ScoringCommandGroups {
         return new MultipleCommand(new NoSamples(), moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT,fullyOutEncoderPos)));
     }
     public Command prepSelfClip(){
-        return new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPSELFCLIP, prepselfclipencoderpos)
+        return new MultipleCommand(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPSELFCLIP, prepselfclipencoderpos), new ChangeDriveStates(driveSpeed = DriveTrain.DriveSpeed.CLIPSPEED)
                 ,movePivot(NewIntake.PivotStates.PRECLIP),new MoveAxial(intake, NewIntake.CoaxialStates.PRECLIP),
                 moveClipMag(ClipMech.ArmStates.PRECLIP2), moveIntakeTime(NewIntake.IntakeStates.STOP,.1));
     }
@@ -120,11 +124,15 @@ public class ScoringCommandGroups {
     }
     public Command extendHorizontalSLides(){
         return new MultipleCommand(new NoSamples()
-                ,moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
+                ,moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES)
+                .addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.HALF_OUT,halfOutEncoderPos)));
     }
     public Command bringInHorizontalSLidesBetter(){
         return new MultipleCommand(moveIntakeTime(NewIntake.IntakeStates.STOP,.1),
-                moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES).addNext(moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos)),
+                moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES)
+                        .addNext(new MultipleCommand(
+                                moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos),
+                        new ChangeDriveStates(driveSpeed = DriveTrain.DriveSpeed.FAST))),
                 movePivot(NewIntake.PivotStates.PARALLEL), new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP));
     }
     public Command moveClipMag(ClipMech.ArmStates armstates){
@@ -145,6 +153,9 @@ public class ScoringCommandGroups {
     }
     public Action moveIntakeAction(NewIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
+    }
+    public Action moveIntakeActionTime(NewIntake.IntakeStates intakeStates,double time){
+        return new SequentialAction(new MoveIntakeActionTime(intake,intakeStates,Dashboard.packet,time),new ResetIntakeAction(Dashboard.packet));
     }
     public Action moveIntakeActionForShortTime(NewIntake.IntakeStates intakeStates){
         return new SequentialAction(new MoveIntakeActionShortTime(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));

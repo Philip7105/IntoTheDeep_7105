@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.robot.Input;
 @Config
 public class DriveTrain extends Subsystem {
     public PinpointDrive mecanumDrive;
-   public static DriveSpeed driveSpeed = DriveSpeed.Fast;
+   public static DriveSpeed driveSpeed = DriveSpeed.FAST;
    public static double headingoffset = 0;
    public static boolean engagePTO = false;
       public DriveTrain(HardwareMap hwMap){
@@ -38,7 +38,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void RobotRelative(Input input){
-       if (driveSpeed == DriveSpeed.Fast && !engagePTO) {
+       if (driveSpeed == DriveSpeed.FAST && !engagePTO) {
            mecanumDrive.setDrivePowers(new PoseVelocity2d(
                    new Vector2d(
                            -input.getLeft_stick_y(),
@@ -55,7 +55,7 @@ public class DriveTrain extends Subsystem {
                    ),
                    0
            ));
-       } else if (driveSpeed == DriveSpeed.Slow && !engagePTO) {
+       } else if (driveSpeed == DriveSpeed.SLOW && !engagePTO) {
            mecanumDrive.setDrivePowers(new PoseVelocity2d(
                    new Vector2d(
                            -input.getLeft_stick_y() * .3,
@@ -71,6 +71,14 @@ public class DriveTrain extends Subsystem {
                    ),
                    -input.getRight_stick_x() *.6
            ));
+       } else if (driveSpeed == DriveSpeed.CLIPSPEED && !engagePTO) {
+           mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                   new Vector2d(
+                           -input.getLeft_stick_y() * .85,
+                           -input.getLeft_stick_x()
+                   ),
+                   -input.getRight_stick_x() *.4
+           ));
        }
    }
 
@@ -83,9 +91,9 @@ public class DriveTrain extends Subsystem {
 
    public void changeDriveState(Input input){
        if (input.isLeft_bumper()){
-           driveSpeed = DriveSpeed.Slow;
+           driveSpeed = DriveSpeed.SLOW;
        } else {
-           driveSpeed = DriveSpeed.Fast;
+           driveSpeed = DriveSpeed.FAST;
        }
    }
 
@@ -148,7 +156,6 @@ public class DriveTrain extends Subsystem {
 
     public Action getTheSamplesBetter(Vector2d startVec, double startHeading) {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
-                .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-49, 53), Math.toRadians(90))
@@ -156,8 +163,8 @@ public class DriveTrain extends Subsystem {
                 .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-57, 53), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-63, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-63, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-66, 10), Math.toRadians(90))
+//                .strafeToLinearHeading(new Vector2d(-66, 53), Math.toRadians(90))
                 .build();
     }
 
@@ -180,8 +187,9 @@ public class DriveTrain extends Subsystem {
     }
 
     public enum DriveSpeed{
-        Fast,
-        Slow,
-        MEDIUM
+        FAST,
+        SLOW,
+        MEDIUM,
+        CLIPSPEED
     }
 }

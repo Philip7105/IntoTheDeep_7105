@@ -4,18 +4,13 @@ import static org.firstinspires.ftc.teamcode.Control.KalmanFilterBetter.initalst
 import static org.firstinspires.ftc.teamcode.Control.KalmanFilterBetter.initalstate_forX;
 import static org.firstinspires.ftc.teamcode.Control.KalmanFilterBetter.initalstate_forY;
 
-import com.ThermalEquilibrium.homeostasis.Filters.Estimators.KalmanEstimator;
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Control.KalmanFilter;
 import org.firstinspires.ftc.teamcode.Control.KalmanFilterBetter;
 import org.firstinspires.ftc.teamcode.robot.Robot;
-import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 
 @TeleOp
 @Config

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.robot.Input;
@@ -14,15 +15,23 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
-
-    public static double readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .2;
-    public static boolean leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
+    Servo rightPTOServo,leftPTOServo;
+    public static double engagePTO = .5, readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .4;
+    public static boolean reverserightservo = false, reverseleftservo = false,leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
         leftHang = hwMap.get(DcMotorEx.class, "leftHang");
+        rightPTOServo = hwMap.get(Servo.class,"rightptoservo");
+        leftPTOServo = hwMap.get(Servo.class,"leftptoservo");
         rightHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftHang.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        if (reverseleftservo){
+            rightPTOServo.setDirection(Servo.Direction.REVERSE);
+        }
+        if (reverserightservo){
+            leftPTOServo.setDirection(Servo.Direction.REVERSE);
+        }
         rightHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftHang.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightHang.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -89,26 +98,30 @@ public class JohnHanging extends Subsystem {
                 break;
         }
     }
+    public void setPTO(PTOSTATES ptostates){
+        switch (ptostates){
+            case ENGAGE:
+                leftPTOServo.setPosition(engagePTO);
+                rightPTOServo.setPosition(engagePTO);
+                break;
+        }
+    }
     public double calculateLeftHangP(double ref){
         return getLeftHangError(ref) * kP;
     }
     public double calculateRightHangP(double ref){
         return getRightHangError(ref) * kP;
     }
-
     public void manualHang(Input input){
-        setPower(manualPowerMultiplier * input.getRight_trigger_value());
-        setPower(-manualPowerMultiplier * input.getLeft_trigger_value());
+        setPower(manualPowerMultiplier * -input.getLeft_stick_y());
     }
     public void setPower(double power){
         rightHang.setPower(power);
         leftHang.setPower(power);
     }
-
     public double getPower(){
         return leftHang.getPower();
     }
-
     public double getLeftHangError(double ref){
         return ref - getLeftHangPos();
     }
@@ -136,5 +149,8 @@ public class JohnHanging extends Subsystem {
         SECONDHANG,
         HOLDPOS,
         ZERO_POWER
+    }
+    public enum PTOSTATES{
+        ENGAGE
     }
 }

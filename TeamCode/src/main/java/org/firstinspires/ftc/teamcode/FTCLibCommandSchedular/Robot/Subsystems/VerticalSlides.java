@@ -117,7 +117,7 @@ public class VerticalSlides extends SubsystemBase {
 //                && inputmanual.getLeft_stick_y() < .7
         ){
             resetSlidesWithTimer();
-            driveSpeed = DriveTrain.DriveSpeed.Fast;
+            driveSpeed = DriveTrain.DriveSpeed.FAST;
             holdPos = false;
             zeroPower();
         }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()

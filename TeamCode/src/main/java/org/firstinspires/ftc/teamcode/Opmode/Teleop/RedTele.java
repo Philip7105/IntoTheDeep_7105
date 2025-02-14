@@ -4,6 +4,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.MovePTOServos;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Robot;
@@ -36,7 +37,6 @@ public class RedTele extends LinearOpMode {
             double frequency = 1/loopTime;
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
-//            telemetry.addData()
             robot.intake.intakeTeleRed(robot.gamepad1,robot.gamepad2,robot,groups);
             robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
