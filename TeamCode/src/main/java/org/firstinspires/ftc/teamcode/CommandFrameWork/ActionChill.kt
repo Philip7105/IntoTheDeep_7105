@@ -13,9 +13,7 @@ fun runBlockingChill(a: Action) {
 //    val dash = FtcDashboard.getInstance()
     val c = Canvas()
     a.preview(c)
-    val p = Dashboard.packet
-    p.fieldOverlay().operations.addAll(c.operations)
-    a.run(p)
+    a.run(Dashboard.packet)
 
 //        dash.sendTelemetryPacket(p)
 }

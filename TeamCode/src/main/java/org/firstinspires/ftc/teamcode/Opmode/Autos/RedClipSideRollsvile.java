@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
 
 //This one is the one we ran at rolesville and is the backup auto.
+@Disabled
 @Autonomous
 public class RedClipSideRollsvile extends BaseAuto {
     @Override

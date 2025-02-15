@@ -16,10 +16,11 @@ public class JohnHanging extends Subsystem {
 
     DcMotorEx rightHang,leftHang;
     Servo rightPTOServo,leftPTOServo;
-    public static double engagePTO = .5, readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .4;
+    public static double engagePTO = .5, hangpow, readyFirstHang = 295, firstHang = -2074.0, secondHang = 715.0, readySecondHang = 5000, kP = 0.007, kG = 0,manualPowerMultiplier = .5;
     public static boolean reverserightservo = false, reverseleftservo = false,leftFirstHangDone = false, leftReadyFirstHangDone = false, rightFirstHangDone = false, rightReadyFirstHangDone = false;
     @Override
     public void initAuto(HardwareMap hwMap) {
+        hangpow = 0;
         rightHang = hwMap.get(DcMotorEx.class, "rightHang");
         leftHang = hwMap.get(DcMotorEx.class, "leftHang");
         rightPTOServo = hwMap.get(Servo.class,"rightptoservo");
@@ -107,33 +108,33 @@ public class JohnHanging extends Subsystem {
         }
     }
     public double calculateLeftHangP(double ref){
-        return getLeftHangError(ref) * kP;
-    }
+        return getLeftHangError(ref) * kP;}
     public double calculateRightHangP(double ref){
-        return getRightHangError(ref) * kP;
-    }
+        return getRightHangError(ref) * kP;}
     public void manualHang(Input input){
-        setPower(manualPowerMultiplier * -input.getLeft_stick_y());
+        if (input.getLeft_stick_y() > .9){
+            hangpow = hangpow + .075;
+            setPower(hangpow);
+        } else if (input.getLeft_stick_y() < -.9) {
+            hangpow = hangpow - .075;
+            setPower(hangpow);
+        } else {
+            setPower(hangpow);
+        }
     }
     public void setPower(double power){
         rightHang.setPower(power);
-        leftHang.setPower(power);
-    }
+        leftHang.setPower(power);}
     public double getPower(){
-        return leftHang.getPower();
-    }
+        return leftHang.getPower();}
     public double getLeftHangError(double ref){
-        return ref - getLeftHangPos();
-    }
+        return ref - getLeftHangPos();}
     public double getRightHangError(double ref){
-        return ref - getRightHangPos();
-    }
+        return ref - getRightHangPos();}
     public double getLeftHangPos(){
-        return leftHang.getCurrentPosition();
-    }
+        return leftHang.getCurrentPosition();}
     public double getRightHangPos(){
-        return rightHang.getCurrentPosition();
-    }
+        return rightHang.getCurrentPosition();}
     public enum LeftHangStates {
         READYFIRSTHANG,
         READYSECONDHANG,

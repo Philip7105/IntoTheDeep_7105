@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Opmode.Teleop;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,7 +15,7 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Hori
 
 import java.util.List;
 
-@Config
+@Disabled
 @TeleOp
 public class TestingSelfClip extends LinearOpMode {
     protected Robot robot;
@@ -41,8 +42,7 @@ public class TestingSelfClip extends LinearOpMode {
             oldTime = newTime;
             Dashboard.addData("Loop Time", frequency);
 //            robot.gamepad1.whenDPadLeftPressed(groups.clipClip());
-            robot.gamepad1.whenDPadRightPressed(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT, HorizontalSlides.fullout),
-                    groups.moveClipMag(ClipMech.ArmStates.PRECLIP)));
+            robot.gamepad1.whenDPadRightPressed(new MultipleCommand(groups.moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.FULLY_OUT, HorizontalSlides.fullout)));
         }
     }
 }

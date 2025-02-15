@@ -18,9 +18,9 @@ public class ClipMech extends Subsystem {
     // are looking the same way that the intake faces while picking up
     public static double pushnone_rservo = .1,pushone_rservo = 0.218,pushtwo_rservo = 0.309,pushthree_rservo = .395, pushfour_rservo = 0.483,
             pushnone = .1,pushone = 0.239,pushtwo = 0.327,pushthree = 0.41, pushfour = 0.496
-            ,fully_up = .85,ready = 0.53,hookclip = 0.64
-            ,outtheway = .7, down = .07, almost_down = 0.215, target, downencoderpos = 333, almostdownencoderpos = 274, backbeforeclip = .61, backbeforeclipencoderpos = 146,
-    readyencoderpos = 171,outthewayencoderpos = 117, preclip = .8, hookclipencoderpos = 137,preclipencoderpos = 84,clippity_clappity_clickity_clickencoderpos = 69;
+            ,fully_up = .85,ready = 0.53,hookclip = 0.64, preclip3 = .62, preclip3encoderpos = 141
+            ,outtheway = .7, down = .07, almost_down = 0.28, target, downencoderpos = 333, almostdownencoderpos = 253, backbeforeclip = .61, backbeforeclipencoderpos = 146,
+    readyencoderpos = 171,outthewayencoderpos = 117, preclip = .7, hookclipencoderpos = 137, preclipencoderpos2 = 116,clippity_clappity_clickity_clickencoderpos = 69;
     public static boolean cliparmdone = false, reverseRightIndex = false;
     AnalogInput clipAnalog;
 //    Input input;
@@ -75,17 +75,13 @@ public class ClipMech extends Subsystem {
                 rightmagarm.setPosition(ready);
                 leftmagarm.setPosition(ready);
                 break;
-            case PRECLIP:
-                rightmagarm.setPosition(preclip);
+            case PRECLIP2:
+                rightmagarm.setPosition(preclip); //117
                 leftmagarm.setPosition(preclip);
                 break;
-            case PRECLIP2:
-                rightmagarm.setPosition(.7); //117
-                leftmagarm.setPosition(.7);
-                break;
             case PRECLIP3:
-                rightmagarm.setPosition(0.565); // 160
-                leftmagarm.setPosition(0.565);
+                rightmagarm.setPosition(preclip3); // 160
+                leftmagarm.setPosition(preclip3);
                 break;
             case BACKBEFORECLIP:
                 rightmagarm.setPosition(backbeforeclip);
@@ -183,7 +179,6 @@ public class ClipMech extends Subsystem {
     public enum ArmStates{
         CLIPPITY_CLAPPITY_CLICKITY_CLICK, // This states is for fully engaging the clips
         READY,
-        PRECLIP,
         PRECLIP2,
         PRECLIP3,
         HOOKCLIP,

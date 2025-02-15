@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides.fullin;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain.driveSpeed;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
 import org.firstinspires.ftc.teamcode.Control.PDCoefficients;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -19,11 +21,13 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DriveTrain.DriveTrain;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
+
 @Config
 public class VerticalSlides extends Subsystem {
-    DcMotor rightslide,leftslide;
-    public static double highchamber = 1300, lowbasket = 1830, kg = .18,hangPos = 2030,calculate, down = -.85,
-            highbasket =2900, ref = 0, normalTolerance = 15, greaterTolerance = 30;
+    DcMotorEx rightslide,leftslide;
+    public static double highchamber = 1300, lowbasket = 1830, kg = .18,hangPos = 2030,calculate, down = -1,
+            highbasket =2900, ref = 0, normalTolerance = 15, greaterTolerance = 30, crazyBigTolerance = 38;
     public static boolean holdPos = false, hangISReady = false;
     TouchSensor verticalSlidesTouchSensor;
     ElapsedTime time = new ElapsedTime();
@@ -35,18 +39,22 @@ public class VerticalSlides extends Subsystem {
         holdPos = false;
         hangISReady = false;
         verticalSlidesTouchSensor = hwMap.get(TouchSensor.class,"verticalslidestouchsensor");
-        rightslide = hwMap.get(DcMotor.class,"rightslide");
-        leftslide = hwMap.get(DcMotor.class,"leftslide");
+        rightslide = hwMap.get(DcMotorEx.class,"rightslide");
+        leftslide = hwMap.get(DcMotorEx.class,"leftslide");
         rightslide.setDirection(DcMotorSimple.Direction.REVERSE);
         resetSlides();
     }
     @Override
     public void periodic() {
 //        Dashboard.addData("verticalslidepos",getSlidesPos());
-        Dashboard.addData("reference",ref);
+//        Dashboard.addData("reference",ref);
+//        Dashboard.addData("verticalslidevoltage",getVoltage());
     }
     @Override
     public void shutdown() {
+    }
+    public double getVoltage(){
+        return leftslide.getCurrent(CurrentUnit.AMPS);
     }
     public void pdController(){
         calculate = controller.calculate(ref,getSlidesPos());
@@ -80,13 +88,13 @@ public class VerticalSlides extends Subsystem {
             resetSlidesWithTimer();
             zeroPower();
         }else if (ref == 0 && !touchSensorIsPressed()){
-            leftslide.setPower(-.3);
-            rightslide.setPower(-.3);
+            leftslide.setPower(-.4);
+            rightslide.setPower(-.4);
         } else {
         }
     }
     public void updatePos(Input input, Robot robot, ScoringCommandGroups groups) {
-        if (input.getRight_stick_y() < -.8&& !hangISReady) {
+        if (input.getRight_stick_y() < -.9&& !hangISReady) {
             hangISReady = true;
             robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter().addNext(
                     groups.moveClipMag(ClipMech.ArmStates.READY)).addNext(groups.slidesSetPos(hangPos,45)));
@@ -95,19 +103,17 @@ public class VerticalSlides extends Subsystem {
         } else if (input.isRightStickButtonPressed() && hangISReady && robot.horizontalslides.getSetPos() == fullin) {
             robot.getScheduler().forceCommand(new MultipleCommand(new MovePTOServos(robot.hang),groups.moveClipMag(ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK)));
             driveSpeed = DriveTrain.DriveSpeed.CLIPSPEED;
-        } else if (input.getRight_stick_y() > .8 && hangISReady) {
+        } else if (input.getRight_stick_y() > .9 && hangISReady) {
             rightslide.setPower(down);
             leftslide.setPower(down);
             robot.driveTrain.moveDriveMotors(down*-1);
         } else if (ref == 0 && touchSensorIsPressed() && !input.isLeftBumperPressed() && !input.isRightBumperPressed()) {
                 resetSlidesWithTimer();
-                driveSpeed = DriveTrain.DriveSpeed.FAST;
                 holdPos = false;
                 zeroPower();
         } else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() && !input.isRightBumperPressed()) {
                 leftslide.setPower(kg);
                 rightslide.setPower(kg);
-                driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
         }else if (!hangISReady) {
             if (input.isRightBumperPressed() && ref == 0) {
                 ref = highchamber;
@@ -120,13 +126,13 @@ public class VerticalSlides extends Subsystem {
                 robot.getScheduler().forceCommand(groups.slidesTeleop());
             } else if (input.isLeftBumperPressed() && ref == lowbasket) {
                 ref = highchamber;
-                robot.getScheduler().forceCommand(groups.slidesTeleop());
+                robot.getScheduler().forceCommand(new MultipleCommand(groups.slidesTeleop(),groups.movePivot(NewIntake.PivotStates.PRECLIP2), groups.moveCoAxial(NewIntake.CoaxialStates.CLAMP)));
             } else if (input.isRightBumperPressed() && ref == lowbasket) {
                 ref = highbasket;
                 robot.getScheduler().forceCommand(groups.slidesTeleop());
             } else if (input.isLeftBumperPressed() && ref == highbasket) {
                 ref = lowbasket;
-                robot.getScheduler().forceCommand(groups.slidesTeleop());
+                robot.getScheduler().forceCommand(new MultipleCommand(groups.slidesTeleop(),groups.movePivot(NewIntake.PivotStates.PRECLIP2), groups.moveCoAxial(NewIntake.CoaxialStates.CLAMP)));
             } else if (ref == 0 && !touchSensorIsPressed()) {
                 setPower(-.3);
             }

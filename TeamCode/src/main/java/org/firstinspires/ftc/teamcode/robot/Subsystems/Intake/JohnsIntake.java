@@ -120,11 +120,11 @@ public void runColorSensor(){
             setGripper(GripperStates.UNCLAMP);
             setIntake(JohnsIntake.IntakeStates.OUTTAKE);
         } else if (input.isRight_trigger_press()&& slides.leftservoslide.getPosition() == halfout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
+//            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(IntakeStates.INTAKESLOW);
             setPivotStates(PivotStates.SLIGHTLY_LOWER_PICKUP);
         } else if (input.isRight_trigger_press() && slides.leftservoslide.getPosition() == fullout) {
-            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
+//            DriveTrain.driveSpeed = DriveTrain.DriveSpeed.SLOW;
             setIntake(JohnsIntake.IntakeStates.INTAKE);
             setPivotStates(JohnsIntake.PivotStates.FORWARD);
         }

@@ -32,7 +32,6 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Hori
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
-@Disabled
 @Autonomous
 public class BlueBucket3 extends BaseAuto {
     @Override

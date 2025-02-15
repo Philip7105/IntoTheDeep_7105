@@ -4,9 +4,7 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.robot.Commands.DrivetrainCommands.MovePTOServos;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Dashboard;
@@ -38,7 +36,7 @@ public class RedTele extends LinearOpMode {
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
             robot.intake.intakeTeleRed(robot.gamepad1,robot.gamepad2,robot,groups);
-            robot.driveTrain.changeDriveState(robot.gamepad1);
+//            robot.driveTrain.RobotRelative(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
             robot.clipmech.setLeftIndex(robot.gamepad2);
             robot.clipmech.setRightIndex(robot.gamepad2);
@@ -46,7 +44,7 @@ public class RedTele extends LinearOpMode {
             robot.gamepad1.whenCrossPressed(groups.bringInHorizontalSLidesBetter());
             robot.gamepad1.whenSquarePressed(groups.extendHorizontalSLides());
             robot.gamepad1.whenTrianglePressed(groups.fullExtendHorizontalSLides());
-//            robot.hang.manualHang(robot.gamepad2);
+            robot.hang.manualHang(robot.gamepad2);
             robot.gamepad2.whenDPadLeftPressed(groups.moveClipMag(ClipMech.ArmStates.ALMOST_DOWN));
             robot.gamepad2.whenDPadDownPressed(groups.moveClipMag(ClipMech.ArmStates.DOWN));
             robot.gamepad2.whenDPadRightPressed(groups.moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES));

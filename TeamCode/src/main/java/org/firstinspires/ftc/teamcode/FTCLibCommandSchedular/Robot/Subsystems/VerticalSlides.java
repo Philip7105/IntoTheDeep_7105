@@ -117,7 +117,7 @@ public class VerticalSlides extends SubsystemBase {
 //                && inputmanual.getLeft_stick_y() < .7
         ){
             resetSlidesWithTimer();
-            driveSpeed = DriveTrain.DriveSpeed.FAST;
+//            driveSpeed = DriveTrain.DriveSpeed.FAST;
             holdPos = false;
             zeroPower();
         }else if (holdPos && !touchSensorIsPressed() && !input.isLeftBumperPressed() &&!input.isRightBumperPressed()
@@ -125,7 +125,7 @@ public class VerticalSlides extends SubsystemBase {
         ){
             leftslide.setPower(kg);
             rightslide.setPower(kg);
-            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
+//            driveSpeed = DriveTrain.DriveSpeed.MEDIUM;
         }
 //        else if (input.isRightStickButtonPressed()){
 //            ref = hangPos;

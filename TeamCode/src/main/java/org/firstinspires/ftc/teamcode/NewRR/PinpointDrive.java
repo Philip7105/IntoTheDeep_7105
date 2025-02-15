@@ -83,7 +83,7 @@ public class PinpointDrive extends MecanumDrive {
 
     public PinpointDrive(HardwareMap hardwareMap, Pose2d pose) {
         super(hardwareMap, pose);
-        FlightRecorder.write("PINPOINT_PARAMS",PARAMS);
+//        FlightRecorder.write("PINPOINT_PARAMS",PARAMS);
         pinpoint = hardwareMap.get(GoBildaPinpointDriverRR.class,PARAMS.pinpointDeviceName);
 
         if (PARAMS.usePinpointIMUForTuning) {
@@ -139,9 +139,9 @@ public class PinpointDrive extends MecanumDrive {
             poseHistory.removeFirst();
         }
 
-        FlightRecorder.write("ESTIMATED_POSE", new PoseMessage(pose));
-        FlightRecorder.write("PINPOINT_RAW_POSE",new FTCPoseMessage(pinpoint.getPosition()));
-        FlightRecorder.write("PINPOINT_STATUS",pinpoint.getDeviceStatus());
+//        FlightRecorder.write("ESTIMATED_POSE", new PoseMessage(pose));
+//        FlightRecorder.write("PINPOINT_RAW_POSE",new FTCPoseMessage(pinpoint.getPosition()));
+//        FlightRecorder.write("PINPOINT_STATUS",pinpoint.getDeviceStatus());
 
         return pinpoint.getVelocityRR();
     }

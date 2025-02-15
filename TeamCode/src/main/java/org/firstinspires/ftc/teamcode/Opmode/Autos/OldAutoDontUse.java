@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanis
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.CommandFrameWork.BaseAuto;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.MultipleCommand;
@@ -19,8 +20,9 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.Hori
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.JohnsIntake;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
+@Disabled
 @Autonomous
-public class StatesAutoCycleOffWall extends BaseAuto {
+public class OldAutoDontUse extends BaseAuto {
     @Override
     public void runAuto() {
         robot.driveTrain.setPoseEstimateBetter(new Vector2d(-9.5, 63), Math.toRadians(90));

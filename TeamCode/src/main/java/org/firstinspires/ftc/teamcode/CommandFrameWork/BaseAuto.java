@@ -12,7 +12,6 @@ import java.util.List;
 public abstract class BaseAuto extends LinearOpMode {
     protected Robot robot;
     public ScoringCommandGroups groups;
-//    MoveVerticalSlidesMultiThread moveSlides;
     public Command runpath;
     @Override
     public void runOpMode() throws InterruptedException {

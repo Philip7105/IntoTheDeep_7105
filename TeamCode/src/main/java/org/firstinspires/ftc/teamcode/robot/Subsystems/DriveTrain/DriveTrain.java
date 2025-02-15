@@ -12,14 +12,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.CommandFrameWork.Subsystem;
 import org.firstinspires.ftc.teamcode.NewRR.PinpointDrive;
 import org.firstinspires.ftc.teamcode.robot.Input;
+import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.VerticalSlides;
 
 
 @Config
 public class DriveTrain extends Subsystem {
     public PinpointDrive mecanumDrive;
    public static DriveSpeed driveSpeed = DriveSpeed.FAST;
-   public static double headingoffset = 0;
-   public static boolean engagePTO = false;
+   public static boolean engagePTO = false, clipping = false;
       public DriveTrain(HardwareMap hwMap){
        this.mecanumDrive = new PinpointDrive(hwMap,new Pose2d(new Vector2d(0,0),0));
     }
@@ -37,51 +37,6 @@ public class DriveTrain extends Subsystem {
         mecanumDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0,0),0));
     }
 
-    public void RobotRelative(Input input){
-       if (driveSpeed == DriveSpeed.FAST && !engagePTO) {
-           mecanumDrive.setDrivePowers(new PoseVelocity2d(
-                   new Vector2d(
-                           -input.getLeft_stick_y(),
-                           -input.getLeft_stick_x()
-                   ),
-                   -input.getRight_stick_x()
-           ));
-       }
-       else if (engagePTO) {
-           mecanumDrive.setDrivePowers(new PoseVelocity2d(
-                   new Vector2d(
-                           0,
-                           -input.getLeft_stick_x() * .1
-                   ),
-                   0
-           ));
-       } else if (driveSpeed == DriveSpeed.SLOW && !engagePTO) {
-           mecanumDrive.setDrivePowers(new PoseVelocity2d(
-                   new Vector2d(
-                           -input.getLeft_stick_y() * .3,
-                           -input.getLeft_stick_x() * .3
-                   ),
-                   -input.getRight_stick_x() *.3
-           ));
-           }else if (driveSpeed == DriveSpeed.MEDIUM && !engagePTO) {
-           mecanumDrive.setDrivePowers(new PoseVelocity2d(
-                   new Vector2d(
-                           -input.getLeft_stick_y() * .6,
-                           -input.getLeft_stick_x() * .6
-                   ),
-                   -input.getRight_stick_x() *.6
-           ));
-       } else if (driveSpeed == DriveSpeed.CLIPSPEED && !engagePTO) {
-           mecanumDrive.setDrivePowers(new PoseVelocity2d(
-                   new Vector2d(
-                           -input.getLeft_stick_y() * .85,
-                           -input.getLeft_stick_x()
-                   ),
-                   -input.getRight_stick_x() *.4
-           ));
-       }
-   }
-
    public void moveDriveMotors(double speed){
        mecanumDrive.rightFront.setPower(speed);
        mecanumDrive.rightBack.setPower(speed);
@@ -89,12 +44,34 @@ public class DriveTrain extends Subsystem {
        mecanumDrive.leftBack.setPower(speed);
    }
 
-   public void changeDriveState(Input input){
-       if (input.isLeft_bumper()){
-           driveSpeed = DriveSpeed.SLOW;
-       } else {
-           driveSpeed = DriveSpeed.FAST;
-       }
+   public void RobotRelative(Input input){
+          if (!VerticalSlides.hangISReady) {
+              if (clipping) {
+                  mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                          new Vector2d(
+                                  -input.getLeft_stick_y() * .85,
+                                  -input.getLeft_stick_x()
+                          ),
+                          -input.getRight_stick_x() * .4
+                  ));
+              } else if (input.isLeft_bumper()) {
+                  mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                          new Vector2d(
+                                  -input.getLeft_stick_y() * .3,
+                                  -input.getLeft_stick_x() * .3
+                          ),
+                          -input.getRight_stick_x() * .3
+                  ));
+              } else {
+                  mecanumDrive.setDrivePowers(new PoseVelocity2d(
+                          new Vector2d(
+                                  -input.getLeft_stick_y(),
+                                  -input.getLeft_stick_x()
+                          ),
+                          -input.getRight_stick_x()
+                  ));
+              }
+          }
    }
 
     public void setPoseEstimate(Vector2d vector2d, Rotation2d heading){
@@ -130,66 +107,38 @@ public class DriveTrain extends Subsystem {
     }
 
     public double getHeadingFixed(){
-        return Math.toDegrees(getHeading().toDouble()) + headingoffset;
+        return Math.toDegrees(getHeading().toDouble());
     }
-
     public Action strafeToLinearHeading(Vector2d startVec,double startHeading, Vector2d targetVec, double targetHeading) {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
                 .strafeToLinearHeading(targetVec, targetHeading)
                 .build();
     }
-
     public Action getTheSamples(Vector2d startVec, double startHeading) {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
                 .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-49, 26), Math.toRadians(90))
-//                .splineToConstantHeading(new Vector2d(-45, 10), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 // push in the first blue sample
-//                .strafeToLinearHeading(new Vector2d(-45, 10), Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-50, 10), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 25), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(-57, 53), Math.toRadians(90))
                 .build();
     }
-
     public Action getTheSamplesBetter(Vector2d startVec, double startHeading) {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
-                .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-41,19.4), Math.toRadians(170))
                 .strafeToLinearHeading(new Vector2d(-49, 53), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-50, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-57, 53), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-66, 10), Math.toRadians(90))
-//                .strafeToLinearHeading(new Vector2d(-66, 53), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-50, 11.5), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-57, 11.5), Math.toRadians(90))
                 .build();
     }
-
-    public Action strafeToLinearHeadingWithMarker(Vector2d targetVec, Rotation2d targetHeading,double markerX,Action[] actions) {
-        return mecanumDrive.actionBuilder(new Pose2d(new Vector2d(getXPos(), getYPos()), getHeadingFixed()))
-                .strafeToLinearHeading(targetVec, targetHeading)
-//                .afterDisp(markerX,(actions))
-                .build();
-    }
-
-    public void turn(Vector2d startVec, Rotation2d startHeading,Rotation2d angle) {
-        Actions.runBlocking(mecanumDrive.actionBuilder(new Pose2d(startVec,startHeading))
-                .turnTo(angle)
-                .build());
-    }
-
-
     public void update(){
        mecanumDrive.updatePoseEstimate();
     }
-
     public enum DriveSpeed{
         FAST,
-        SLOW,
-        MEDIUM,
         CLIPSPEED
     }
 }

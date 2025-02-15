@@ -35,6 +35,7 @@ public class MultipleRRActionsConstraints extends Command {
 
     @Override
     public void shutdown() {
-
+        MecanumDrive.errortolerance = 1.5;
+        MecanumDrive.velocitytolerance = 2;
     }
 }

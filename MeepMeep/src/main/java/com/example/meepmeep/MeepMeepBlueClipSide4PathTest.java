@@ -18,10 +18,10 @@ public class MeepMeepBlueClipSide4PathTest extends MeepMeep {
                 .build();
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-9.5, 63, Math.toRadians(90)))
-//                .strafeToLinearHeading(new Vector2d(-10,33),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-35,38),Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-35,10), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-10,33),Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(-35, 34.5),Math.toRadians(160))
+                .strafeToLinearHeading(new Vector2d(-42,18), Math.toRadians(160))
+//                .strafeToLinearHeading(new Vector2d(-49, 10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-50, 10), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-57, 10), Math.toRadians(90))

@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.ScoringCommandGroups;
-import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.MoveClipMech;
 import org.firstinspires.ftc.teamcode.robot.Commands.ScoringCommands.SimpleCommands.TurnAutoSelfClipOnAndOff;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
@@ -38,7 +37,6 @@ public class BlueTele extends LinearOpMode {
             oldTime = newTime;
             Dashboard.addData("Loop Time",frequency);
             robot.intake.intakeTeleBlue(robot.gamepad1,robot.gamepad2,robot,groups);
-            robot.driveTrain.changeDriveState(robot.gamepad1);
             robot.verticalslides.updatePos(robot.gamepad2,robot,groups);
             robot.clipmech.setLeftIndex(robot.gamepad2);
             robot.clipmech.setRightIndex(robot.gamepad2);
@@ -54,7 +52,7 @@ public class BlueTele extends LinearOpMode {
 
             robot.gamepad1.whenDPadUpPressed(groups.armChamberPos());
             robot.gamepad1.whenDPadDownPressed(groups.armOutFront());
-//            robot.driveTrain.RobotRelative(robot.gamepad1);
+            robot.driveTrain.RobotRelative(robot.gamepad1);
             robot.updateTele();
         }
     }

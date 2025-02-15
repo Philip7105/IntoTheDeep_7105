@@ -6,15 +6,12 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.downencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.outthewayencoderpos;
-import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.preclipencoderpos;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.preclipencoderpos2;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.readyencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.target;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 
@@ -42,9 +39,7 @@ public class MoveClipMagAction implements Action {
                 target = outthewayencoderpos;
             } else if (armStates == ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK) {
                 target = clippity_clappity_clickity_clickencoderpos;
-            } else if (armStates == ClipMech.ArmStates.PRECLIP) {
-                target = preclipencoderpos;
-            } else if (armStates == ClipMech.ArmStates.HOOKCLIP) {
+            }  else if (armStates == ClipMech.ArmStates.HOOKCLIP) {
                 target = hookclipencoderpos;
             } else if (armStates == ClipMech.ArmStates.BACKBEFORECLIP) {
                 target = backbeforeclipencoderpos;
