@@ -8,7 +8,7 @@ public class TurnAutoSelfClipOnAndOff extends Command {
     public void init() {
         if (enableAutoSelfClip) {
             enableAutoSelfClip = false;
-        } else if (!enableAutoSelfClip) {
+        } else {
             enableAutoSelfClip = true;
         }
     }

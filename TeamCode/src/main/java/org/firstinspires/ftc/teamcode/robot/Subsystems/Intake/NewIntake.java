@@ -20,7 +20,7 @@ public class NewIntake extends Subsystem {
     ElapsedTime time = new ElapsedTime();
     CRServo intake;
     Servo coaxial,rightarm;
-    public static double shovelpos = .15, offthewallcoaxial = .44,offthewallpivot = 0.24,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
+    public static double shovelpos = .17, offthewallcoaxial = .44,offthewallpivot = 0.24,clamppos = .49, clampposforselfclip = 0.44, clampposoutback =  .92,releasepos = 0.8,
              snapclip = 0.1,overheadpos = 0, hookclippivot = .232,chamberposboth = .63,chamberpos = .61, down = 0.13, preclip2 = .18, coaxialautopos = .64,
             parallel = 0.23,lowerpickup = .13, pivotoverheadpos = .21,pivotpostselfclip = .269,coaxialpostselfclip = .6,intakeSlow = .6,intakeSpeed = 1,outtake = -.6;
     public static boolean yellowSample = false, blueSample = false, redSample = false,enableAutoSelfClip = true;
@@ -114,7 +114,7 @@ public class NewIntake extends Subsystem {
                 yellowSample = false;
                 blueSample = true;
                 if (enableAutoSelfClip) {
-                    robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
+                    robot.getScheduler().forceCommand(groups.prepSelfClipRedone().addNext(groups.clipClip2Redone()));
                 } else {
                     robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 }
@@ -167,8 +167,6 @@ public class NewIntake extends Subsystem {
             setIntake(IntakeStates.OUTTAKE);
         } else {
             setCoaxial(CoaxialStates.CLAMP);
-//            setPivotStates(PivotStates.PARALLEL);
-//            driveSpeed = DriveTrain.DriveSpeed.FAST;
             setIntake(IntakeStates.STOP);
         }
     }
@@ -193,7 +191,7 @@ public class NewIntake extends Subsystem {
                 yellowSample = false;
                 redSample = true;
                 if (enableAutoSelfClip) {
-                    robot.getScheduler().forceCommand(groups.prepSelfClip().addNext(groups.clipClip2()));
+                    robot.getScheduler().forceCommand(groups.prepSelfClipRedone().addNext(groups.clipClip2Redone()));
                 } else {
                     robot.getScheduler().forceCommand(groups.bringInHorizontalSLidesBetter());
                 }
@@ -240,6 +238,9 @@ public class NewIntake extends Subsystem {
             case POSTSELFCLIP:
                 coaxial.setPosition(coaxialpostselfclip);
                 break;
+            case REDONECLIPPING:
+                coaxial.setPosition(.5);
+                break;
             case CLAMPPOSOUTBACK:
                 coaxial.setPosition(clampposoutback);
                 break;
@@ -266,8 +267,13 @@ public class NewIntake extends Subsystem {
                 break;
         }
     }
+    //0.9
+    //51
     public void setPivotStates(PivotStates pivotStates){
         switch (pivotStates){
+            case REDONECLIPPING:
+                rightarm.setPosition(0.21);
+                break;
             case AUTOPOS:
                 rightarm.setPosition(.55);
                 break;
@@ -323,6 +329,7 @@ public class NewIntake extends Subsystem {
         OVERHEADPOS,
         COAXIALSHOVELPOS,
         CLAMPSELFCLIP,
+        REDONECLIPPING,
         CLAMP,
         CLAMPPOSOUTBACK,
         POSTSELFCLIP,
@@ -331,6 +338,7 @@ public class NewIntake extends Subsystem {
     }
     public enum PivotStates {
         OFFTHEWALL,
+        REDONECLIPPING,
         CHAMBERPOSBOTH,
         POSTSELFCLIP,
         CHAMBERPOS,

@@ -17,10 +17,10 @@ public class LimeLight extends Subsystem {
 
     DriveTrain driveTrain;
 
-    Pose3D botpose;
+    public Pose3D botpose;
 
     public LLResult result;
-
+    public static boolean useLimeLight = false;
     public static double x,y, heading,xmulti = 34.80859179266,ymulti;
 
     public LimeLight(DriveTrain driveTrain){
@@ -31,16 +31,19 @@ public class LimeLight extends Subsystem {
     public void initAuto(HardwareMap hwMap) {
         x = 0;
         y = 0;
-
+        useLimeLight = false;
         limelight = hwMap.get(Limelight3A.class,"limelight");
 
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(1);
 
         limelight.setPollRateHz(100);
         /*
          * Starts polling for data.
          */
-        limelight.start();
+        if (useLimeLight){
+            limelight.start();
+        } else {
+        limelight.shutdown(); }
     }
 
     @Override
@@ -50,7 +53,7 @@ public class LimeLight extends Subsystem {
 
         limelight = hwMap.get(Limelight3A.class,"limelight");
 
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(1);
 
         limelight.setPollRateHz(100);
         /*
@@ -61,7 +64,7 @@ public class LimeLight extends Subsystem {
 
     @Override
     public void periodic() {
-        result = limelight.getLatestResult();
+//        result = limelight.getLatestResult();
 //        limelight.updateRobotOrientation(driveTrain.getHeadingFixed());
 //        result = limelight.getLatestResult();
 //        if (result != null && result.isValid()) {

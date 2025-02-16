@@ -22,8 +22,8 @@ import org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.DepositingMechanisms.HorizontalSlides;
 import org.firstinspires.ftc.teamcode.robot.Subsystems.Intake.NewIntake;
 
-@Autonomous
-public class StatesClipSideAuto extends BaseAuto {
+@Autonomous(name = "SpecimenSideChiefsKISS \uD83D\uDE18 \uD83D\uDC68\u200D\uD83C\uDF73")
+public class StatesClipSideCHIEFSKISS extends BaseAuto {
     @Override
     public void runAuto() {
         robot.driveTrain.setPoseEstimateBetter(new Vector2d(-9.5, 63), Math.toRadians(90));

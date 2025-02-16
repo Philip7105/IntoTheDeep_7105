@@ -49,8 +49,14 @@ public class MoveClipMech extends Command {
             target = backbeforeclipencoderpos;
         } else if (armstates == ClipMech.ArmStates.PRECLIP2) {
             target = preclipencoderpos2;
-        } else if (armstates == ClipMech.ArmStates.PRECLIP3) {
+        } else if (armstates == ClipMech.ArmStates.REDONECLIP2) {
+            target = 108;
+        } else if (armstates == ClipMech.ArmStates.REDONECLIP) {
+            target = 51;
+        }else if (armstates == ClipMech.ArmStates.PRECLIP3) {
             target = preclip3encoderpos;
+        } else if (armstates == ClipMech.ArmStates.OUTOFTHEWAYFORSAMPLESIDEAUTO) {
+            target = ClipMech.autosamplencoderpos;
         }
         if (!underneathslides) {
             clipmech.setArmStates(armstates);

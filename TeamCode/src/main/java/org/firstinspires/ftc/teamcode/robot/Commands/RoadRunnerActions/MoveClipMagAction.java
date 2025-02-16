@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.downencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.hookclipencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.outthewayencoderpos;
+import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.preclip3encoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.preclipencoderpos2;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.readyencoderpos;
 import static org.firstinspires.ftc.teamcode.robot.Subsystems.ClipMech.ClipMech.target;
@@ -44,9 +45,11 @@ public class MoveClipMagAction implements Action {
             } else if (armStates == ClipMech.ArmStates.BACKBEFORECLIP) {
                 target = backbeforeclipencoderpos;
             } else if (armStates == ClipMech.ArmStates.PRECLIP2) {
-                target = 116;
+                target = preclipencoderpos2;
             } else if (armStates == ClipMech.ArmStates.PRECLIP3) {
-                target = 160;
+                target = preclip3encoderpos;
+            } else if (armStates == ClipMech.ArmStates.OUTOFTHEWAYFORSAMPLESIDEAUTO) {
+                target = ClipMech.autosamplencoderpos;
             }
             initSelfClipper = false;
         }

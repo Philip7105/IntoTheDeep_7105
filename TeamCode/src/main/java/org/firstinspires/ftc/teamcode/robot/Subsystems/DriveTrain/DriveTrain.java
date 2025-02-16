@@ -128,7 +128,7 @@ public class DriveTrain extends Subsystem {
     }
     public Action getTheSamplesBetter(Vector2d startVec, double startHeading) {
         return mecanumDrive.actionBuilderBetter(new Pose2d(startVec, startHeading))
-                .strafeToLinearHeading(new Vector2d(-41,19.4), Math.toRadians(170))
+                .strafeToLinearHeading(new Vector2d(-40,19.4), Math.toRadians(170))
                 .strafeToLinearHeading(new Vector2d(-49, 53), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-50, 11.5), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-57, 11.5), Math.toRadians(90))

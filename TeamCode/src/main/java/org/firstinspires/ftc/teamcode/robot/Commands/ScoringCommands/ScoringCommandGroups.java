@@ -117,6 +117,23 @@ public class ScoringCommandGroups {
                         ,moveCoAxial(NewIntake.CoaxialStates.POSTSELFCLIP)
                         ,new Delay(.2).addNext(movePivot(NewIntake.PivotStates.POSTSELFCLIP)).addNext(new ChangeDriveStates(DriveTrain.DriveSpeed.FAST, false))));
     }
+    public Command prepSelfClipRedone(){
+        return new MultipleCommand(new ChangeDriveStates(DriveTrain.DriveSpeed.CLIPSPEED,true),moveHorizontalSlides(HorizontalSlides.HorizontalSlideStates.PREPSELFCLIP, prepselfclipencoderpos)
+                ,movePivot(NewIntake.PivotStates.REDONECLIPPING),new MoveAxial(intake, NewIntake.CoaxialStates.CLAMP),
+                moveClipMag(ClipMech.ArmStates.REDONECLIP), moveIntakeTime(NewIntake.IntakeStates.STOP,.1));
+    }
+    public Command clipClip2Redone(){
+        return moveHorizontalSlidesLowerTolerance(HorizontalSlides.HorizontalSlideStates.FULLY_IN,fullyInEncoderPos)
+                .addNext(new Delay(.1))
+                .addNext(new MoveAxial(intake, NewIntake.CoaxialStates.REDONECLIPPING))
+                .addNext(new Delay(.1))
+                .addNext(moveClipMag(ClipMech.ArmStates.REDONECLIP2))
+                .addNext(new Delay(2))
+                .addNext(movePivot(NewIntake.PivotStates.PARALLEL))
+                .addNext(new Delay(.4))
+                .addNext(new MultipleCommand(new MoveClipMagTimeBased(clipmech,ClipMech.ArmStates.REDONECLIP),new Delay(.12).addNext(new MovePivotTimeBased(intake,NewIntake.PivotStates.SNAPCLIP))))
+                .addNext(moveClipMag(ClipMech.ArmStates.CLIPPITY_CLAPPITY_CLICKITY_CLICK));
+    }
     public Command extendHorizontalSLides(){
         return new MultipleCommand(new NoSamples()
                 ,moveClipMag(ClipMech.ArmStates.OUT_THE_WAYOFHORIZONTALSLIDES)
@@ -148,20 +165,17 @@ public class ScoringCommandGroups {
         return new SequentialAction(new MoveIntakeAction(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
     }
     public Action moveIntakeActionTime(NewIntake.IntakeStates intakeStates,double time){
-        return new SequentialAction(new MoveIntakeActionTime(intake,intakeStates,Dashboard.packet,time),new ResetIntakeAction(Dashboard.packet));
-    }
+        return new SequentialAction(new MoveIntakeActionTime(intake,intakeStates,Dashboard.packet,time),new ResetIntakeAction(Dashboard.packet));}
     public Action moveIntakeActionForShortTime(NewIntake.IntakeStates intakeStates){
-        return new SequentialAction(new MoveIntakeActionShortTime(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));
-    }
+        return new SequentialAction(new MoveIntakeActionShortTime(intake,intakeStates,Dashboard.packet),new ResetIntakeAction(Dashboard.packet));}
     public Action moveHorizontalSlidesAction(HorizontalSlides.HorizontalSlideStates horizontalSlideStates, double target){
-        return new MoveHorizontalSlidesAction(horizontalSlides,horizontalSlideStates,target,Dashboard.packet);
-    }
+        return new MoveHorizontalSlidesAction(horizontalSlides,horizontalSlideStates,target,Dashboard.packet);}
     public Action moveVerticalSlidesAction(double target, double tolerance){
-        return new SequentialAction(moveClipMagAction(ClipMech.ArmStates.READY),new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
-    }
+        return new SequentialAction(moveClipMagAction(ClipMech.ArmStates.READY),new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));}
+    public Action moveVerticalSlidesActionWITHOUTSAFETY(double target, double tolerance){
+        return new SequentialAction(new MoveVerticalSlidesAction(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));}
     public Action moveVerticalSlidesActionVoltage(double target, double tolerance){
-        return new SequentialAction(moveClipMagAction(ClipMech.ArmStates.READY),new MoveVerticalSlidesActionVoltage(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));
-    }
+        return new SequentialAction(moveClipMagAction(ClipMech.ArmStates.READY),new MoveVerticalSlidesActionVoltage(verticalslides, target, tolerance,Dashboard.packet), new HoldVerticalSlidePosAction(verticalslides,Dashboard.packet));}
     public Action moveCoAxialAction(NewIntake.CoaxialStates coaxialStates){
         return new SequentialAction(new MoveCoAxialAction(this.intake,coaxialStates,Dashboard.packet),new ResetCoAxialAction(Dashboard.packet));
     }

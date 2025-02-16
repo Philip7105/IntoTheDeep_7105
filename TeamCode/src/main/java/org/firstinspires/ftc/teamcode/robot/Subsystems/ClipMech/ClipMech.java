@@ -17,8 +17,8 @@ public class ClipMech extends Subsystem {
             leftindex;//the left index is the servo on the left side of the robot if you
     // are looking the same way that the intake faces while picking up
     public static double pushnone_rservo = .1,pushone_rservo = 0.218,pushtwo_rservo = 0.309,pushthree_rservo = .395, pushfour_rservo = 0.483,
-            pushnone = .1,pushone = 0.239,pushtwo = 0.327,pushthree = 0.41, pushfour = 0.496
-            ,fully_up = .85,ready = 0.53,hookclip = 0.64, preclip3 = .62, preclip3encoderpos = 141
+            pushnone = .1,pushone = 0.239,pushtwo = 0.327,pushthree = 0.41, pushfour = 0.496, autosamplepos = .21
+            ,fully_up = .85,ready = 0.53,hookclip = 0.64, preclip3 = .62, preclip3encoderpos = 141,autosamplencoderpos = 274
             ,outtheway = .7, down = .07, almost_down = 0.28, target, downencoderpos = 333, almostdownencoderpos = 253, backbeforeclip = .61, backbeforeclipencoderpos = 146,
     readyencoderpos = 171,outthewayencoderpos = 117, preclip = .7, hookclipencoderpos = 137, preclipencoderpos2 = 116,clippity_clappity_clickity_clickencoderpos = 69;
     public static boolean cliparmdone = false, reverseRightIndex = false;
@@ -26,9 +26,6 @@ public class ClipMech extends Subsystem {
 //    Input input;
     LeftIndexState leftIndexState;
     RightIndexState rightIndexState;
-//    public ClipMech(Input input){
-//        this.input = input;
-//    }
     @Override
     public void initAuto(HardwareMap hwMap) {
         rightindex = hwMap.get(Servo.class,"rightindex");
@@ -67,6 +64,14 @@ public class ClipMech extends Subsystem {
     }
     public void setArmStates(ArmStates armStates){
         switch (armStates){
+            case REDONECLIP:
+                rightmagarm.setPosition(.9);
+                leftmagarm.setPosition(.9);
+                break;
+            case REDONECLIP2:
+                rightmagarm.setPosition(0.73);
+                leftmagarm.setPosition(0.73);
+                break;
             case CLIPPITY_CLAPPITY_CLICKITY_CLICK:
                 rightmagarm.setPosition(fully_up);
                 leftmagarm.setPosition(fully_up);
@@ -103,9 +108,12 @@ public class ClipMech extends Subsystem {
                 rightmagarm.setPosition(down);
                 leftmagarm.setPosition(down);
                 break;
+            case OUTOFTHEWAYFORSAMPLESIDEAUTO:
+                rightmagarm.setPosition(autosamplepos);
+                leftmagarm.setPosition(autosamplepos);
+                break;
         }
     }
-
     public void setLeftIndex(Input input){
         switch (leftIndexState){
             case PUSHONE:
@@ -140,7 +148,6 @@ public class ClipMech extends Subsystem {
                 break;
         }
     }
-
     public void setRightIndex(Input input){
         switch (rightIndexState){
             case PUSHONE:
@@ -175,15 +182,17 @@ public class ClipMech extends Subsystem {
                 break;
         }
     }
-
     public enum ArmStates{
         CLIPPITY_CLAPPITY_CLICKITY_CLICK, // This states is for fully engaging the clips
         READY,
         PRECLIP2,
+        REDONECLIP,
+        REDONECLIP2,
         PRECLIP3,
         HOOKCLIP,
         OUT_THE_WAYOFHORIZONTALSLIDES,
         ALMOST_DOWN,
+        OUTOFTHEWAYFORSAMPLESIDEAUTO,
         BACKBEFORECLIP,
         DOWN
     }

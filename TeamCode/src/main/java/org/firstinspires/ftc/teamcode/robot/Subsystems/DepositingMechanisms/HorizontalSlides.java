@@ -28,7 +28,7 @@ public class HorizontalSlides extends Subsystem {
     }
     @Override
     public void periodic() {
-//        Dashboard.addData("horizontalslides",getSlidePos());
+        Dashboard.addData("horizontalslides",getSlidePos());
     }
     @Override
     public void shutdown() {
